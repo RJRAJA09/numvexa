@@ -231,8 +231,12 @@
   <style>
     @media (max-width: 640px) {
       /* Ad containers - collapse before AdSense loads */
-      .ad-slot { margin: 0.35rem auto !important; }
-      .ad-slot ins.adsbygoogle { min-height: 0 !important; }
+      .ad-slot { margin: 0 auto !important; padding: 0 !important; min-height: 0 !important; }
+      .ad-slot ins.adsbygoogle { min-height: 0 !important; display: block; }
+
+      /* Hero - remove extra bottom space */
+      .hero { min-height: unset !important; padding-bottom: 1.5rem !important; }
+      .hero-visual { display: none !important; }
 
       /* Blog strip inline margin/padding overrides */
       #blog-strip { margin-bottom: 0.75rem !important; gap: 0.5rem !important; padding: 0 0.75rem !important; }

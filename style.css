@@ -156,7 +156,7 @@ a:hover { text-decoration: underline; }
 }
 
 /* ═══════════════ PAGES ═══════════════ */
-.page { display: none; min-height: calc(100vh - var(--header-h)); }
+.page { display: none; }
 .page.active { display: block; animation: fadeUp 0.4s ease both; }
 
 @keyframes fadeUp {
@@ -285,15 +285,21 @@ a:hover { text-decoration: underline; }
   max-width: 1280px;
   margin: 1rem auto;
   padding: 0 1.5rem;
+  min-height: 0;
+  overflow: hidden;
+}
+/* Remove forced min-height so empty AdSense slots collapse */
+.ad-slot ins.adsbygoogle {
+  min-height: 0 !important;
 }
 .ad-slot > span,
 .ad-slot > div {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 90px;
-  background: var(--bg2);
-  border: 1px dashed var(--border);
+  min-height: 0;
+  background: transparent;
+  border: none;
   border-radius: var(--radius);
   color: var(--text3);
   font-size: 0.8rem;

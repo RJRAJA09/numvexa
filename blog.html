@@ -361,9 +361,19 @@
     #listing-view .ad-slot.ad-top {
       min-height: 0;
       margin-top: 0;
+      margin-bottom: 0;
+      padding: 0;
     }
     #listing-view .ad-slot.ad-top ins.adsbygoogle {
-      min-height: 0;
+      min-height: 0 !important;
+    }
+    /* Global ad slot collapse on blog page */
+    .ad-slot {
+      min-height: 0 !important;
+      overflow: hidden;
+    }
+    .ad-slot ins.adsbygoogle {
+      min-height: 0 !important;
     }
 
     /* ── Blog listing grid ── */
