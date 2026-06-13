@@ -82,6 +82,23 @@
     .legal-list { padding-left: 1.4rem; line-height: 2; margin-bottom: 1rem; }
     .legal-list li { margin-bottom: .3rem; }
   </style>
+
+  <!-- Mobile whitespace override for inline-styled elements -->
+  <style>
+    @media (max-width: 640px) {
+      /* Ad containers - collapse before AdSense loads */
+      .ad-slot { margin: 0.35rem auto !important; }
+      .ad-slot ins.adsbygoogle { min-height: 0 !important; }
+
+      /* Blog strip inline margin/padding overrides */
+      #blog-strip { margin-bottom: 0.75rem !important; gap: 0.5rem !important; padding: 0 0.75rem !important; }
+
+      /* Email contact box in Contact page - reduce top/bottom margin */
+      .inner-page > div[style*="margin:1.5rem 0 2rem"] {
+        margin: 0.75rem 0 1rem !important;
+      }
+    }
+  </style>
 </head>
 <body>
 
