@@ -131,6 +131,48 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
+    "headline": "₹10,000 SIP per Month: Future Value in 10, 20, and 30 Years",
+    "description": "See how a ₹10,000 monthly SIP can grow over 10, 20, and 30 years with the power of compounding. Real examples, return projections, and common SIP mistakes to avoid.",
+    "author": { "@type": "Person", "name": "Raja Mahakul" },
+    "publisher": { "@type": "Organization", "name": "Numvexa", "url": "https://numvexa.in/" },
+    "datePublished": "2026-06-13",
+    "dateModified": "2026-06-13",
+    "url": "https://numvexa.in/blog.html#blog-sip-10000-future-value",
+    "mainEntityOfPage": "https://numvexa.in/blog.html#blog-sip-10000-future-value"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Best Budget Rule (50/30/20) for Salaried Employees",
+    "description": "Learn how the 50/30/20 budgeting rule works for Indian salaried employees, with real salary examples, emergency fund tips, and a practical step-by-step implementation guide.",
+    "author": { "@type": "Person", "name": "Raja Mahakul" },
+    "publisher": { "@type": "Organization", "name": "Numvexa", "url": "https://numvexa.in/" },
+    "datePublished": "2026-06-13",
+    "dateModified": "2026-06-13",
+    "url": "https://numvexa.in/blog.html#blog-50-30-20-budget-rule",
+    "mainEntityOfPage": "https://numvexa.in/blog.html#blog-50-30-20-budget-rule"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "How to Save Income Tax in India: 10 Legal Ways to Reduce Your Tax in 2026",
+    "description": "A complete guide to legally reducing your income tax in India for FY 2025-26 — Old vs New regime, HRA, 80C, ELSS, PPF, EPF, NPS, health insurance, home loan and education loan benefits.",
+    "author": { "@type": "Person", "name": "Raja Mahakul" },
+    "publisher": { "@type": "Organization", "name": "Numvexa", "url": "https://numvexa.in/" },
+    "datePublished": "2026-06-13",
+    "dateModified": "2026-06-13",
+    "url": "https://numvexa.in/blog.html#blog-save-income-tax-2026",
+    "mainEntityOfPage": "https://numvexa.in/blog.html#blog-save-income-tax-2026"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
     "headline": "Ignoring Your EPF Balance? Experts Say This Common Mistake Could Hurt Your Retirement Savings",
     "description": "Millions of Indian salaried employees ignore their EPF balance — a costly retirement planning mistake. Experts explain why tracking EPF matters, common errors to avoid, and how to maximise your provident fund corpus.",
     "author": { "@type": "Person", "name": "Raja Mahakul" },
@@ -210,92 +252,251 @@
     /* ── Blog listing page styles ── */
     .blog-listing-header {
       text-align: center;
-      padding: 3rem 1rem 2rem;
+      padding: 1.25rem 1rem .75rem;
       max-width: 700px;
       margin: 0 auto;
     }
     .blog-listing-header h1 {
-      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-size: clamp(1.5rem, 5vw, 2.4rem);
       font-weight: 800;
       line-height: 1.2;
-      margin-bottom: .75rem;
+      margin-bottom: .5rem;
     }
     .blog-listing-header p {
-      font-size: 1rem;
+      font-size: .95rem;
       opacity: .65;
     }
-
-    .blog-grid {
-      max-width: 900px;
-      margin: 0 auto 3rem;
-      padding: 0 1rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
+    @media (max-width: 750px) {
+      .blog-listing-header { padding: 1.25rem 1rem .9rem; }
     }
 
+    /* ── Blog search & category filter ── */
+    .blog-toolbar {
+      max-width: 1100px;
+      margin: 0 auto .9rem;
+      padding: 0 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: .65rem;
+    }
+    .blog-search-wrap {
+      position: relative;
+      max-width: 480px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .blog-search-wrap .search-icon {
+      position: absolute;
+      left: .85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: .5;
+      font-size: .95rem;
+      pointer-events: none;
+    }
+    .blog-search-input {
+      width: 100%;
+      padding: .65rem .9rem .65rem 2.3rem;
+      border-radius: 999px;
+      border: 1.5px solid var(--border, #e5e7eb);
+      background: var(--card-bg, #f8f8ff);
+      color: inherit;
+      font-size: .9rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .blog-search-input:focus {
+      border-color: var(--accent, #6366f1);
+      box-shadow: 0 0 0 3px rgba(99,102,241,.15);
+    }
+    .blog-cat-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      justify-content: center;
+    }
+    .blog-cat-btn {
+      border: 1.5px solid var(--border, #e5e7eb);
+      background: var(--card-bg, #f8f8ff);
+      color: inherit;
+      font-family: inherit;
+      font-size: .8rem;
+      font-weight: 600;
+      padding: .4rem .9rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background .2s, color .2s, border-color .2s, transform .15s;
+      white-space: nowrap;
+    }
+    .blog-cat-btn:hover {
+      border-color: var(--accent, #6366f1);
+      transform: translateY(-1px);
+    }
+    .blog-cat-btn.active {
+      background: var(--accent, #6366f1);
+      border-color: var(--accent, #6366f1);
+      color: #fff;
+    }
+    .blog-no-results {
+      text-align: center;
+      padding: 2rem 1rem;
+      opacity: .65;
+      font-size: .95rem;
+      grid-column: 1 / -1;
+    }
+    @media (max-width: 750px) {
+      .blog-toolbar { padding: 0 .9rem; gap: .55rem; margin-bottom: .65rem; }
+      .blog-cat-filters { gap: .4rem; }
+      .blog-cat-btn { font-size: .74rem; padding: .35rem .75rem; }
+      .blog-search-input { font-size: .85rem; padding: .55rem .8rem .55rem 2.15rem; }
+    }
+    @media (max-width: 400px) {
+      .blog-cat-filters { justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; padding-bottom: .15rem; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+      .blog-cat-filters::-webkit-scrollbar { display: none; }
+      .blog-cat-btn { flex-shrink: 0; }
+    }
+
+    /* ── Reduce reserved space for blog listing top ad slot ── */
+    #listing-view .ad-slot.ad-top {
+      min-height: 0;
+      margin-top: 0;
+    }
+    #listing-view .ad-slot.ad-top ins.adsbygoogle {
+      min-height: 0;
+    }
+
+    /* ── Blog listing grid ── */
+    .blog-grid {
+      max-width: 1100px;
+      margin: 0 auto 2.5rem;
+      padding: 0 1.25rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.1rem;
+    }
+    @media (max-width: 1050px) {
+      .blog-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 750px) {
+      .blog-grid { grid-template-columns: repeat(2, 1fr); gap: .75rem; padding: 0 .9rem; }
+    }
+    @media (max-width: 400px) {
+      .blog-grid { grid-template-columns: repeat(2, 1fr); gap: .55rem; padding: 0 .65rem; }
+    }
+
+    /* ── Blog card ── */
     .blog-card {
       background: var(--card-bg, #f8f8ff);
       border: 1.5px solid var(--border, #e5e7eb);
-      border-radius: 18px;
-      padding: 1.5rem;
+      border-radius: 16px;
+      overflow: hidden;
       cursor: pointer;
       transition: transform .2s, box-shadow .2s, border-color .2s;
       text-decoration: none;
       color: inherit;
       display: flex;
       flex-direction: column;
-      gap: .75rem;
     }
     .blog-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 8px 32px rgba(99,102,241,.13);
+      box-shadow: 0 8px 28px rgba(99,102,241,.13);
       border-color: var(--accent, #6366f1);
     }
-    .blog-card-icon {
-      width: 3rem;
-      height: 3rem;
-      border-radius: 12px;
+
+    /* ── Card image area ── */
+    .blog-card-img-wrap {
+      width: 100%;
+      height: 150px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .blog-card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .3s;
+    }
+    .blog-card:hover .blog-card-img-wrap img { transform: scale(1.04); }
+    .blog-card-icon-wrap {
+      width: 100%;
+      height: 150px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.4rem;
+      font-size: 3rem;
       flex-shrink: 0;
+    }
+
+    /* ── Card body ── */
+    .blog-card-body {
+      padding: .85rem 1rem 1rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: .4rem;
+    }
+    .blog-card-icon {
+      display: none; /* legacy — replaced by img/icon-wrap */
     }
     .blog-card-tag {
       display: inline-block;
-      font-size: .7rem;
+      font-size: .68rem;
       font-weight: 700;
       letter-spacing: .06em;
       text-transform: uppercase;
       background: var(--accent, #6366f1);
       color: #fff;
-      border-radius: 6px;
-      padding: .2rem .55rem;
+      border-radius: 5px;
+      padding: .15rem .5rem;
       width: fit-content;
     }
     .blog-card h2 {
-      font-size: 1rem;
+      font-size: .9rem;
       font-weight: 700;
-      line-height: 1.45;
+      line-height: 1.4;
       margin: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
     .blog-card-meta {
-      font-size: .78rem;
-      opacity: .55;
+      font-size: .72rem;
+      opacity: .5;
     }
     .blog-card-excerpt {
-      font-size: .88rem;
-      opacity: .75;
-      line-height: 1.6;
+      font-size: .8rem;
+      opacity: .7;
+      line-height: 1.55;
       flex: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
     .blog-card-cta {
       display: inline-block;
-      margin-top: .25rem;
-      font-size: .82rem;
-      font-weight: 600;
+      margin-top: auto;
+      padding-top: .35rem;
+      font-size: .78rem;
+      font-weight: 700;
       color: var(--accent, #6366f1);
+    }
+
+    /* ── Mobile card adjustments ── */
+    @media (max-width: 750px) {
+      .blog-card-img-wrap, .blog-card-icon-wrap { height: 110px; }
+      .blog-card-body { padding: .65rem .75rem .75rem; gap: .3rem; }
+      .blog-card h2 { font-size: .82rem; }
+      .blog-card-excerpt { display: none; }
+      .blog-card-meta { font-size: .68rem; }
+      .blog-card-cta { font-size: .74rem; }
+    }
+    @media (max-width: 400px) {
+      .blog-card-img-wrap, .blog-card-icon-wrap { height: 90px; }
+      .blog-card-icon-wrap { font-size: 2.2rem; }
     }
 
     /* ── Full article view ── */
@@ -354,8 +555,26 @@
     <p>Practical financial guides for Indian taxpayers — taxes, loans, investments &amp; more.</p>
   </div>
 
+  <!-- Search & Category Filters -->
+  <div class="blog-toolbar">
+    <div class="blog-search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="blogSearchInput" class="blog-search-input" placeholder="Search articles…" oninput="filterBlogCards()" autocomplete="off" />
+    </div>
+    <div class="blog-cat-filters" id="blogCatFilters">
+      <button class="blog-cat-btn active" data-cat="all" onclick="setBlogCategory('all')">All</button>
+      <button class="blog-cat-btn" data-cat="tax" onclick="setBlogCategory('tax')">Tax</button>
+      <button class="blog-cat-btn" data-cat="sip" onclick="setBlogCategory('sip')">SIP &amp; Investment</button>
+      <button class="blog-cat-btn" data-cat="emi" onclick="setBlogCategory('emi')">EMI &amp; Loans</button>
+      <button class="blog-cat-btn" data-cat="gst" onclick="setBlogCategory('gst')">GST</button>
+      <button class="blog-cat-btn" data-cat="salary" onclick="setBlogCategory('salary')">Salary &amp; HRA</button>
+      <button class="blog-cat-btn" data-cat="retirement" onclick="setBlogCategory('retirement')">Retirement</button>
+      <button class="blog-cat-btn" data-cat="budgeting" onclick="setBlogCategory('budgeting')">Budgeting</button>
+    </div>
+  </div>
+
   <!-- Ad Slot Top -->
-  <div class="ad-slot ad-top" style="max-width:900px;margin:0 auto 1.5rem;padding:0 1rem" aria-label="Advertisement">
+  <div class="ad-slot ad-top" style="max-width:900px;margin:0 auto 1rem;padding:0 1rem" aria-label="Advertisement">
     <ins class="adsbygoogle"
          style="display:block"
          data-ad-client="ca-pub-1504204070120650"
@@ -368,100 +587,158 @@
   <!-- Blog Cards Grid -->
   <div class="blog-grid">
 
-    <!-- Post 9: Emergency Fund Guide -->
-    <div class="blog-card" onclick="showArticle('blog-emergency-fund-guide')" id="card-blog-emergency-fund-guide">
-      <div class="blog-card-img" style="border-radius:10px;overflow:hidden;width:100%;height:160px;margin-bottom:.25rem">
-        <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=600&q=80&auto=format&fit=crop" alt="Indian professional worried about finances and emergency savings" style="width:100%;height:100%;object-fit:cover" loading="lazy" />
+    <!-- Card 0a: Save Income Tax 2026 (with photo) -->
+    <div class="blog-card" onclick="showArticle('blog-save-income-tax-2026')" id="card-blog-save-income-tax-2026" data-cat="tax">
+      <div class="blog-card-img-wrap">
+        <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=480&q=80&auto=format&fit=crop" alt="Indian taxpayer reviewing tax documents and calculator" loading="lazy" width="480" height="150" />
       </div>
-      <div class="blog-card-icon" style="background:linear-gradient(135deg,#ef4444,#dc2626)">🛡️</div>
-      <span class="blog-card-tag" style="background:linear-gradient(135deg,#ef4444,#dc2626)">Savings</span>
-      <h2>No Emergency Fund Yet? Financial Advisors Warn This Could Become a Major Problem During Job Loss</h2>
-      <div class="blog-card-meta">Raja Mahakul &nbsp;·&nbsp; Jun 12, 2026 &nbsp;·&nbsp; 8 min read</div>
-      <div class="blog-card-excerpt">Most Indian households have no emergency fund — leaving them one layoff or medical bill away from a debt spiral. Financial advisors break down exactly how much you need, where to keep it, and how to build it fast.</div>
-      <span class="blog-card-cta">Read article →</span>
-    </div>
-
-    <!-- Post 1: Old vs New Tax Regime 2026 -->
-    <div class="blog-card" onclick="showArticle('blog-tax-regime-2026')" id="card-blog-tax-regime-2026">
-      <div class="blog-card-icon" style="background:linear-gradient(135deg,#6366f1,#ec4899)">📊</div>
-      <span class="blog-card-tag">Tax</span>
-      <h2>Old vs New Tax Regime 2026: Which One Saves You More?</h2>
-      <div class="blog-card-meta">Raja Mahakul &nbsp;·&nbsp; Jun 10, 2026 &nbsp;·&nbsp; 6 min read</div>
-      <div class="blog-card-excerpt">With Budget 2025-26 making the New Regime more attractive, this guide breaks down both regimes side-by-side — slabs, deductions, real examples, and FAQs — to help you decide which puts more money in your pocket.</div>
-      <span class="blog-card-cta">Read article →</span>
-    </div>
-
-    <!-- Post 2: CTC vs In-Hand Salary -->
-    <div class="blog-card" onclick="showArticle('blog-ctc-vs-inhand')" id="card-blog-ctc-vs-inhand">
-      <div class="blog-card-icon" style="background:linear-gradient(135deg,#10b981,#059669)">💼</div>
-      <span class="blog-card-tag" style="background:linear-gradient(135deg,#10b981,#059669)">Salary</span>
-      <h2>CTC vs In-Hand Salary: What's the Difference?</h2>
-      <div class="blog-card-meta">Raja Mahakul &nbsp;·&nbsp; Jun 11, 2026 &nbsp;·&nbsp; 5 min read</div>
-      <div class="blog-card-excerpt">Your offer letter says ₹8 LPA but your bank account tells a different story. This beginner-friendly guide explains exactly where the money goes — PF, Professional Tax, income tax, and more — with a real example.</div>
-      <span class="blog-card-cta">Read article →</span>
-    </div>
-
-    <!-- Post 3: EMI Calculator Guide -->
-    <div class="blog-card" onclick="showArticle('blog-emi-calculator-guide')" id="card-blog-emi-calculator-guide">
-      <div class="blog-card-icon" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">🏦</div>
-      <span class="blog-card-tag" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">Loans</span>
-      <h2>EMI Calculator Guide: How to Calculate Your Loan EMI in 2026</h2>
-      <div class="blog-card-meta">Raja Mahakul &nbsp;·&nbsp; Jun 12, 2026 &nbsp;·&nbsp; 6 min read</div>
-      <div class="blog-card-excerpt">Confused about how your loan EMI is calculated? This guide breaks down the EMI formula, the factors that affect it, and shows you how to use Numvexa's free EMI Calculator with real examples and FAQs.</div>
-      <span class="blog-card-cta">Read article →</span>
-    </div>
-
-    <!-- Post 4: SIP Calculator Guide -->
-    <div class="blog-card" onclick="showArticle('blog-sip-calculator-guide')" id="card-blog-sip-calculator-guide">
-      <div class="blog-card-icon" style="background:linear-gradient(135deg,#3b82f6,#0ea5e9)">📈</div>
-      <span class="blog-card-tag" style="background:linear-gradient(135deg,#3b82f6,#0ea5e9)">Investing</span>
-      <h2>SIP Calculator Guide: How to Plan Your Mutual Fund Investments</h2>
-      <div class="blog-card-meta">Raja Mahakul &nbsp;·&nbsp; Jun 12, 2026 &nbsp;·&nbsp; 6 min read</div>
-      <div class="blog-card-excerpt">Want to know how much your monthly SIP will grow to in 10 or 20 years? This guide explains the SIP formula, the power of compounding, step-up SIPs, and how to use Numvexa's free SIP Calculator.</div>
-      <span class="blog-card-cta">Read article →</span>
-    </div>
-
-    <!-- Post 5: GST Calculator Guide -->
-    <div class="blog-card" onclick="showArticle('blog-gst-calculator-guide')" id="card-blog-gst-calculator-guide">
-      <div class="blog-card-icon" style="background:linear-gradient(135deg,#8b5cf6,#6366f1)">🧾</div>
-      <span class="blog-card-tag" style="background:linear-gradient(135deg,#8b5cf6,#6366f1)">Tax</span>
-      <h2>GST Calculator Guide: How to Calculate GST Amount Easily</h2>
-      <div class="blog-card-meta">Raja Mahakul &nbsp;·&nbsp; Jun 12, 2026 &nbsp;·&nbsp; 6 min read</div>
-      <div class="blog-card-excerpt">Confused between GST-inclusive and exclusive prices, or how CGST and SGST add up? This guide explains the GST formula with simple examples and shows you how to use Numvexa's free GST Calculator.</div>
-      <span class="blog-card-cta">Read article →</span>
-    </div>
-
-    <!-- Post 6: Age Calculator Guide -->
-    <div class="blog-card" onclick="showArticle('blog-age-calculator-guide')" id="card-blog-age-calculator-guide">
-      <div class="blog-card-icon" style="background:linear-gradient(135deg,#ec4899,#f43f5e)">🎂</div>
-      <span class="blog-card-tag" style="background:linear-gradient(135deg,#ec4899,#f43f5e)">Tools</span>
-      <h2>Age Calculator Guide: Calculate Your Exact Age in Years, Months &amp; Days</h2>
-      <div class="blog-card-meta">Raja Mahakul &nbsp;·&nbsp; Jun 12, 2026 &nbsp;·&nbsp; 5 min read</div>
-      <div class="blog-card-excerpt">From job eligibility to school admissions, your exact age matters more than you think. Learn how age is calculated precisely and try Numvexa's free Age Calculator for instant results.</div>
-      <span class="blog-card-cta">Read article →</span>
-    </div>
-
-    <!-- Post 8: EPF Retirement Savings -->
-    <div class="blog-card" onclick="showArticle('blog-epf-retirement-savings')" id="card-blog-epf-retirement-savings">
-      <div class="blog-card-img" style="border-radius:10px;overflow:hidden;width:100%;height:160px;margin-bottom:.25rem">
-        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80" alt="Indian salaried employee reviewing EPF passbook on laptop with retirement savings chart" style="width:100%;height:100%;object-fit:cover" loading="lazy" />
+      <div class="blog-card-body">
+        <span class="blog-card-tag" style="background:linear-gradient(135deg,#dc2626,#b91c1c)">Tax</span>
+        <h2>How to Save Income Tax in India: 10 Legal Ways to Reduce Your Tax in 2026</h2>
+        <div class="blog-card-meta">Jun 13, 2026 · 9 min read</div>
+        <div class="blog-card-excerpt">From HRA and 80C to NPS and home loan benefits — 10 legal ways to cut your tax bill for FY 2025-26.</div>
+        <span class="blog-card-cta">Read article →</span>
       </div>
-      <div class="blog-card-icon" style="background:linear-gradient(135deg,#f97316,#ea580c)">🏦</div>
-      <span class="blog-card-tag" style="background:linear-gradient(135deg,#f97316,#ea580c)">Retirement</span>
-      <h2>Ignoring Your EPF Balance? Experts Say This Common Mistake Could Hurt Your Retirement Savings</h2>
-      <div class="blog-card-meta">Raja Mahakul &nbsp;·&nbsp; Jun 12, 2026 &nbsp;·&nbsp; 7 min read</div>
-      <div class="blog-card-excerpt">Millions of Indian salaried employees never check their EPF balance — and it costs them dearly at retirement. Learn why tracking your provident fund is critical, the mistakes to avoid, and how to maximise your corpus.</div>
-      <span class="blog-card-cta">Read article →</span>
     </div>
 
-    <!-- Post 7: Percentage Calculator Guide -->
-    <div class="blog-card" onclick="showArticle('blog-percentage-calculator-guide')" id="card-blog-percentage-calculator-guide">
-      <div class="blog-card-icon" style="background:linear-gradient(135deg,#14b8a6,#22c55e)">📐</div>
-      <span class="blog-card-tag" style="background:linear-gradient(135deg,#14b8a6,#22c55e)">Tools</span>
-      <h2>Percentage Calculator Guide: Quick Formulas for Everyday Calculations</h2>
-      <div class="blog-card-meta">Raja Mahakul &nbsp;·&nbsp; Jun 12, 2026 &nbsp;·&nbsp; 5 min read</div>
-      <div class="blog-card-excerpt">Discounts, GST, salary hikes, exam marks — percentages are everywhere. This guide gives you simple formulas, real-life examples, and FAQs to calculate percentages confidently every time.</div>
-      <span class="blog-card-cta">Read article →</span>
+    <!-- Card 0b: 50/30/20 Budget Rule (with photo) -->
+    <div class="blog-card" onclick="showArticle('blog-50-30-20-budget-rule')" id="card-blog-50-30-20-budget-rule" data-cat="budgeting">
+      <div class="blog-card-img-wrap">
+        <img src="https://images.unsplash.com/photo-1554224311-beee415c201f?w=480&q=80&auto=format&fit=crop" alt="Salaried employee planning monthly budget with notebook and laptop" loading="lazy" width="480" height="150" />
+      </div>
+      <div class="blog-card-body">
+        <span class="blog-card-tag" style="background:linear-gradient(135deg,#10b981,#059669)">Budgeting</span>
+        <h2>Best Budget Rule (50/30/20) for Salaried Employees</h2>
+        <div class="blog-card-meta">Jun 13, 2026 · 8 min read</div>
+        <div class="blog-card-excerpt">A simple framework to split your salary into needs, wants, and savings — with real Indian salary examples.</div>
+        <span class="blog-card-cta">Read article →</span>
+      </div>
+    </div>
+
+    <!-- Card 0c: SIP 10000 Future Value (with photo) -->
+    <div class="blog-card" onclick="showArticle('blog-sip-10000-future-value')" id="card-blog-sip-10000-future-value" data-cat="sip">
+      <div class="blog-card-img-wrap">
+        <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=480&q=80&auto=format&fit=crop" alt="Investor reviewing investment growth charts on laptop with calculator" loading="lazy" width="480" height="150" />
+      </div>
+      <div class="blog-card-body">
+        <span class="blog-card-tag" style="background:linear-gradient(135deg,#3b82f6,#0ea5e9)">Investing</span>
+        <h2>₹10,000 SIP per Month: Future Value in 10, 20, and 30 Years</h2>
+        <div class="blog-card-meta">Jun 13, 2026 · 9 min read</div>
+        <div class="blog-card-excerpt">See exactly how much your ₹10,000 monthly SIP can grow to in 10, 20, and 30 years through the power of compounding.</div>
+        <span class="blog-card-cta">Read article →</span>
+      </div>
+    </div>
+
+    <!-- Card 1: Emergency Fund Guide (with photo) -->
+    <div class="blog-card" onclick="showArticle('blog-emergency-fund-guide')" id="card-blog-emergency-fund-guide" data-cat="budgeting">
+      <div class="blog-card-img-wrap">
+        <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=480&q=80&auto=format&fit=crop" alt="Emergency fund and financial safety" loading="lazy" width="480" height="150" />
+      </div>
+      <div class="blog-card-body">
+        <span class="blog-card-tag" style="background:linear-gradient(135deg,#ef4444,#dc2626)">Savings</span>
+        <h2>No Emergency Fund Yet? Financial Advisors Warn This Could Be a Major Problem</h2>
+        <div class="blog-card-meta">Jun 12, 2026 · 8 min read</div>
+        <div class="blog-card-excerpt">Most Indian households are one layoff away from a debt spiral. Learn how much to save and how to build your fund fast.</div>
+        <span class="blog-card-cta">Read article →</span>
+      </div>
+    </div>
+
+    <!-- Card 2: EPF Retirement Savings (with photo) -->
+    <div class="blog-card" onclick="showArticle('blog-epf-retirement-savings')" id="card-blog-epf-retirement-savings" data-cat="retirement">
+      <div class="blog-card-img-wrap">
+        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=480&q=80&auto=format&fit=crop" alt="EPF and retirement savings planning" loading="lazy" width="480" height="150" />
+      </div>
+      <div class="blog-card-body">
+        <span class="blog-card-tag" style="background:linear-gradient(135deg,#f97316,#ea580c)">Retirement</span>
+        <h2>Ignoring Your EPF Balance? Experts Say This Could Hurt Your Retirement Savings</h2>
+        <div class="blog-card-meta">Jun 12, 2026 · 7 min read</div>
+        <div class="blog-card-excerpt">Millions of Indians never check their EPF — and it costs them dearly. Learn to track, transfer, and maximise your corpus.</div>
+        <span class="blog-card-cta">Read article →</span>
+      </div>
+    </div>
+
+    <!-- Card 3: Old vs New Tax Regime -->
+    <div class="blog-card" onclick="showArticle('blog-tax-regime-2026')" id="card-blog-tax-regime-2026" data-cat="tax">
+      <div class="blog-card-icon-wrap" style="background:linear-gradient(135deg,#6366f1,#ec4899)">📊</div>
+      <div class="blog-card-body">
+        <span class="blog-card-tag">Tax</span>
+        <h2>Old vs New Tax Regime 2026: Which One Saves You More?</h2>
+        <div class="blog-card-meta">Jun 10, 2026 · 6 min read</div>
+        <div class="blog-card-excerpt">Side-by-side comparison of slabs, deductions, and real examples to help you decide which regime saves more money.</div>
+        <span class="blog-card-cta">Read article →</span>
+      </div>
+    </div>
+
+    <!-- Card 4: CTC vs In-Hand -->
+    <div class="blog-card" onclick="showArticle('blog-ctc-vs-inhand')" id="card-blog-ctc-vs-inhand" data-cat="salary">
+      <div class="blog-card-icon-wrap" style="background:linear-gradient(135deg,#10b981,#059669)">💼</div>
+      <div class="blog-card-body">
+        <span class="blog-card-tag" style="background:linear-gradient(135deg,#10b981,#059669)">Salary</span>
+        <h2>CTC vs In-Hand Salary: What's the Difference?</h2>
+        <div class="blog-card-meta">Jun 11, 2026 · 5 min read</div>
+        <div class="blog-card-excerpt">Your offer says ₹8 LPA but only ₹52K hits your account. Explains PF, taxes, and all the deductions.</div>
+        <span class="blog-card-cta">Read article →</span>
+      </div>
+    </div>
+
+    <!-- Card 5: EMI Calculator Guide -->
+    <div class="blog-card" onclick="showArticle('blog-emi-calculator-guide')" id="card-blog-emi-calculator-guide" data-cat="emi">
+      <div class="blog-card-icon-wrap" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">🏦</div>
+      <div class="blog-card-body">
+        <span class="blog-card-tag" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">Loans</span>
+        <h2>EMI Calculator Guide: How to Calculate Your Loan EMI in 2026</h2>
+        <div class="blog-card-meta">Jun 12, 2026 · 6 min read</div>
+        <div class="blog-card-excerpt">The EMI formula explained with real home loan and car loan examples, plus tips to reduce your EMI burden.</div>
+        <span class="blog-card-cta">Read article →</span>
+      </div>
+    </div>
+
+    <!-- Card 6: SIP Calculator Guide -->
+    <div class="blog-card" onclick="showArticle('blog-sip-calculator-guide')" id="card-blog-sip-calculator-guide" data-cat="sip">
+      <div class="blog-card-icon-wrap" style="background:linear-gradient(135deg,#3b82f6,#0ea5e9)">📈</div>
+      <div class="blog-card-body">
+        <span class="blog-card-tag" style="background:linear-gradient(135deg,#3b82f6,#0ea5e9)">Investing</span>
+        <h2>SIP Calculator Guide: How to Plan Your Mutual Fund Investments</h2>
+        <div class="blog-card-meta">Jun 12, 2026 · 6 min read</div>
+        <div class="blog-card-excerpt">The SIP formula, power of compounding, step-up SIPs, and worked examples showing ₹5K/month growing over 20 years.</div>
+        <span class="blog-card-cta">Read article →</span>
+      </div>
+    </div>
+
+    <!-- Card 7: GST Calculator Guide -->
+    <div class="blog-card" onclick="showArticle('blog-gst-calculator-guide')" id="card-blog-gst-calculator-guide" data-cat="gst">
+      <div class="blog-card-icon-wrap" style="background:linear-gradient(135deg,#8b5cf6,#6366f1)">🧾</div>
+      <div class="blog-card-body">
+        <span class="blog-card-tag" style="background:linear-gradient(135deg,#8b5cf6,#6366f1)">Tax</span>
+        <h2>GST Calculator Guide: How to Calculate GST Amount Easily</h2>
+        <div class="blog-card-meta">Jun 12, 2026 · 6 min read</div>
+        <div class="blog-card-excerpt">Adding and removing GST explained — GST-inclusive vs exclusive, CGST/SGST split, with step-by-step examples.</div>
+        <span class="blog-card-cta">Read article →</span>
+      </div>
+    </div>
+
+    <!-- Card 8: Age Calculator Guide -->
+    <div class="blog-card" onclick="showArticle('blog-age-calculator-guide')" id="card-blog-age-calculator-guide" data-cat="budgeting">
+      <div class="blog-card-icon-wrap" style="background:linear-gradient(135deg,#ec4899,#f43f5e)">🎂</div>
+      <div class="blog-card-body">
+        <span class="blog-card-tag" style="background:linear-gradient(135deg,#ec4899,#f43f5e)">Tools</span>
+        <h2>Age Calculator Guide: Calculate Your Exact Age in Years, Months &amp; Days</h2>
+        <div class="blog-card-meta">Jun 12, 2026 · 5 min read</div>
+        <div class="blog-card-excerpt">Why your exact age matters for government eligibility, admissions, and insurance — with leap year handling explained.</div>
+        <span class="blog-card-cta">Read article →</span>
+      </div>
+    </div>
+
+    <!-- Card 9: Percentage Calculator Guide -->
+    <div class="blog-card" onclick="showArticle('blog-percentage-calculator-guide')" id="card-blog-percentage-calculator-guide" data-cat="budgeting">
+      <div class="blog-card-icon-wrap" style="background:linear-gradient(135deg,#14b8a6,#22c55e)">📐</div>
+      <div class="blog-card-body">
+        <span class="blog-card-tag" style="background:linear-gradient(135deg,#14b8a6,#22c55e)">Tools</span>
+        <h2>Percentage Calculator Guide: Quick Formulas for Everyday Calculations</h2>
+        <div class="blog-card-meta">Jun 12, 2026 · 5 min read</div>
+        <div class="blog-card-excerpt">Discounts, GST, salary hikes, exam marks — master the 3 core percentage formulas with real-life examples.</div>
+        <span class="blog-card-cta">Read article →</span>
+      </div>
     </div>
 
   </div><!-- /blog-grid -->
@@ -2053,6 +2330,687 @@
 </div><!-- /#article-view-emergency-fund -->
 
 
+<!-- ═══════════════ ARTICLE: ₹10,000 SIP FUTURE VALUE ═══════════════ -->
+<div id="article-view-sip-10000" role="main" style="display:none">
+
+  <div class="back-btn-wrap">
+    <button class="btn-secondary" onclick="showListing()">← Back to Blog</button>
+  </div>
+
+  <main class="page active" id="page-blog-sip-10000-future-value" style="padding-top:0">
+    <div class="inner-page legal-page" style="max-width:860px">
+
+      <div class="legal-header">
+        <span class="legal-icon">📈</span>
+        <h1 style="font-size:clamp(1.4rem,4vw,2rem);line-height:1.3">₹10,000 SIP per Month: Future Value in 10, 20, and 30 Years</h1>
+        <p class="legal-meta">By <strong>Raja Mahakul</strong> &nbsp;·&nbsp; Published: June 13, 2026 &nbsp;·&nbsp; 9 min read</p>
+      </div>
+
+      <div class="blog-card-img-wrap" style="border-radius:14px;overflow:hidden;margin-bottom:1.25rem">
+        <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=900&q=80&auto=format&fit=crop" alt="Indian investor reviewing investment growth charts on laptop with calculator and financial documents" loading="lazy" width="900" height="380" style="width:100%;height:auto;display:block;border-radius:14px" />
+      </div>
+
+      <div class="ad-slot" aria-label="Advertisement">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1504204070120650" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <div class="legal-body">
+
+        <!-- 1. What is SIP -->
+        <h2>1. What is a SIP?</h2>
+        <p>A <strong>Systematic Investment Plan (SIP)</strong> is a way of investing a fixed amount of money into a mutual fund scheme at regular intervals — usually every month. Instead of trying to time the market with a large lump-sum investment, a SIP lets you invest small, consistent amounts over many years.</p>
+        <p>For salaried Indians, SIPs have become one of the most popular ways to build long-term wealth because they require no special skill, just discipline. You set up an auto-debit from your bank account, and the money is automatically invested in your chosen mutual fund every month — rain or shine, bull market or bear market.</p>
+        <p>In this article, we'll take a fixed monthly SIP of <strong>₹10,000</strong> and see exactly how much it can grow into over <strong>10 years, 20 years, and 30 years</strong>, using realistic return assumptions for the Indian market.</p>
+
+        <!-- 2. Power of Compounding -->
+        <h2>2. The Power of Compounding</h2>
+        <p>Compounding simply means that your investment earns returns, and then those returns start earning their own returns. Over short periods, this effect looks small. But over 10, 20, or 30 years, compounding can turn modest monthly contributions into a surprisingly large corpus.</p>
+        <p>The formula used to estimate the future value of a SIP is:</p>
+        <div style="background:var(--card-bg,#f8f8ff);border:1.5px solid var(--border,#e5e7eb);border-radius:12px;padding:1rem 1.25rem;margin:1rem 0;font-family:'JetBrains Mono',monospace;font-size:.95rem;text-align:center">
+          M = P × [(1+i)<sup>n</sup> − 1] / i × (1+i)
+        </div>
+        <ul class="legal-list">
+          <li><strong>M</strong> = Maturity amount you receive at the end of the tenure</li>
+          <li><strong>P</strong> = Monthly SIP amount (₹10,000 in our examples)</li>
+          <li><strong>i</strong> = Expected monthly rate of return (annual rate ÷ 12 ÷ 100)</li>
+          <li><strong>n</strong> = Total number of monthly instalments</li>
+        </ul>
+        <p>For all examples below, we've assumed an annual return of <strong>12%</strong>, which is a commonly used long-term estimate for diversified equity mutual funds in India. Actual returns can be higher or lower depending on market conditions and the fund chosen.</p>
+
+        <div class="ad-slot" aria-label="Advertisement">
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1504204070120650" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <!-- 3. After 10 years -->
+        <h2>3. Future Value After 10 Years</h2>
+        <p>A monthly SIP of <strong>₹10,000</strong> for <strong>10 years (120 months)</strong> at an assumed <strong>12% annual return</strong> works out as follows:</p>
+        <div style="overflow-x:auto;margin:1rem 0">
+          <table style="width:100%;border-collapse:collapse;font-size:.9rem;min-width:320px">
+            <thead>
+              <tr style="background:linear-gradient(135deg,#3b82f6,#0ea5e9);color:#fff">
+                <th style="padding:.7rem 1rem;text-align:left;border-radius:8px 0 0 0">Detail</th>
+                <th style="padding:.7rem 1rem;text-align:right;border-radius:0 8px 0 0">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:var(--card-bg,#f8f8ff)">
+                <td style="padding:.65rem 1rem;border-bottom:1px solid var(--border,#e5e7eb)">Total Invested Amount</td>
+                <td style="padding:.65rem 1rem;text-align:right;border-bottom:1px solid var(--border,#e5e7eb)">₹12,00,000</td>
+              </tr>
+              <tr>
+                <td style="padding:.65rem 1rem;border-bottom:1px solid var(--border,#e5e7eb)">Estimated Returns</td>
+                <td style="padding:.65rem 1rem;text-align:right;border-bottom:1px solid var(--border,#e5e7eb)">≈ ₹11,23,391</td>
+              </tr>
+              <tr style="background:var(--card-bg,#f8f8ff);font-weight:700">
+                <td style="padding:.65rem 1rem">Maturity Value</td>
+                <td style="padding:.65rem 1rem;text-align:right;color:#059669">≈ ₹23,23,391</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>In 10 years, your total contribution of ₹12 lakh nearly <strong>doubles</strong> to about ₹23.2 lakh — almost equal returns to your own invested capital. This is a great example of how patience pays off even in the first decade.</p>
+
+        <!-- 4. After 20 years -->
+        <h2>4. Future Value After 20 Years</h2>
+        <p>Now let's extend the same ₹10,000 monthly SIP to <strong>20 years (240 months)</strong>, keeping the same 12% annual return assumption:</p>
+        <div style="overflow-x:auto;margin:1rem 0">
+          <table style="width:100%;border-collapse:collapse;font-size:.9rem;min-width:320px">
+            <thead>
+              <tr style="background:linear-gradient(135deg,#3b82f6,#0ea5e9);color:#fff">
+                <th style="padding:.7rem 1rem;text-align:left;border-radius:8px 0 0 0">Detail</th>
+                <th style="padding:.7rem 1rem;text-align:right;border-radius:0 8px 0 0">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:var(--card-bg,#f8f8ff)">
+                <td style="padding:.65rem 1rem;border-bottom:1px solid var(--border,#e5e7eb)">Total Invested Amount</td>
+                <td style="padding:.65rem 1rem;text-align:right;border-bottom:1px solid var(--border,#e5e7eb)">₹24,00,000</td>
+              </tr>
+              <tr>
+                <td style="padding:.65rem 1rem;border-bottom:1px solid var(--border,#e5e7eb)">Estimated Returns</td>
+                <td style="padding:.65rem 1rem;text-align:right;border-bottom:1px solid var(--border,#e5e7eb)">≈ ₹75,91,479</td>
+              </tr>
+              <tr style="background:var(--card-bg,#f8f8ff);font-weight:700">
+                <td style="padding:.65rem 1rem">Maturity Value</td>
+                <td style="padding:.65rem 1rem;text-align:right;color:#059669">≈ ₹99,91,479</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Notice the jump — in 20 years, your ₹24 lakh investment grows to nearly <strong>₹1 crore</strong>. The returns alone (₹75.9 lakh) are more than <strong>3 times</strong> your invested amount. This is compounding accelerating in the second half of the investment period.</p>
+
+        <div class="ad-slot" aria-label="Advertisement">
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1504204070120650" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <!-- 5. After 30 years -->
+        <h2>5. Future Value After 30 Years</h2>
+        <p>Finally, let's see what happens when the same ₹10,000 monthly SIP runs for <strong>30 years (360 months)</strong>:</p>
+        <div style="overflow-x:auto;margin:1rem 0">
+          <table style="width:100%;border-collapse:collapse;font-size:.9rem;min-width:320px">
+            <thead>
+              <tr style="background:linear-gradient(135deg,#3b82f6,#0ea5e9);color:#fff">
+                <th style="padding:.7rem 1rem;text-align:left;border-radius:8px 0 0 0">Detail</th>
+                <th style="padding:.7rem 1rem;text-align:right;border-radius:0 8px 0 0">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:var(--card-bg,#f8f8ff)">
+                <td style="padding:.65rem 1rem;border-bottom:1px solid var(--border,#e5e7eb)">Total Invested Amount</td>
+                <td style="padding:.65rem 1rem;text-align:right;border-bottom:1px solid var(--border,#e5e7eb)">₹36,00,000</td>
+              </tr>
+              <tr>
+                <td style="padding:.65rem 1rem;border-bottom:1px solid var(--border,#e5e7eb)">Estimated Returns</td>
+                <td style="padding:.65rem 1rem;text-align:right;border-bottom:1px solid var(--border,#e5e7eb)">≈ ₹3,16,17,663</td>
+              </tr>
+              <tr style="background:var(--card-bg,#f8f8ff);font-weight:700">
+                <td style="padding:.65rem 1rem">Maturity Value</td>
+                <td style="padding:.65rem 1rem;text-align:right;color:#059669">≈ ₹3,52,17,663</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Over 30 years, your total contribution of ₹36 lakh grows to over <strong>₹3.5 crore</strong> — almost <strong>10 times</strong> your invested amount. This is the magic of staying invested for the long haul. The longer your money stays in the market, the larger the share of your final corpus that comes purely from compounding rather than your own contributions.</p>
+        <p>Want to test your own numbers — different amounts, tenures, or return rates? Try Numvexa's free <a href="index.html" onclick="sessionStorage.setItem('openCalc','sip')" style="color:var(--accent,#6366f1);text-decoration:underline">SIP Calculator</a> for instant results.</p>
+
+        <!-- 6. Return projections summary -->
+        <h2>6. Return Projections: A Quick Comparison</h2>
+        <div style="overflow-x:auto;margin:1rem 0">
+          <table style="width:100%;border-collapse:collapse;font-size:.9rem;min-width:320px">
+            <thead>
+              <tr style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff">
+                <th style="padding:.7rem 1rem;text-align:left;border-radius:8px 0 0 0">Tenure</th>
+                <th style="padding:.7rem 1rem;text-align:right">Invested</th>
+                <th style="padding:.7rem 1rem;text-align:right;border-radius:0 8px 0 0">Maturity Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:var(--card-bg,#f8f8ff)">
+                <td style="padding:.65rem 1rem;border-bottom:1px solid var(--border,#e5e7eb)">10 years</td>
+                <td style="padding:.65rem 1rem;text-align:right;border-bottom:1px solid var(--border,#e5e7eb)">₹12,00,000</td>
+                <td style="padding:.65rem 1rem;text-align:right;border-bottom:1px solid var(--border,#e5e7eb)">≈ ₹23.2 lakh</td>
+              </tr>
+              <tr>
+                <td style="padding:.65rem 1rem;border-bottom:1px solid var(--border,#e5e7eb)">20 years</td>
+                <td style="padding:.65rem 1rem;text-align:right;border-bottom:1px solid var(--border,#e5e7eb)">₹24,00,000</td>
+                <td style="padding:.65rem 1rem;text-align:right;border-bottom:1px solid var(--border,#e5e7eb)">≈ ₹99.9 lakh</td>
+              </tr>
+              <tr style="background:var(--card-bg,#f8f8ff)">
+                <td style="padding:.65rem 1rem">30 years</td>
+                <td style="padding:.65rem 1rem;text-align:right">₹36,00,000</td>
+                <td style="padding:.65rem 1rem;text-align:right;font-weight:700;color:#059669">≈ ₹3.52 crore</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Notice that doubling the tenure from 10 to 20 years more than <strong>quadruples</strong> your maturity value, even though your total investment only doubled. This non-linear growth is exactly why financial advisors keep repeating: <strong>start early</strong>.</p>
+
+        <!-- 7. Benefits of long-term investing -->
+        <h2>7. Benefits of Long-Term Investing</h2>
+        <ul class="legal-list">
+          <li><strong>Compounding works in your favour</strong> – The longer your money stays invested, the larger the proportion of your final corpus that comes from returns rather than your own contributions.</li>
+          <li><strong>Rupee cost averaging</strong> – By investing the same amount every month, you automatically buy more units when prices are low and fewer when prices are high, smoothing out market volatility.</li>
+          <li><strong>Reduces the impact of market timing</strong> – You don't need to predict market highs and lows; staying invested through cycles usually works better than trying to time entry and exit.</li>
+          <li><strong>Builds financial discipline</strong> – Auto-debit SIPs remove the temptation to skip investments or spend that money elsewhere.</li>
+          <li><strong>Helps achieve big life goals</strong> – Retirement, children's education, or buying a house become realistic with a long enough SIP horizon.</li>
+        </ul>
+
+        <!-- 8. Common SIP mistakes -->
+        <h2>8. Common SIP Mistakes to Avoid</h2>
+        <ul class="legal-list">
+          <li><strong>Stopping SIPs during market falls</strong> – Many investors pause or cancel their SIP when markets crash, missing the chance to buy units cheaply.</li>
+          <li><strong>Not increasing SIP amount over time</strong> – As your salary grows, your SIP should grow too. A flat ₹10,000 SIP for 30 years loses value to inflation; consider a step-up SIP that increases yearly.</li>
+          <li><strong>Choosing funds based only on recent performance</strong> – Past 1-year returns don't guarantee future performance. Look at consistency over 5-10 years and the fund's category.</li>
+          <li><strong>Ignoring asset allocation</strong> – Putting all your SIPs into high-risk equity funds without any debt allocation can be risky closer to your goal date.</li>
+          <li><strong>Withdrawing early for non-essential expenses</strong> – Breaking a long-term SIP for short-term wants defeats the purpose of compounding.</li>
+          <li><strong>Not reviewing the portfolio</strong> – While daily checking isn't needed, an annual review helps you rebalance and stay aligned with your goals.</li>
+        </ul>
+
+        <div class="ad-slot" aria-label="Advertisement">
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1504204070120650" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <!-- 9. FAQs -->
+        <h2>9. Frequently Asked Questions (FAQs)</h2>
+
+        <h3>Q1. Is a 12% return realistic for SIPs in India?</h3>
+        <p>12% per annum is a commonly used long-term assumption for diversified equity mutual funds, based on historical averages over multi-decade periods. However, actual returns vary year to year and depend on the fund category and market conditions, so treat this as an estimate for planning, not a guarantee.</p>
+
+        <h3>Q2. What if I invest ₹10,000 but increase it every year?</h3>
+        <p>This is called a step-up SIP. Even a modest 10% annual increase in your SIP amount can significantly boost your final corpus compared to keeping it flat at ₹10,000 for the entire tenure, because each year's higher contribution also compounds over the remaining years.</p>
+
+        <h3>Q3. Is the maturity amount taxed?</h3>
+        <p>Yes, gains from equity mutual funds are subject to capital gains tax. Long-term capital gains (units held over 1 year) above a specified exemption limit are taxed at applicable rates, while short-term gains are taxed differently. Tax rules can change, so check the latest provisions before redemption.</p>
+
+        <h3>Q4. Can I stop my SIP anytime?</h3>
+        <p>Yes, most SIPs can be paused or stopped anytime through your mutual fund app or AMC website, with no penalty in most cases (except for ELSS funds, which have a 3-year lock-in per instalment).</p>
+
+        <h3>Q5. How do I calculate SIP returns for my own amount and tenure?</h3>
+        <p>Use Numvexa's free <a href="index.html" onclick="sessionStorage.setItem('openCalc','sip')" style="color:var(--accent,#6366f1);text-decoration:underline">SIP Calculator</a> — enter your monthly amount, expected return rate, and investment period to instantly see your projected maturity value, total invested amount, and estimated returns.</p>
+
+        <!-- 10. Conclusion -->
+        <h2>10. Conclusion</h2>
+        <p>A simple ₹10,000 monthly SIP can grow from ₹23 lakh in 10 years to over ₹3.5 crore in 30 years — purely through the power of consistent investing and compounding. The numbers make one thing clear: <strong>time in the market matters more than timing the market</strong>.</p>
+        <p>Whether you're just starting out or want to plan a step-up SIP for the future, use Numvexa's free <a href="index.html" onclick="sessionStorage.setItem('openCalc','sip')" style="color:var(--accent,#6366f1);text-decoration:underline">SIP Calculator</a> to project your own numbers and plan your investment journey with confidence.</p>
+        <p style="font-size:.82rem;opacity:.65;border-top:1px solid var(--border,#e5e7eb);padding-top:1rem;margin-top:1.5rem"><em>Disclaimer: Mutual fund investments are subject to market risks. This article is for informational and educational purposes only and does not constitute investment advice. Please consult a SEBI-registered financial advisor before investing.</em></p>
+
+      </div><!-- /legal-body -->
+
+      <div class="ad-slot" aria-label="Advertisement">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1504204070120650" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:.5rem">
+        <a href="index.html" onclick="sessionStorage.setItem('openCalc','sip')" class="btn-primary" style="text-decoration:none">📈 Try SIP Calculator</a>
+        <button class="btn-secondary" onclick="showListing()">← Back to Blog</button>
+      </div>
+
+    </div>
+  </main>
+
+</div><!-- /#article-view-sip-10000 -->
+
+
+<!-- ═══════════════ ARTICLE: 50/30/20 BUDGET RULE ═══════════════ -->
+<div id="article-view-budget-50-30-20" role="main" style="display:none">
+
+  <div class="back-btn-wrap">
+    <button class="btn-secondary" onclick="showListing()">← Back to Blog</button>
+  </div>
+
+  <main class="page active" id="page-blog-50-30-20-budget-rule" style="padding-top:0">
+    <div class="inner-page legal-page" style="max-width:860px">
+
+      <div class="legal-header">
+        <span class="legal-icon">💰</span>
+        <h1 style="font-size:clamp(1.4rem,4vw,2rem);line-height:1.3">Best Budget Rule (50/30/20) for Salaried Employees</h1>
+        <p class="legal-meta">By <strong>Raja Mahakul</strong> &nbsp;·&nbsp; Published: June 13, 2026 &nbsp;·&nbsp; 8 min read</p>
+      </div>
+
+      <div class="blog-card-img-wrap" style="border-radius:14px;overflow:hidden;margin-bottom:1.25rem">
+        <img src="https://images.unsplash.com/photo-1554224311-beee415c201f?w=900&q=80&auto=format&fit=crop" alt="Salaried employee planning monthly budget with laptop, notebook and calculator" loading="lazy" width="900" height="380" style="width:100%;height:auto;display:block;border-radius:14px" />
+      </div>
+
+      <div class="ad-slot" aria-label="Advertisement">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1504204070120650" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <div class="legal-body">
+
+        <!-- 1. What is the 50/30/20 rule -->
+        <h2>1. What is the 50/30/20 Rule?</h2>
+        <p>The <strong>50/30/20 rule</strong> is a simple budgeting framework that divides your <strong>take-home (in-hand) salary</strong> into three buckets:</p>
+        <ul class="legal-list">
+          <li><strong>50% for Needs</strong> – Rent, groceries, utility bills, EMIs, insurance premiums, and other essential expenses.</li>
+          <li><strong>30% for Wants</strong> – Dining out, entertainment, shopping, travel, subscriptions, and lifestyle upgrades.</li>
+          <li><strong>20% for Savings &amp; Investments</strong> – Emergency fund, SIPs, retirement savings, and debt repayment beyond minimums.</li>
+        </ul>
+        <p>This rule became popular because it is easy to remember and apply, without needing detailed expense tracking for every rupee. For salaried employees in India, where salary structures and costs of living vary widely across cities, the 50/30/20 rule offers a flexible starting point that can be adjusted to your situation.</p>
+
+        <!-- 2. Needs vs Wants vs Savings -->
+        <h2>2. Needs vs Wants vs Savings — How to Tell Them Apart</h2>
+        <p>The hardest part of this rule is correctly classifying your expenses. Here's a simple way to think about it:</p>
+
+        <h3>Needs (50%)</h3>
+        <p>These are expenses you <strong>cannot avoid</strong> without affecting your basic living standard or financial obligations:</p>
+        <ul class="legal-list">
+          <li>House rent or home loan EMI</li>
+          <li>Groceries and household essentials</li>
+          <li>Electricity, water, gas, and other utility bills</li>
+          <li>Health insurance and term insurance premiums</li>
+          <li>Minimum loan EMIs (car, personal loan, etc.)</li>
+          <li>Commute costs (fuel, public transport, cab to work)</li>
+          <li>School fees for children</li>
+        </ul>
+
+        <h3>Wants (30%)</h3>
+        <p>These improve your quality of life but are <strong>not essential</strong> for survival or basic obligations:</p>
+        <ul class="legal-list">
+          <li>Eating out, food delivery, and cafes</li>
+          <li>OTT subscriptions (Netflix, Prime, etc.)</li>
+          <li>Shopping for clothes, gadgets, and accessories beyond necessity</li>
+          <li>Vacations and weekend trips</li>
+          <li>Movies, hobbies, and entertainment</li>
+          <li>Upgrading your phone or car earlier than needed</li>
+        </ul>
+
+        <h3>Savings &amp; Investments (20%)</h3>
+        <p>This is money that builds your future financial security:</p>
+        <ul class="legal-list">
+          <li>Emergency fund contributions</li>
+          <li>SIPs in mutual funds</li>
+          <li>PPF, EPF voluntary contributions, NPS</li>
+          <li>Extra EMI prepayments to close loans faster</li>
+          <li>Recurring deposits or fixed deposits for goals</li>
+        </ul>
+
+        <div class="ad-slot" aria-label="Advertisement">
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1504204070120650" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <!-- 3. Budget examples for Indian salaries -->
+        <h2>3. Budget Examples for Indian Salaries</h2>
+        <p>Let's apply the 50/30/20 rule to a few realistic monthly in-hand salary figures:</p>
+
+        <h3>Example 1: ₹30,000 in-hand salary</h3>
+        <div style="overflow-x:auto;margin:1rem 0">
+          <table style="width:100%;border-collapse:collapse;font-size:.9rem;min-width:320px">
+            <thead>
+              <tr style="background:linear-gradient(135deg,#10b981,#059669);color:#fff">
+                <th style="padding:.7rem 1rem;text-align:left;border-radius:8px 0 0 0">Category</th>
+                <th style="padding:.7rem 1rem;text-align:right;border-radius:0 8px 0 0">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:var(--card-bg,#f8f8ff)">
+                <td style="padding:.65rem 1rem;border-bottom:1px solid var(--border,#e5e7eb)">Needs (50%)</td>
+                <td style="padding:.65rem 1rem;text-align:right;border-bottom:1px solid var(--border,#e5e7eb)">₹15,000</td>
+              </tr>
+              <tr>
+                <td style="padding:.65rem 1rem;border-bottom:1px solid var(--border,#e5e7eb)">Wants (30%)</td>
+                <td style="padding:.65rem 1rem;text-align:right;border-bottom:1px solid var(--border,#e5e7eb)">₹9,000</td>
+              </tr>
+              <tr style="background:var(--card-bg,#f8f8ff);font-weight:700">
+                <td style="padding:.65rem 1rem">Savings (20%)</td>
+                <td style="padding:.65rem 1rem;text-align:right;color:#059669">₹6,000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Example 2: ₹60,000 in-hand salary</h3>
+        <div style="overflow-x:auto;margin:1rem 0">
+          <table style="width:100%;border-collapse:collapse;font-size:.9rem;min-width:320px">
+            <thead>
+              <tr style="background:linear-gradient(135deg,#10b981,#059669);color:#fff">
+                <th style="padding:.7rem 1rem;text-align:left;border-radius:8px 0 0 0">Category</th>
+                <th style="padding:.7rem 1rem;text-align:right;border-radius:0 8px 0 0">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:var(--card-bg,#f8f8ff)">
+                <td style="padding:.65rem 1rem;border-bottom:1px solid var(--border,#e5e7eb)">Needs (50%)</td>
+                <td style="padding:.65rem 1rem;text-align:right;border-bottom:1px solid var(--border,#e5e7eb)">₹30,000</td>
+              </tr>
+              <tr>
+                <td style="padding:.65rem 1rem;border-bottom:1px solid var(--border,#e5e7eb)">Wants (30%)</td>
+                <td style="padding:.65rem 1rem;text-align:right;border-bottom:1px solid var(--border,#e5e7eb)">₹18,000</td>
+              </tr>
+              <tr style="background:var(--card-bg,#f8f8ff);font-weight:700">
+                <td style="padding:.65rem 1rem">Savings (20%)</td>
+                <td style="padding:.65rem 1rem;text-align:right;color:#059669">₹12,000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Example 3: ₹1,00,000 in-hand salary</h3>
+        <div style="overflow-x:auto;margin:1rem 0">
+          <table style="width:100%;border-collapse:collapse;font-size:.9rem;min-width:320px">
+            <thead>
+              <tr style="background:linear-gradient(135deg,#10b981,#059669);color:#fff">
+                <th style="padding:.7rem 1rem;text-align:left;border-radius:8px 0 0 0">Category</th>
+                <th style="padding:.7rem 1rem;text-align:right;border-radius:0 8px 0 0">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:var(--card-bg,#f8f8ff)">
+                <td style="padding:.65rem 1rem;border-bottom:1px solid var(--border,#e5e7eb)">Needs (50%)</td>
+                <td style="padding:.65rem 1rem;text-align:right;border-bottom:1px solid var(--border,#e5e7eb)">₹50,000</td>
+              </tr>
+              <tr>
+                <td style="padding:.65rem 1rem;border-bottom:1px solid var(--border,#e5e7eb)">Wants (30%)</td>
+                <td style="padding:.65rem 1rem;text-align:right;border-bottom:1px solid var(--border,#e5e7eb)">₹30,000</td>
+              </tr>
+              <tr style="background:var(--card-bg,#f8f8ff);font-weight:700">
+                <td style="padding:.65rem 1rem">Savings (20%)</td>
+                <td style="padding:.65rem 1rem;text-align:right;color:#059669">₹20,000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>To find your own exact in-hand figure from your CTC, use Numvexa's <a href="index.html" onclick="sessionStorage.setItem('openCalc','salary')" style="color:var(--accent,#6366f1);text-decoration:underline">Salary Calculator</a> — then apply the 50/30/20 split to plan your monthly budget.</p>
+
+        <!-- 4. Budget planning for individuals and families -->
+        <h2>4. Budget Planning for Individuals and Families</h2>
+        <p><strong>For individuals (especially in metro cities like Bengaluru, Mumbai, or Delhi):</strong> Rent alone can eat up 25-35% of your salary, which may push your "Needs" bucket beyond 50%. If this happens, consider trimming the "Wants" category temporarily, or look for a more affordable living arrangement (shared flat, slightly farther location with better connectivity).</p>
+        <p><strong>For families with dependents:</strong> School fees, healthcare for parents, and household expenses for multiple people often push the "Needs" percentage higher — sometimes to 60% or more. In such cases, a modified <strong>60/20/20</strong> or <strong>55/25/20</strong> split may be more realistic, while still protecting the 20% savings rate as a non-negotiable minimum.</p>
+        <p>The key principle isn't the exact percentages — it's making sure <strong>savings happen first</strong>, ideally through automated transfers right after your salary is credited, so that spending adjusts to what's left rather than savings being an afterthought.</p>
+
+        <div class="ad-slot" aria-label="Advertisement">
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1504204070120650" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <!-- 5. Emergency fund importance -->
+        <h2>5. Why an Emergency Fund Matters in Your Budget</h2>
+        <p>Before your 20% savings bucket goes entirely into SIPs or long-term investments, a portion should first build an <strong>emergency fund</strong> — typically <strong>3 to 6 months of essential expenses</strong> kept in a liquid, easily accessible form like a savings account or liquid mutual fund.</p>
+        <p>An emergency fund protects you from job loss, medical emergencies, or unexpected major expenses without forcing you to break long-term investments early or take on high-interest debt. Once your emergency fund is fully built, you can redirect that portion of your 20% entirely toward SIPs, retirement accounts, and other long-term goals.</p>
+
+        <!-- 6. Common budgeting mistakes -->
+        <h2>6. Common Budgeting Mistakes</h2>
+        <ul class="legal-list">
+          <li><strong>Treating savings as optional</strong> – Spending first and "saving whatever is left" usually results in little to no savings. Automate savings instead.</li>
+          <li><strong>Misclassifying wants as needs</strong> – Daily food delivery or premium OTT subscriptions often get mentally filed under "needs" when they're really "wants."</li>
+          <li><strong>Not accounting for irregular expenses</strong> – Annual insurance premiums, festival shopping, or vehicle servicing should be budgeted monthly (divided by 12) so they don't derail your plan when they occur.</li>
+          <li><strong>Ignoring lifestyle inflation</strong> – As salary increases, expenses (especially "wants") often increase proportionally or more, leaving the savings percentage unchanged or even reduced.</li>
+          <li><strong>No buffer for credit card bills</strong> – Spending on credit cards without tracking can silently break the 50/30/20 split each month.</li>
+          <li><strong>Setting unrealistic targets</strong> – If 50/30/20 doesn't fit your current situation, an extreme cutback rarely sticks. Start with a percentage you can realistically maintain and improve gradually.</li>
+        </ul>
+
+        <!-- 7. Practical implementation guide -->
+        <h2>7. Practical Implementation Guide</h2>
+        <ol class="legal-list" style="list-style:decimal">
+          <li><strong>Calculate your exact in-hand salary</strong> using Numvexa's <a href="index.html" onclick="sessionStorage.setItem('openCalc','salary')" style="color:var(--accent,#6366f1);text-decoration:underline">Salary Calculator</a>.</li>
+          <li><strong>List all your monthly "Needs"</strong> — rent, EMIs, utilities, groceries, insurance, school fees, commute.</li>
+          <li><strong>Compare your Needs total to 50% of in-hand salary.</strong> If it's higher, look for ways to reduce fixed costs (renegotiate rent, refinance loans, switch to a cheaper plan).</li>
+          <li><strong>Set up an automatic transfer for savings (20%)</strong> on salary day — to a separate savings account, recurring deposit, or SIP — before you can spend it.</li>
+          <li><strong>Use the remaining amount for "Wants"</strong> — and track it loosely using a simple notes app or budgeting app.</li>
+          <li><strong>Review every 3 months</strong> — adjust the percentages as your salary, rent, or family situation changes.</li>
+          <li><strong>Increase savings percentage with every raise</strong> — even a 2-3% increase in your savings rate compounds significantly over years.</li>
+        </ol>
+
+        <div class="ad-slot" aria-label="Advertisement">
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1504204070120650" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <!-- 8. FAQs -->
+        <h2>8. Frequently Asked Questions (FAQs)</h2>
+
+        <h3>Q1. Is the 50/30/20 rule based on gross salary or in-hand salary?</h3>
+        <p>The rule applies to your <strong>take-home (in-hand) salary</strong> — that is, your salary after tax deductions, PF contributions, and other deductions, not your CTC. Use Numvexa's Salary Calculator to find your exact in-hand figure first.</p>
+
+        <h3>Q2. What if my rent alone is more than 50% of my salary?</h3>
+        <p>This is common in expensive metro cities. In such cases, you may need a modified split (e.g., 60/20/20) temporarily, while still protecting at least some savings. Long-term, consider whether a different living arrangement could free up budget for savings.</p>
+
+        <h3>Q3. Should EMIs be counted under Needs or Savings?</h3>
+        <p>Loan EMIs (home loan, car loan, personal loan) are generally counted under <strong>Needs</strong> since they are contractual obligations. However, any <strong>extra prepayment</strong> beyond the required EMI can be counted under <strong>Savings</strong>, as it reduces future interest and builds equity.</p>
+
+        <h3>Q4. Is 20% savings enough for retirement?</h3>
+        <p>20% is a good starting baseline, but for aggressive retirement goals or starting late, a higher savings rate (25-30%) may be needed. Use Numvexa's <a href="index.html" onclick="sessionStorage.setItem('openCalc','sip')" style="color:var(--accent,#6366f1);text-decoration:underline">SIP Calculator</a> to check whether your current savings rate meets your retirement target.</p>
+
+        <h3>Q5. How does the 50/30/20 rule relate to tax planning?</h3>
+        <p>A portion of your "Savings" bucket can go into tax-saving instruments like ELSS, PPF, or NPS under Section 80C, helping you save tax while also building your investment corpus. Use Numvexa's <a href="index.html" onclick="sessionStorage.setItem('openCalc','tax')" style="color:var(--accent,#6366f1);text-decoration:underline">Income Tax Calculator</a> to see how these investments affect your tax liability.</p>
+
+        <!-- 9. Conclusion -->
+        <h2>9. Conclusion</h2>
+        <p>The 50/30/20 rule isn't a rigid law — it's a simple, flexible starting framework that helps salaried Indians take control of their money without complicated spreadsheets. The most important takeaway is to make <strong>savings non-negotiable</strong> and automatic, rather than something you do only if money is left over.</p>
+        <p>Start by calculating your exact in-hand salary with Numvexa's <a href="index.html" onclick="sessionStorage.setItem('openCalc','salary')" style="color:var(--accent,#6366f1);text-decoration:underline">Salary Calculator</a>, apply the 50/30/20 split (or a version adjusted for your city and family size), and watch how small, consistent savings build real financial security over time.</p>
+        <p style="font-size:.82rem;opacity:.65;border-top:1px solid var(--border,#e5e7eb);padding-top:1rem;margin-top:1.5rem"><em>Disclaimer: This article is for informational and educational purposes only and does not constitute professional financial advice. Personal budgeting should be tailored to your individual circumstances. Consult a Certified Financial Planner for personalised guidance.</em></p>
+
+      </div><!-- /legal-body -->
+
+      <div class="ad-slot" aria-label="Advertisement">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1504204070120650" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:.5rem">
+        <a href="index.html" onclick="sessionStorage.setItem('openCalc','salary')" class="btn-primary" style="text-decoration:none">💼 Try Salary Calculator</a>
+        <button class="btn-secondary" onclick="showListing()">← Back to Blog</button>
+      </div>
+
+    </div>
+  </main>
+
+</div><!-- /#article-view-budget-50-30-20 -->
+
+
+<!-- ═══════════════ ARTICLE: SAVE INCOME TAX 2026 ═══════════════ -->
+<div id="article-view-save-tax-2026" role="main" style="display:none">
+
+  <div class="back-btn-wrap">
+    <button class="btn-secondary" onclick="showListing()">← Back to Blog</button>
+  </div>
+
+  <main class="page active" id="page-blog-save-income-tax-2026" style="padding-top:0">
+    <div class="inner-page legal-page" style="max-width:860px">
+
+      <div class="legal-header">
+        <span class="legal-icon">🧾</span>
+        <h1 style="font-size:clamp(1.4rem,4vw,2rem);line-height:1.3">How to Save Income Tax in India: 10 Legal Ways to Reduce Your Tax in 2026</h1>
+        <p class="legal-meta">By <strong>Raja Mahakul</strong> &nbsp;·&nbsp; Published: June 13, 2026 &nbsp;·&nbsp; 9 min read</p>
+      </div>
+
+      <div class="blog-card-img-wrap" style="border-radius:14px;overflow:hidden;margin-bottom:1.25rem">
+        <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=900&q=80&auto=format&fit=crop" alt="Indian taxpayer reviewing tax documents, calculator and financial paperwork on a desk" loading="lazy" width="900" height="380" style="width:100%;height:auto;display:block;border-radius:14px" />
+      </div>
+
+      <div class="ad-slot" aria-label="Advertisement">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1504204070120650" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <div class="legal-body">
+
+        <!-- Intro -->
+        <h2>Introduction</h2>
+        <p>Every year, lakhs of Indian taxpayers end up paying more tax than necessary simply because they don't know — or don't use — the legal deductions and exemptions available to them. The good news is that the Income Tax Act offers many ways to <strong>legally reduce your taxable income</strong>, provided you plan ahead and choose the right tax regime.</p>
+        <p>In this guide, we cover <strong>10 legal ways</strong> to save income tax in India for FY 2025-26 (Assessment Year 2026-27), along with how the <strong>Old vs New Tax Regime</strong> affects which of these benefits you can actually claim.</p>
+
+        <!-- 1. Old vs New Regime -->
+        <h2>1. Old vs New Tax Regime: Choose Wisely</h2>
+        <p>This is the single most important decision in your tax planning. The <strong>New Tax Regime</strong> offers lower slab rates but removes most deductions and exemptions. The <strong>Old Tax Regime</strong> has higher slab rates but allows deductions like 80C, HRA, home loan interest, and more.</p>
+        <ul class="legal-list">
+          <li>If your total eligible deductions (80C + HRA + 80D + home loan interest, etc.) exceed roughly <strong>₹4-5 lakh</strong>, the Old Regime may save you more tax.</li>
+          <li>If you have few investments, no home loan, and don't claim HRA, the <strong>New Regime</strong> is usually better due to its lower rates and higher rebate threshold.</li>
+        </ul>
+        <p>The best approach is to <strong>calculate both</strong> using Numvexa's free <a href="index.html" onclick="sessionStorage.setItem('openCalc','tax')" style="color:var(--accent,#6366f1);text-decoration:underline">Income Tax Calculator</a> and pick whichever results in lower tax for your specific income and deductions.</p>
+
+        <!-- 2. HRA -->
+        <h2>2. HRA (House Rent Allowance) Exemption</h2>
+        <p>If you live in rented accommodation and receive HRA as part of your salary, you can claim an exemption under <strong>Section 10(13A)</strong> — but only under the <strong>Old Regime</strong>. The exempt amount is the <strong>lowest</strong> of:</p>
+        <ul class="legal-list">
+          <li>Actual HRA received from employer</li>
+          <li>Rent paid minus 10% of basic salary</li>
+          <li>50% of basic salary (for metro cities) or 40% (for non-metro cities)</li>
+        </ul>
+        <p>To calculate your exact HRA exemption based on your salary, rent, and city, use Numvexa's <a href="index.html" onclick="sessionStorage.setItem('openCalc','hra')" style="color:var(--accent,#6366f1);text-decoration:underline">HRA Calculator</a>.</p>
+
+        <div class="ad-slot" aria-label="Advertisement">
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1504204070120650" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <!-- 3. Section 80C -->
+        <h2>3. Section 80C — Up to ₹1.5 Lakh Deduction</h2>
+        <p><strong>Section 80C</strong> is the most widely used deduction, allowing you to reduce taxable income by up to <strong>₹1,50,000</strong> per year (Old Regime only) through investments and expenses such as:</p>
+        <ul class="legal-list">
+          <li>Employee Provident Fund (EPF) contributions</li>
+          <li>Public Provident Fund (PPF)</li>
+          <li>Equity Linked Savings Scheme (ELSS) mutual funds</li>
+          <li>Life insurance premiums</li>
+          <li>5-year tax-saving fixed deposits</li>
+          <li>Principal repayment on home loan</li>
+          <li>Children's tuition fees (up to 2 children)</li>
+          <li>Sukanya Samriddhi Yojana</li>
+        </ul>
+        <p>Since the ₹1.5 lakh limit is shared across all these options, it's wise to plan a combination that matches your goals — for example, EPF + PPF + ELSS together.</p>
+
+        <!-- 4. ELSS -->
+        <h2>4. ELSS (Equity Linked Savings Scheme)</h2>
+        <p><strong>ELSS mutual funds</strong> are one of the most attractive 80C options because they combine tax saving with the potential for equity-linked growth. Key points:</p>
+        <ul class="legal-list">
+          <li>Lock-in period of just <strong>3 years</strong> — the shortest among all 80C options</li>
+          <li>Invested in equity markets, so returns have historically been higher than PPF or FDs over the long term (though subject to market risk)</li>
+          <li>Can be started via SIP, so you can invest monthly rather than as a lump sum</li>
+          <li>Gains are subject to capital gains tax on redemption</li>
+        </ul>
+        <p>If you're considering ELSS via SIP, project your potential returns using Numvexa's <a href="index.html" onclick="sessionStorage.setItem('openCalc','sip')" style="color:var(--accent,#6366f1);text-decoration:underline">SIP Calculator</a>.</p>
+
+        <!-- 5. PPF -->
+        <h2>5. PPF (Public Provident Fund)</h2>
+        <p>PPF is a <strong>government-backed, long-term savings scheme</strong> with a 15-year lock-in (extendable in blocks of 5 years). Contributions up to ₹1.5 lakh per year qualify for 80C deduction, and the interest earned along with maturity proceeds are <strong>completely tax-free</strong> — making PPF an "EEE" (Exempt-Exempt-Exempt) investment. It's ideal for risk-averse investors building a retirement corpus alongside other instruments.</p>
+
+        <!-- 6. EPF -->
+        <h2>6. EPF (Employees' Provident Fund)</h2>
+        <p>If you're a salaried employee, a portion of your salary (typically 12% of basic + DA) is automatically deducted and contributed to your <strong>EPF account</strong>, with a matching employer contribution. Your own EPF contribution qualifies for the 80C deduction (within the overall ₹1.5 lakh limit). Many salaried employees don't realise that their EPF contribution alone often uses up a large chunk of their 80C limit — so factor this in before making additional 80C investments.</p>
+
+        <div class="ad-slot" aria-label="Advertisement">
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1504204070120650" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <!-- 7. NPS -->
+        <h2>7. NPS (National Pension System)</h2>
+        <p>NPS offers tax benefits beyond the regular 80C limit:</p>
+        <ul class="legal-list">
+          <li><strong>Section 80CCD(1B)</strong> – An additional deduction of up to <strong>₹50,000</strong> for self-contributions, over and above the ₹1.5 lakh 80C limit (Old Regime).</li>
+          <li><strong>Section 80CCD(2)</strong> – Employer's contribution to NPS (up to 10-14% of basic salary depending on employer type) is deductible, and importantly, this benefit is <strong>available even under the New Regime</strong>.</li>
+        </ul>
+        <p>NPS is a market-linked retirement product with a mix of equity and debt, and withdrawals are partially taxable at retirement, with mandatory annuitisation of a portion of the corpus.</p>
+
+        <!-- 8. Health insurance -->
+        <h2>8. Health Insurance Deductions (Section 80D)</h2>
+        <p>Premiums paid for <strong>health insurance</strong> (Old Regime only) qualify for deduction under <strong>Section 80D</strong>:</p>
+        <ul class="legal-list">
+          <li>Up to <strong>₹25,000</strong> for self, spouse, and children (under 60 years)</li>
+          <li>Up to <strong>₹50,000</strong> if you or your spouse is a senior citizen (60+ years)</li>
+          <li>An additional <strong>₹25,000-₹50,000</strong> for parents' health insurance, depending on their age</li>
+          <li>Preventive health check-ups (up to ₹5,000, within the overall limit)</li>
+        </ul>
+        <p>This means a taxpayer with senior citizen parents could potentially claim up to <strong>₹1,00,000</strong> in total 80D deductions (₹25,000/₹50,000 for self + ₹50,000 for parents).</p>
+
+        <!-- 9. Home loan tax benefits -->
+        <h2>9. Home Loan Tax Benefits</h2>
+        <p>If you have a home loan (Old Regime), you can claim two separate deductions:</p>
+        <ul class="legal-list">
+          <li><strong>Section 24(b)</strong> – Deduction of up to <strong>₹2,00,000</strong> per year on home loan <strong>interest</strong> for a self-occupied property.</li>
+          <li><strong>Section 80C</strong> – Principal repayment of the home loan is included within the overall ₹1.5 lakh 80C limit.</li>
+        </ul>
+        <p>For let-out (rented) properties, there's no upper cap on interest deduction under Section 24(b), though the overall loss from house property that can be set off against other income is capped at ₹2 lakh per year, with the balance carried forward.</p>
+
+        <!-- 10. Education loan -->
+        <h2>10. Education Loan Benefits (Section 80E)</h2>
+        <p>Interest paid on an <strong>education loan</strong> taken for higher education (for yourself, spouse, children, or a student for whom you are a legal guardian) is fully deductible under <strong>Section 80E</strong> — with <strong>no upper limit</strong> on the amount, for up to <strong>8 years</strong> from the year repayment begins. This deduction is available only on the <strong>interest</strong> component, not the principal, and only under the Old Regime.</p>
+
+        <div class="ad-slot" aria-label="Advertisement">
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1504204070120650" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <!-- Tax planning mistakes -->
+        <h2>11. Common Tax Planning Mistakes</h2>
+        <ul class="legal-list">
+          <li><strong>Last-minute, rushed investments</strong> – Making 80C investments in March without planning often leads to choosing unsuitable products just to save tax, not to build wealth.</li>
+          <li><strong>Not comparing both tax regimes</strong> – Sticking with the same regime every year without recalculating can mean leaving money on the table.</li>
+          <li><strong>Forgetting employer's EPF and NPS contributions</strong> – These count toward your deductions/exemptions and should be factored into your planning.</li>
+          <li><strong>Ignoring HRA documentation</strong> – Not keeping rent receipts, rental agreements, or landlord PAN (for rent above ₹1 lakh/year) can lead to HRA exemption being disallowed.</li>
+          <li><strong>Overlooking Section 80E and 80D for parents</strong> – Many taxpayers don't claim education loan interest or parents' health insurance simply because they forget these exist.</li>
+          <li><strong>Choosing tax-saving products with long lock-ins unnecessarily</strong> – If liquidity matters, ELSS (3-year lock-in) may suit better than PPF (15-year) for part of your 80C allocation.</li>
+        </ul>
+
+        <!-- FAQs -->
+        <h2>12. Frequently Asked Questions (FAQs)</h2>
+
+        <h3>Q1. Can I claim both HRA and home loan interest deduction?</h3>
+        <p>Yes, in certain situations — for example, if you own a home in one city but live on rent in another city for work, you can claim HRA exemption for the rented house and home loan interest deduction (Section 24b) for the owned house, both under the Old Regime.</p>
+
+        <h3>Q2. Which deductions are still available under the New Regime?</h3>
+        <p>Under the New Regime, most deductions are removed, but a few remain — notably the <strong>standard deduction</strong>, <strong>employer's NPS contribution (80CCD(2))</strong>, and deduction for contributions to the Agniveer Corpus Fund. HRA, 80C, 80D, home loan interest, and 80E are generally not available under the New Regime.</p>
+
+        <h3>Q3. How do I know which regime saves me more tax?</h3>
+        <p>The only reliable way is to calculate your tax liability under both regimes using your actual income and deduction figures. Numvexa's <a href="index.html" onclick="sessionStorage.setItem('openCalc','tax')" style="color:var(--accent,#6366f1);text-decoration:underline">Income Tax Calculator</a> does this comparison instantly.</p>
+
+        <h3>Q4. Is ELSS better than PPF for tax saving?</h3>
+        <p>It depends on your risk appetite and time horizon. ELSS offers market-linked returns with a shorter 3-year lock-in but carries market risk. PPF offers guaranteed, tax-free returns with a longer 15-year lock-in. Many investors use a combination of both for balance.</p>
+
+        <h3>Q5. Can I claim HRA exemption if I pay rent to my parents?</h3>
+        <p>Yes, this is legally allowed, provided the arrangement is genuine — you actually pay rent (preferably via bank transfer), your parents declare this rental income in their tax return, and you have a proper rent agreement. The property should ideally be owned by the parent and not jointly by you.</p>
+
+        <!-- Conclusion -->
+        <h2>13. Conclusion</h2>
+        <p>Saving tax legally is about <strong>planning ahead</strong>, not scrambling in the last week of March. Start by deciding between the Old and New Tax Regime based on your actual numbers, then systematically use the deductions that fit your life — HRA if you're renting, 80C for long-term savings, 80D for health insurance, and home or education loan benefits if applicable.</p>
+        <p>Use Numvexa's free <a href="index.html" onclick="sessionStorage.setItem('openCalc','tax')" style="color:var(--accent,#6366f1);text-decoration:underline">Income Tax Calculator</a> to compare both regimes, and the <a href="index.html" onclick="sessionStorage.setItem('openCalc','hra')" style="color:var(--accent,#6366f1);text-decoration:underline">HRA Calculator</a> to find your exact HRA exemption — both free, instant, and built for Indian taxpayers.</p>
+        <p style="font-size:.82rem;opacity:.65;border-top:1px solid var(--border,#e5e7eb);padding-top:1rem;margin-top:1.5rem"><em>Disclaimer: This article is for informational purposes only and does not constitute professional tax advice. Tax laws are subject to change. Consult a Chartered Accountant for personalised guidance.</em></p>
+
+      </div><!-- /legal-body -->
+
+      <div class="ad-slot" aria-label="Advertisement">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1504204070120650" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:.5rem">
+        <a href="index.html" onclick="sessionStorage.setItem('openCalc','tax')" class="btn-primary" style="text-decoration:none">🧾 Try Tax Calculator</a>
+        <a href="index.html" onclick="sessionStorage.setItem('openCalc','hra')" class="btn-secondary" style="text-decoration:none">🏠 Try HRA Calculator</a>
+        <button class="btn-secondary" onclick="showListing()">← Back to Blog</button>
+      </div>
+
+    </div>
+  </main>
+
+</div><!-- /#article-view-save-tax-2026 -->
+
+
 <!-- ═══════════════ FOOTER ═══════════════ -->
 <footer class="site-footer">
   <div class="footer-inner">
@@ -2131,7 +3089,10 @@
     'blog-age-calculator-guide': 'article-view-age',
     'blog-percentage-calculator-guide': 'article-view-percentage',
     'blog-epf-retirement-savings': 'article-view-epf',
-    'blog-emergency-fund-guide': 'article-view-emergency-fund'
+    'blog-emergency-fund-guide': 'article-view-emergency-fund',
+    'blog-sip-10000-future-value': 'article-view-sip-10000',
+    'blog-50-30-20-budget-rule': 'article-view-budget-50-30-20',
+    'blog-save-income-tax-2026': 'article-view-save-tax-2026'
   };
 
   /* ── Article / listing toggle ── */
@@ -2177,6 +3138,49 @@
       showListing();
     }
   });
+
+  /* ── Blog search & category filter ── */
+  var currentBlogCategory = 'all';
+
+  function setBlogCategory(cat){
+    currentBlogCategory = cat;
+    document.querySelectorAll('.blog-cat-btn').forEach(function(btn){
+      btn.classList.toggle('active', btn.getAttribute('data-cat') === cat);
+    });
+    filterBlogCards();
+  }
+
+  function filterBlogCards(){
+    var query = (document.getElementById('blogSearchInput').value || '').trim().toLowerCase();
+    var grid = document.querySelector('.blog-grid');
+    var cards = grid.querySelectorAll('.blog-card');
+    var visibleCount = 0;
+
+    cards.forEach(function(card){
+      var cat = card.getAttribute('data-cat') || 'general';
+      var matchesCat = (currentBlogCategory === 'all') || (cat === currentBlogCategory);
+
+      var text = card.textContent.toLowerCase();
+      var matchesSearch = !query || text.indexOf(query) !== -1;
+
+      var show = matchesCat && matchesSearch;
+      card.style.display = show ? '' : 'none';
+      if(show) visibleCount++;
+    });
+
+    var noResults = document.getElementById('blogNoResults');
+    if(visibleCount === 0){
+      if(!noResults){
+        noResults = document.createElement('div');
+        noResults.id = 'blogNoResults';
+        noResults.className = 'blog-no-results';
+        noResults.textContent = '🔍 No articles found. Try a different search or category.';
+        grid.appendChild(noResults);
+      }
+    } else if(noResults){
+      noResults.remove();
+    }
+  }
 </script>
 
 </body>

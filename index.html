@@ -82,6 +82,150 @@
     .legal-list { padding-left: 1.4rem; line-height: 2; margin-bottom: 1rem; }
     .legal-list li { margin-bottom: .3rem; }
   </style>
+  <style>
+  /* ── Latest Articles Section (Homepage) ── */
+  .latest-articles-section {
+    max-width: 1100px;
+    margin: 0 auto 1.5rem;
+    padding: 0 1.25rem;
+  }
+  .latest-articles-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  .latest-articles-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0;
+  }
+  .latest-articles-viewall {
+    font-size: .85rem;
+    font-weight: 600;
+    color: var(--accent, #6366f1);
+    text-decoration: none;
+    opacity: .85;
+    transition: opacity .2s;
+  }
+  .latest-articles-viewall:hover { opacity: 1; text-decoration: underline; }
+
+  .latest-articles-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+  .lat-card {
+    background: var(--card-bg, #f8f8ff);
+    border: 1.5px solid var(--border, #e5e7eb);
+    border-radius: 16px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: transform .2s, box-shadow .2s, border-color .2s;
+  }
+  .lat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(99,102,241,.13);
+    border-color: var(--accent, #6366f1);
+  }
+  .lat-card-img {
+    width: 100%;
+    height: 140px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .lat-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .3s;
+  }
+  .lat-card:hover .lat-card-img img { transform: scale(1.04); }
+  .lat-card-img-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.8rem;
+  }
+  .lat-card-body {
+    padding: .85rem 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: .4rem;
+  }
+  .lat-card-tag {
+    display: inline-block;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    background: var(--accent, #6366f1);
+    color: #fff;
+    border-radius: 5px;
+    padding: .15rem .5rem;
+    width: fit-content;
+  }
+  .lat-card-title {
+    font-size: .9rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .lat-card-excerpt {
+    font-size: .8rem;
+    opacity: .7;
+    line-height: 1.55;
+    margin: 0;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .lat-card-meta {
+    font-size: .72rem;
+    opacity: .5;
+    margin-top: auto;
+    padding-top: .25rem;
+  }
+  .lat-card-cta {
+    display: inline-block;
+    font-size: .78rem;
+    font-weight: 700;
+    color: var(--accent, #6366f1);
+    margin-top: .1rem;
+  }
+
+  /* ── Responsive: tablet 2 cols ── */
+  @media (max-width: 900px) {
+    .latest-articles-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  /* ── Responsive: mobile 2 cols ── */
+  @media (max-width: 640px) {
+    .latest-articles-section { padding: 0 .75rem; margin-bottom: 1rem; }
+    .latest-articles-grid { grid-template-columns: repeat(2, 1fr); gap: .65rem; }
+    .lat-card-img { height: 100px; }
+    .lat-card-body { padding: .65rem .75rem .75rem; gap: .3rem; }
+    .lat-card-title { font-size: .82rem; -webkit-line-clamp: 3; }
+    .lat-card-excerpt { display: none; }
+    .lat-card-meta { font-size: .68rem; }
+    .lat-card-cta { font-size: .74rem; }
+    .latest-articles-title { font-size: 1rem; }
+  }
+  @media (max-width: 360px) {
+    .latest-articles-grid { gap: .5rem; }
+    .lat-card-img { height: 85px; }
+  }
+  </style>
 
   <!-- Mobile whitespace override for inline-styled elements -->
   <style>
@@ -170,35 +314,72 @@
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 
-  <!-- Blog Teaser -->
-  <div id="blog-strip" style="max-width:900px;margin:0 auto 1.5rem;padding:0 1rem;display:flex;flex-direction:column;gap:.75rem">
+  <!-- Latest Articles Section -->
+  <section class="latest-articles-section">
+    <div class="latest-articles-header">
+      <h2 class="latest-articles-title">📰 Latest Articles</h2>
+      <a href="blog.html" class="latest-articles-viewall">View All →</a>
+    </div>
+    <div class="latest-articles-grid">
 
-    <!-- Latest article: Emergency Fund Guide -->
-    <a href="blog.html#blog-emergency-fund-guide" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:1.1rem;background:var(--card-bg,#f0f0ff);border:1.5px solid var(--accent,#6366f1);border-radius:16px;padding:1rem 1.25rem;cursor:pointer;flex-wrap:wrap;transition:box-shadow .2s" onmouseover="this.style.boxShadow='0 4px 24px rgba(99,102,241,.15)'" onmouseout="this.style.boxShadow='none'">
-      <div style="border-radius:10px;width:4rem;height:4rem;overflow:hidden;flex-shrink:0">
-        <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=120&q=80&auto=format&fit=crop" alt="Indian professional worried about finances and emergency savings" style="width:100%;height:100%;object-fit:cover" loading="lazy" width="64" height="64" />
-      </div>
-      <div style="flex:1;min-width:0">
-        <div style="font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;opacity:.55;margin-bottom:.2rem">📰 Latest Article</div>
-        <div style="font-weight:700;font-size:.97rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">No Emergency Fund Yet? Advisors Warn This Could Be a Major Problem</div>
-        <div style="font-size:.78rem;opacity:.55;margin-top:.2rem">Raja Mahakul · Jun 12, 2026 · 8 min read</div>
-      </div>
-      <span style="background:var(--accent,#6366f1);color:#fff;border-radius:8px;padding:.45rem 1rem;font-size:.82rem;font-weight:600;white-space:nowrap;flex-shrink:0">Read More →</span>
-    </a>
+      <!-- Card 1: SIP 10000 Future Value (newest) -->
+      <a href="blog.html#blog-sip-10000-future-value" class="lat-card">
+        <div class="lat-card-img">
+          <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=480&q=80&auto=format&fit=crop" alt="Investor reviewing SIP investment growth charts" loading="lazy" width="480" height="200" />
+        </div>
+        <div class="lat-card-body">
+          <span class="lat-card-tag" style="background:linear-gradient(135deg,#3b82f6,#0ea5e9)">Investing</span>
+          <h3 class="lat-card-title">₹10,000 SIP per Month: Future Value in 10, 20, and 30 Years</h3>
+          <p class="lat-card-excerpt">See exactly how your ₹10,000 monthly SIP can grow to ₹23 lakh, ₹1 crore, or ₹3.5 crore depending on how long you stay invested.</p>
+          <div class="lat-card-meta">Jun 13, 2026 · 9 min read</div>
+          <span class="lat-card-cta">Read More →</span>
+        </div>
+      </a>
 
-    <!-- Previous article -->
-    <a href="blog.html#blog-epf-retirement-savings" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:1.1rem;background:var(--card-bg,#f8f8ff);border:1.5px solid var(--border,#e5e7eb);border-radius:14px;padding:.8rem 1.1rem;cursor:pointer;flex-wrap:wrap;transition:box-shadow .2s" onmouseover="this.style.boxShadow='0 4px 16px rgba(99,102,241,.09)'" onmouseout="this.style.boxShadow='none'">
-      <div style="border-radius:8px;width:2.2rem;height:2.2rem;overflow:hidden;flex-shrink:0">
-        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=80&q=75&auto=format&fit=crop" alt="EPF retirement savings" style="width:100%;height:100%;object-fit:cover" loading="lazy" width="35" height="35" />
-      </div>
-      <div style="flex:1;min-width:0">
-        <div style="font-size:.7rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;opacity:.45;margin-bottom:.15rem">Previous Article</div>
-        <div style="font-weight:600;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Ignoring Your EPF Balance? Experts Say This Could Hurt Your Retirement</div>
-        <div style="font-size:.75rem;opacity:.5;margin-top:.15rem">Raja Mahakul · Jun 12, 2026</div>
-      </div>
-    </a>
+      <!-- Card 2: Emergency Fund -->
+      <a href="blog.html#blog-emergency-fund-guide" class="lat-card">
+        <div class="lat-card-img">
+          <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=480&q=80&auto=format&fit=crop" alt="Emergency fund guide" loading="lazy" width="480" height="200" />
+        </div>
+        <div class="lat-card-body">
+          <span class="lat-card-tag" style="background:linear-gradient(135deg,#ef4444,#dc2626)">Savings</span>
+          <h3 class="lat-card-title">No Emergency Fund Yet? Advisors Warn This Could Be a Major Problem</h3>
+          <p class="lat-card-excerpt">Most Indian households are one layoff away from a debt spiral. Learn how much to save, where to keep it, and how to build it fast.</p>
+          <div class="lat-card-meta">Jun 12, 2026 · 8 min read</div>
+          <span class="lat-card-cta">Read More →</span>
+        </div>
+      </a>
 
-  </div>
+      <!-- Card 3: EPF -->
+      <a href="blog.html#blog-epf-retirement-savings" class="lat-card">
+        <div class="lat-card-img">
+          <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=480&q=80&auto=format&fit=crop" alt="EPF retirement savings" loading="lazy" width="480" height="200" />
+        </div>
+        <div class="lat-card-body">
+          <span class="lat-card-tag" style="background:linear-gradient(135deg,#f97316,#ea580c)">Retirement</span>
+          <h3 class="lat-card-title">Ignoring Your EPF Balance? Experts Say This Could Hurt Your Retirement</h3>
+          <p class="lat-card-excerpt">Millions of Indians never check their EPF — and it costs them dearly at retirement. Learn to track, transfer, and maximise your corpus.</p>
+          <div class="lat-card-meta">Jun 12, 2026 · 7 min read</div>
+          <span class="lat-card-cta">Read More →</span>
+        </div>
+      </a>
+
+      <!-- Card 4: Tax Regime -->
+      <a href="blog.html#blog-tax-regime-2026" class="lat-card">
+        <div class="lat-card-img lat-card-img-icon" style="background:linear-gradient(135deg,#6366f1 0%,#ec4899 100%)">
+          <span>📊</span>
+        </div>
+        <div class="lat-card-body">
+          <span class="lat-card-tag">Tax</span>
+          <h3 class="lat-card-title">Old vs New Tax Regime 2026: Which One Saves You More?</h3>
+          <p class="lat-card-excerpt">Budget 2025-26 made the New Regime more attractive. A side-by-side comparison of slabs, deductions, and real examples to help you decide.</p>
+          <div class="lat-card-meta">Jun 10, 2026 · 6 min read</div>
+          <span class="lat-card-cta">Read More →</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
 
   <!-- Calculator Cards Grid -->
   <section class="calc-section" id="calculators">
