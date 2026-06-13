@@ -706,6 +706,99 @@ a:hover { text-decoration: underline; }
   .calc-grid { grid-template-columns: 1fr; }
 }
 
+/* ═══════════════ MOBILE WHITESPACE FIXES ═══════════════
+   Desktop is unchanged. All reductions are mobile-only.
+   ═══════════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+
+  /* 1. CRITICAL: Remove forced full-viewport-height on every page.
+        Without this, even short pages occupy 100vh, leaving huge blank space. */
+  .page {
+    min-height: 0;
+  }
+
+  /* 2. Hero: reduce from 5rem top / 4rem bottom → 2rem / 1.5rem */
+  .hero {
+    padding: 2rem 1.25rem 1.5rem;
+  }
+
+  /* 3. Hero subtitle bottom margin: 2rem → 1.25rem */
+  .hero-subtitle {
+    margin-bottom: 1.25rem;
+  }
+
+  /* 4. Calc section: 3rem → 1.5rem top, 2rem bottom */
+  .calc-section {
+    padding: 1.5rem 1.25rem 2rem;
+  }
+
+  /* 5. Section header bottom margin: 2.5rem → 1.5rem */
+  .section-header {
+    margin-bottom: 1.5rem;
+  }
+
+  /* 6. Features strip: 3rem → 1.5rem vertical */
+  .features-strip {
+    padding: 1.5rem 1.25rem;
+    gap: 1.25rem;
+    margin-top: 1rem;
+  }
+
+  /* 7. Inner pages (About, Contact, FAQ, Legal): 3rem → 1.5rem vertical */
+  .inner-page {
+    padding: 1.5rem 1.25rem 2rem;
+  }
+
+  /* 8. Footer top margin: 4rem → 2rem */
+  .site-footer {
+    margin-top: 2rem;
+  }
+
+  /* 9. Footer inner padding */
+  .site-footer {
+    padding-top: 2rem;
+  }
+
+  /* 10. Ad slots: remove enforced min-height so empty/unloaded ads
+         don't reserve blank space. Loaded ads still expand naturally. */
+  .ad-slot > ins,
+  .ad-slot > span,
+  .ad-slot > div {
+    min-height: 0 !important;
+  }
+
+  /* Also tighten ad-slot margin */
+  .ad-slot {
+    margin: 0.5rem auto;
+  }
+
+  /* 11. Hero badge bottom margin: 1.2rem → 0.75rem */
+  .hero-badge {
+    margin-bottom: 0.75rem;
+  }
+
+  /* 12. Hero title bottom margin: 1rem → 0.6rem */
+  .hero-title {
+    margin-bottom: 0.6rem;
+  }
+
+  /* 13. Inner page h1 margin */
+  .inner-page h1 {
+    margin-bottom: 0.75rem;
+  }
+
+  /* 14. Inner page h2 top margin: 2rem → 1.25rem */
+  .inner-page h2 {
+    margin-top: 1.25rem;
+  }
+
+  /* 15. Blog strip tighter on mobile */
+  #blog-strip {
+    margin-bottom: 1rem !important;
+    padding: 0 0.75rem !important;
+  }
+}
+
 /* ─── Scrollbar ─── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
