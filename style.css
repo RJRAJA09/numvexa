@@ -798,6 +798,461 @@ a:hover { text-decoration: underline; }
   }
 }
 
+/* ═══════════════ COMPOUND INTEREST PAGE ═══════════════ */
+.ci-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 3rem;
+}
+
+/* ── Page Hero ── */
+.ci-hero {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+.ci-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--accent-glow);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.28rem 0.8rem;
+  border-radius: 999px;
+  margin-bottom: 0.9rem;
+  letter-spacing: 0.04em;
+}
+.ci-hero h1 {
+  font-size: clamp(1.7rem, 4vw, 2.6rem);
+  font-weight: 800;
+  margin-bottom: 0.6rem;
+  line-height: 1.2;
+}
+.ci-hero p {
+  font-size: 1rem;
+  color: var(--text2);
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* ── Main Layout ── */
+.ci-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* ── Calculator Card ── */
+.ci-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  box-shadow: var(--shadow);
+}
+.ci-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ── Form ── */
+.ci-form { display: flex; flex-direction: column; gap: 1.1rem; }
+
+.ci-form .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
+.ci-form label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text2);
+}
+
+.ci-input-wrap { position: relative; }
+.ci-input-prefix {
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+  color: var(--text3);
+  pointer-events: none;
+}
+.ci-input-suffix {
+  position: absolute;
+  right: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.82rem;
+  color: var(--text3);
+  pointer-events: none;
+}
+
+.ci-form input,
+.ci-form select {
+  width: 100%;
+  padding: 0.75rem 2.2rem 0.75rem 2rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg2);
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.97rem;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.ci-form input:focus,
+.ci-form select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+.ci-form input.input-error { border-color: var(--red); }
+
+.ci-form select { padding-left: 0.9rem; }
+
+.ci-error {
+  font-size: 0.78rem;
+  color: var(--red);
+  display: none;
+  margin-top: 0.1rem;
+}
+.ci-error.show { display: block; }
+
+/* Frequency chips */
+.ci-freq-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+.ci-freq-btn {
+  padding: 0.55rem 0.5rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text2);
+  font-family: 'Sora', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  text-align: center;
+}
+.ci-freq-btn:hover { border-color: var(--accent); color: var(--accent); }
+.ci-freq-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.ci-calc-btn {
+  margin-top: 0.25rem;
+  padding: 0.9rem;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'Sora', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity var(--transition), transform var(--transition);
+  letter-spacing: 0.02em;
+}
+.ci-calc-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+.ci-calc-btn:active { transform: translateY(0); }
+
+.ci-reset-btn {
+  padding: 0.65rem;
+  background: transparent;
+  color: var(--text3);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: 'Sora', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.ci-reset-btn:hover { border-color: var(--red); color: var(--red); }
+
+/* ── Results Panel ── */
+.ci-results {
+  display: none;
+  animation: fadeUp 0.35s ease both;
+}
+.ci-results.show { display: flex; flex-direction: column; gap: 1.25rem; }
+
+/* Maturity highlight */
+.ci-maturity-card {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 8px 32px rgba(99,102,241,0.28);
+}
+.ci-maturity-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-bottom: 0.4rem;
+}
+.ci-maturity-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* Breakdown stats */
+.ci-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+.ci-stat {
+  background: var(--bg2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+}
+.ci-stat-label {
+  font-size: 0.72rem;
+  color: var(--text3);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.3rem;
+}
+.ci-stat-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.ci-stat-value.green { color: var(--green); }
+.ci-stat-value.amber { color: var(--amber); }
+.ci-stat-value.accent { color: var(--accent); }
+
+/* Donut in results */
+.ci-donut-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+.ci-donut-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text3);
+  margin-bottom: 1rem;
+}
+
+/* Formula box in results */
+.ci-formula-card {
+  background: var(--bg2);
+  border: 1.5px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.1rem;
+}
+.ci-formula-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+}
+.ci-formula-card p {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.81rem;
+  color: var(--text2);
+  line-height: 1.7;
+  margin: 0;
+}
+.ci-formula-card p + p { margin-top: 0.3rem; }
+.ci-formula-card strong { color: var(--text); }
+
+/* ── Content Section ── */
+.ci-content-section {
+  margin-top: 3rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.ci-intro-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+.ci-intro-header h2 {
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  font-weight: 700;
+  margin: 0;
+}
+
+.ci-intro-text p {
+  color: var(--text2);
+  line-height: 1.8;
+  margin-bottom: 0.9rem;
+  font-size: 0.97rem;
+}
+.ci-intro-text p:last-child { margin-bottom: 0; }
+
+.ci-read-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1.25rem;
+  padding: 0.7rem 1.5rem;
+  background: var(--accent-glow);
+  border: 1.5px solid var(--accent);
+  border-radius: var(--radius-sm);
+  color: var(--accent);
+  font-family: 'Sora', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.ci-read-more-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+.ci-read-more-btn .ci-btn-arrow {
+  display: inline-block;
+  transition: transform 0.25s;
+}
+.ci-read-more-btn.expanded .ci-btn-arrow { transform: rotate(180deg); }
+
+/* ── Expandable Educational Content ── */
+.ci-edu-section {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ci-edu-section.open { max-height: 6000px; }
+
+.ci-edu-inner {
+  padding-top: 2rem;
+}
+
+.ci-edu-inner h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 2rem 0 0.6rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid var(--accent-glow);
+}
+.ci-edu-inner h2:first-child { margin-top: 0; }
+
+.ci-edu-inner h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 1.2rem 0 0.4rem;
+}
+
+.ci-edu-inner p {
+  color: var(--text2);
+  line-height: 1.8;
+  font-size: 0.95rem;
+  margin-bottom: 0.85rem;
+}
+
+.ci-edu-inner ul,
+.ci-edu-inner ol {
+  padding-left: 1.4rem;
+  margin-bottom: 1rem;
+}
+.ci-edu-inner li {
+  color: var(--text2);
+  line-height: 1.8;
+  font-size: 0.95rem;
+  margin-bottom: 0.35rem;
+}
+
+/* Comparison table */
+.ci-compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin: 1rem 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1.5px solid var(--border);
+}
+.ci-compare-table thead tr { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; }
+.ci-compare-table th { padding: 0.75rem 1rem; text-align: left; font-weight: 700; }
+.ci-compare-table td { padding: 0.65rem 1rem; border-bottom: 1px solid var(--border); }
+.ci-compare-table tbody tr:last-child td { border-bottom: none; }
+.ci-compare-table tbody tr:nth-child(even) { background: var(--bg2); }
+
+/* Example box */
+.ci-example-box {
+  background: var(--bg2);
+  border: 1.5px solid var(--border);
+  border-left: 3px solid var(--green);
+  border-radius: var(--radius-sm);
+  padding: 1.1rem 1.2rem;
+  margin: 1rem 0;
+}
+.ci-example-box strong { color: var(--text); }
+.ci-example-box p {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  margin-bottom: 0.3rem;
+}
+.ci-example-box p:last-child { margin-bottom: 0; }
+
+/* CI FAQ */
+.ci-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+
+/* ── Back button row ── */
+.ci-back-row {
+  margin-top: 2rem;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* ── Responsive ── */
+@media (max-width: 860px) {
+  .ci-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .ci-page {
+    padding: 1.25rem 1rem 2rem;
+  }
+  .ci-hero { margin-bottom: 1.5rem; }
+  .ci-card { padding: 1.25rem; }
+  .ci-stats-grid { grid-template-columns: 1fr 1fr; gap: 0.65rem; }
+  .ci-maturity-value { font-size: 1.8rem; }
+  .ci-content-section { margin-top: 2rem; padding-top: 1.75rem; }
+  .ci-edu-inner h2 { font-size: 1.1rem; }
+  .ci-compare-table { font-size: 0.82rem; }
+  .ci-compare-table th, .ci-compare-table td { padding: 0.55rem 0.7rem; }
+}
+
 /* ─── Scrollbar ─── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }

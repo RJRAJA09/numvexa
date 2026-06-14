@@ -82,7 +82,7 @@ function submitContact(e) {
 function openCalc(name) {
   const overlay = document.getElementById('modalOverlay');
   const body = document.getElementById('modalBody');
-  const builders = { emi, gst, salary, age, sip, pf, hra, gratuity, tax };
+  const builders = { emi, gst, salary, age, sip, pf, hra, gratuity, tax, ci: ciModal };
   if (!builders[name]) return;
   body.innerHTML = builders[name]();
   overlay.classList.add('active');
@@ -843,4 +843,223 @@ function calcTax() {
     <p>Total New Regime Tax = <strong>${fmt(newFinal)}</strong></p>
     <p style="margin-top:0.6rem;color:var(--green)">✅ <strong>${better}</strong> saves you <strong>${fmt(savings)}</strong></p>`;
   showResult('txResult');
+}
+
+/* ══════════════════════════════════════
+   10. COMPOUND INTEREST CALCULATOR
+══════════════════════════════════════ */
+
+function ciModal() {
+  return `
+    <h2>📊 Compound Interest Calculator</h2>
+    <div class="calc-form">
+      <div class="form-group">
+        <label>Principal Amount (₹)</label>
+        <input type="number" id="ciP" placeholder="e.g. 100000" min="1" inputmode="numeric" />
+        <span class="error-msg" id="ciErrP2"></span>
+      </div>
+      <div class="form-group">
+        <label>Annual Interest Rate (%)</label>
+        <input type="number" id="ciR" placeholder="e.g. 10" min="0.01" max="100" step="0.01" />
+        <span class="error-msg" id="ciErrR2"></span>
+      </div>
+      <div class="form-group">
+        <label>Time Period (Years)</label>
+        <input type="number" id="ciT" placeholder="e.g. 5" min="1" max="50" step="1" />
+        <span class="error-msg" id="ciErrT2"></span>
+      </div>
+      <div class="form-group">
+        <label>Compounding Frequency</label>
+        <div class="toggle-row">
+          <button class="toggle-btn active" data-n="1"  onclick="ciPickFreq(this)">Annually</button>
+          <button class="toggle-btn"         data-n="2"  onclick="ciPickFreq(this)">Half-Yearly</button>
+          <button class="toggle-btn"         data-n="4"  onclick="ciPickFreq(this)">Quarterly</button>
+          <button class="toggle-btn"         data-n="12" onclick="ciPickFreq(this)">Monthly</button>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcCIModal()">Calculate</button>
+    </div>
+    <div class="result-panel" id="ciResult">
+      <h3>Results</h3>
+      <div class="result-grid">
+        <div class="result-item"><span class="result-label">Maturity Amount</span><span class="result-value" id="rCiA">—</span></div>
+        <div class="result-item"><span class="result-label">Total Interest</span><span class="result-value green" id="rCiCI">—</span></div>
+        <div class="result-item"><span class="result-label">Principal Invested</span><span class="result-value amber" id="rCiP">—</span></div>
+        <div class="result-item"><span class="result-label">Effective Annual Rate</span><span class="result-value" id="rCiEAR">—</span></div>
+      </div>
+      <div id="rCiDonut"></div>
+      <div class="formula-box" id="rCiFormula"></div>
+    </div>`;
+}
+
+let ciModalN = 1;
+
+function ciPickFreq(btn) {
+  document.querySelectorAll('#calcModal .toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  ciModalN = parseInt(btn.getAttribute('data-n'), 10);
+}
+
+function calcCIModal() {
+  const P = parseFloat(document.getElementById('ciP').value);
+  const r = parseFloat(document.getElementById('ciR').value);
+  const t = parseFloat(document.getElementById('ciT').value);
+  const n = ciModalN;
+
+  // Clear previous errors
+  ['ciErrP2','ciErrR2','ciErrT2'].forEach(id => { const e = document.getElementById(id); if(e){e.textContent='';e.classList.remove('show');} });
+
+  let valid = true;
+  if (!P || P <= 0 || isNaN(P)) { showError('ciErrP2','Enter a valid principal amount.'); valid = false; }
+  if (!r || r <= 0 || r > 100 || isNaN(r)) { showError('ciErrR2','Enter a rate between 0.01% and 100%.'); valid = false; }
+  if (!t || t < 1 || t > 50 || isNaN(t)) { showError('ciErrT2','Enter a time period between 1 and 50 years.'); valid = false; }
+  if (!valid) return;
+
+  const rD = r / 100;
+  const A  = P * Math.pow(1 + rD / n, n * t);
+  const CI = A - P;
+  const EAR = (Math.pow(1 + rD / n, n) - 1) * 100;
+  const freqLabel = {1:'Annually',2:'Half-Yearly',4:'Quarterly',12:'Monthly'}[n] || n+'x/yr';
+
+  document.getElementById('rCiA').textContent   = fmt(A);
+  document.getElementById('rCiCI').textContent  = fmt(CI);
+  document.getElementById('rCiP').textContent   = fmt(P);
+  document.getElementById('rCiEAR').textContent = EAR.toFixed(3) + '%';
+  document.getElementById('rCiDonut').innerHTML = donut(P, CI);
+  document.getElementById('rCiFormula').innerHTML = `
+    <p><strong>A = P × (1 + r/n)^(n×t)</strong></p>
+    <p>A = ${fmt(P)} × (1 + ${(rD/n).toFixed(6)})^${n*t}</p>
+    <p>Maturity = <strong>${fmt(A)}</strong> | CI = <strong>${fmt(CI)}</strong></p>
+    <p>Frequency: ${freqLabel} (n=${n}) | EAR: ${EAR.toFixed(3)}%</p>`;
+  showResult('ciResult');
+}
+
+// Selected compounding frequency (n)
+let ciFreqN = 1;
+
+function selectFreq(btn) {
+  document.querySelectorAll('.ci-freq-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  ciFreqN = parseInt(btn.getAttribute('data-n'), 10);
+}
+
+function clearCIErrors() {
+  ['ciErrP', 'ciErrR', 'ciErrT'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.textContent = ''; el.classList.remove('show'); }
+  });
+  ['ciPrincipal', 'ciRate', 'ciTime'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('input-error');
+  });
+}
+
+function showCIError(fieldId, errId, msg) {
+  const errEl = document.getElementById(errId);
+  const inputEl = document.getElementById(fieldId);
+  if (errEl) { errEl.textContent = msg; errEl.classList.add('show'); }
+  if (inputEl) inputEl.classList.add('input-error');
+}
+
+function calcCI() {
+  clearCIErrors();
+
+  const P = parseFloat(document.getElementById('ciPrincipal').value);
+  const r = parseFloat(document.getElementById('ciRate').value);
+  const t = parseFloat(document.getElementById('ciTime').value);
+  const n = ciFreqN;
+
+  let valid = true;
+  if (!P || P <= 0 || isNaN(P)) { showCIError('ciPrincipal', 'ciErrP', 'Enter a valid principal amount.'); valid = false; }
+  if (!r || r <= 0 || r > 100 || isNaN(r)) { showCIError('ciRate', 'ciErrR', 'Enter a rate between 0.01% and 100%.'); valid = false; }
+  if (!t || t < 1 || t > 50 || isNaN(t)) { showCIError('ciTime', 'ciErrT', 'Enter a time period between 1 and 50 years.'); valid = false; }
+  if (!valid) return;
+
+  const rDecimal = r / 100;
+  const A = P * Math.pow(1 + rDecimal / n, n * t);
+  const CI = A - P;
+
+  // Effective Annual Rate
+  const EAR = (Math.pow(1 + rDecimal / n, n) - 1) * 100;
+
+  // Frequency label
+  const freqLabels = { 1: 'Annually', 2: 'Half-Yearly', 4: 'Quarterly', 12: 'Monthly' };
+  const freqLabel = freqLabels[n] || n + 'x/year';
+
+  // Update maturity display
+  document.getElementById('ciMaturity').textContent = fmt(A);
+  document.getElementById('ciPrinDisplay').textContent = fmt(P);
+  document.getElementById('ciInterest').textContent = fmt(CI);
+  document.getElementById('ciRatio').textContent = ((CI / P) * 100).toFixed(1) + '%';
+  document.getElementById('ciEAR').textContent = EAR.toFixed(3) + '%';
+
+  // Donut chart
+  const total = A;
+  const radius = 68, cx = 78, cy = 78;
+  const circ = 2 * Math.PI * radius;
+  const principalArc = (P / total) * circ;
+  const interestArc  = (CI / total) * circ;
+  document.getElementById('ciDonut').innerHTML = `
+    <div class="donut-wrap">
+      <svg class="donut-svg" width="156" height="156" viewBox="0 0 156 156">
+        <circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="var(--border)" stroke-width="20"/>
+        <circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="var(--accent)" stroke-width="20"
+          stroke-dasharray="${principalArc} ${circ}" stroke-dashoffset="0" stroke-linecap="round"/>
+        <circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="var(--green)" stroke-width="20"
+          stroke-dasharray="${interestArc} ${circ}" stroke-dashoffset="${-principalArc}" stroke-linecap="round"/>
+      </svg>
+      <div class="donut-legend">
+        <div class="donut-legend-item"><div class="donut-dot" style="background:var(--accent)"></div><span>Principal (${((P/total)*100).toFixed(1)}%)</span></div>
+        <div class="donut-legend-item"><div class="donut-dot" style="background:var(--green)"></div><span>Interest (${((CI/total)*100).toFixed(1)}%)</span></div>
+      </div>
+    </div>`;
+
+  // Formula explanation
+  document.getElementById('ciFormulaText').innerHTML =
+    `<strong>A = P × (1 + r/n)^(n×t)</strong><br>` +
+    `A = ${fmt(P)} × (1 + ${(rDecimal/n).toFixed(6)})^${n*t}<br>` +
+    `A = ${fmt(P)} × ${Math.pow(1 + rDecimal/n, n*t).toFixed(6)}<br>` +
+    `<strong>Maturity Amount = ${fmt(A)}</strong><br>` +
+    `<strong>Compound Interest = ${fmt(A)} − ${fmt(P)} = ${fmt(CI)}</strong><br>` +
+    `Frequency: ${freqLabel} (n=${n}) | EAR: ${EAR.toFixed(3)}%`;
+
+  // Show results, hide placeholder
+  const resultsEl = document.getElementById('ciResults');
+  const placeholderEl = document.getElementById('ciPlaceholder');
+  resultsEl.classList.add('show');
+  if (placeholderEl) placeholderEl.style.display = 'none';
+  resultsEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function resetCI() {
+  clearCIErrors();
+  document.getElementById('ciPrincipal').value = '';
+  document.getElementById('ciRate').value = '';
+  document.getElementById('ciTime').value = '';
+  // Reset frequency to Annually
+  ciFreqN = 1;
+  document.querySelectorAll('.ci-freq-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-n') === '1');
+  });
+  // Hide results, show placeholder
+  document.getElementById('ciResults').classList.remove('show');
+  const placeholder = document.getElementById('ciPlaceholder');
+  if (placeholder) placeholder.style.display = '';
+}
+
+function toggleCIReadMore() {
+  const section = document.getElementById('ciEduSection');
+  const btn = document.getElementById('ciReadMoreBtn');
+  const isOpen = section.classList.contains('open');
+  if (isOpen) {
+    section.classList.remove('open');
+    btn.classList.remove('expanded');
+    btn.querySelector('.ci-btn-arrow').textContent = '▼';
+    btn.childNodes[0].textContent = 'Read More ';
+  } else {
+    section.classList.add('open');
+    btn.classList.add('expanded');
+    btn.querySelector('.ci-btn-arrow').textContent = '▲';
+    btn.childNodes[0].textContent = 'Read Less ';
+  }
 }

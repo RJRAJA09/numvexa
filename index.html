@@ -394,6 +394,12 @@
 <p>Project SIP returns and total wealth gained over time.</p>
 <span class="card-badge">Investment</span>
 </div>
+<div class="calc-card" data-tags="compound interest ci maturity investment savings" onclick="openCalc('ci')">
+<div class="card-icon" style="background:linear-gradient(135deg,#6366f1,#ec4899)">📊</div>
+<h3>Compound Interest Calculator</h3>
+<p>Calculate maturity amount with annual, quarterly &amp; monthly compounding.</p>
+<span class="card-badge">Investment</span>
+</div>
 <div class="calc-card" data-tags="pf provident fund epf employee employer" onclick="openCalc('pf')">
 <div class="card-icon" style="background:linear-gradient(135deg,#f97316,#fb923c)">🏛️</div>
 <h3>PF Calculator</h3>
@@ -781,6 +787,269 @@
 </div>
 </div>
 </main>
+<!-- ═══════════════ PAGE: COMPOUND INTEREST ═══════════════ -->
+<main class="page" id="page-compound-interest">
+<div class="ci-page">
+
+  <!-- Hero -->
+  <div class="ci-hero">
+    <div class="ci-hero-badge">📊 Investment Calculator</div>
+    <h1>Compound Interest <span class="gradient-text">Calculator</span></h1>
+    <p>Calculate how your investment grows with the power of compounding — monthly, quarterly, or annually.</p>
+  </div>
+
+  <!-- Two-column layout -->
+  <div class="ci-layout">
+
+    <!-- Left: Input Form -->
+    <div class="ci-card">
+      <div class="ci-card-title">🔢 Enter Your Details</div>
+      <div class="ci-form">
+
+        <div class="form-group">
+          <label for="ciPrincipal">Principal Amount (₹)</label>
+          <div class="ci-input-wrap">
+            <span class="ci-input-prefix">₹</span>
+            <input type="number" id="ciPrincipal" placeholder="e.g. 100000" min="1" inputmode="numeric" />
+          </div>
+          <span class="ci-error" id="ciErrP"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="ciRate">Annual Interest Rate (%)</label>
+          <div class="ci-input-wrap">
+            <input type="number" id="ciRate" placeholder="e.g. 10" min="0.01" max="100" step="0.01" style="padding-left:0.85rem" />
+            <span class="ci-input-suffix">% p.a.</span>
+          </div>
+          <span class="ci-error" id="ciErrR"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="ciTime">Time Period (Years)</label>
+          <div class="ci-input-wrap">
+            <input type="number" id="ciTime" placeholder="e.g. 5" min="1" max="50" step="1" style="padding-left:0.85rem" />
+            <span class="ci-input-suffix">yrs</span>
+          </div>
+          <span class="ci-error" id="ciErrT"></span>
+        </div>
+
+        <div class="form-group">
+          <label>Compounding Frequency</label>
+          <div class="ci-freq-grid">
+            <button class="ci-freq-btn active" data-n="1" onclick="selectFreq(this)">Annually</button>
+            <button class="ci-freq-btn" data-n="2" onclick="selectFreq(this)">Half-Yearly</button>
+            <button class="ci-freq-btn" data-n="4" onclick="selectFreq(this)">Quarterly</button>
+            <button class="ci-freq-btn" data-n="12" onclick="selectFreq(this)">Monthly</button>
+          </div>
+        </div>
+
+        <button class="ci-calc-btn" onclick="calcCI()">📊 Calculate Now</button>
+        <button class="ci-reset-btn" onclick="resetCI()">↺ Reset</button>
+      </div>
+    </div>
+
+    <!-- Right: Results -->
+    <div>
+      <div class="ci-results" id="ciResults">
+
+        <!-- Maturity highlight -->
+        <div class="ci-maturity-card">
+          <div class="ci-maturity-label">Maturity Amount</div>
+          <div class="ci-maturity-value" id="ciMaturity">—</div>
+        </div>
+
+        <!-- Stats breakdown -->
+        <div class="ci-stats-grid">
+          <div class="ci-stat">
+            <div class="ci-stat-label">Principal Invested</div>
+            <div class="ci-stat-value accent" id="ciPrinDisplay">—</div>
+          </div>
+          <div class="ci-stat">
+            <div class="ci-stat-label">Total Interest Earned</div>
+            <div class="ci-stat-value green" id="ciInterest">—</div>
+          </div>
+          <div class="ci-stat">
+            <div class="ci-stat-label">Interest / Principal Ratio</div>
+            <div class="ci-stat-value amber" id="ciRatio">—</div>
+          </div>
+          <div class="ci-stat">
+            <div class="ci-stat-label">Effective Annual Rate</div>
+            <div class="ci-stat-value" id="ciEAR">—</div>
+          </div>
+        </div>
+
+        <!-- Donut chart -->
+        <div class="ci-donut-card">
+          <div class="ci-donut-title">Composition Breakdown</div>
+          <div id="ciDonut"></div>
+        </div>
+
+        <!-- Formula box -->
+        <div class="ci-formula-card">
+          <div class="ci-formula-title">Formula Used</div>
+          <p id="ciFormulaText"></p>
+        </div>
+
+      </div>
+
+      <!-- Placeholder when no result yet -->
+      <div class="ci-card" id="ciPlaceholder" style="text-align:center;padding:2.5rem 1.5rem;color:var(--text3)">
+        <div style="font-size:3rem;margin-bottom:0.75rem">📈</div>
+        <div style="font-weight:700;font-size:1rem;color:var(--text2);margin-bottom:0.4rem">Results appear here</div>
+        <div style="font-size:0.88rem">Fill in the inputs on the left and click <strong style="color:var(--accent)">Calculate Now</strong></div>
+      </div>
+    </div>
+
+  </div><!-- /ci-layout -->
+
+  <!-- ── Content Section ── -->
+  <section class="ci-content-section">
+    <div class="ci-intro-header">
+      <h2>What is Compound Interest?</h2>
+    </div>
+
+    <div class="ci-intro-text">
+      <p>Compound interest is the process of earning interest on both your original principal <em>and</em> the interest you've already accumulated. Unlike simple interest — which pays only on the original sum — compounding means your money earns returns on an ever-growing base, leading to exponential rather than linear growth over time.</p>
+      <p>Albert Einstein reportedly called compound interest the "eighth wonder of the world," and with good reason. A one-time investment of ₹1 lakh at 10% compounded annually will grow to nearly ₹6.73 lakh in 20 years — that's ₹5.73 lakh of pure interest, almost 6× the original investment, without adding a single rupee.</p>
+      <p>In India, compounding is the backbone of instruments like Fixed Deposits (FDs), Public Provident Fund (PPF), National Savings Certificate (NSC), Recurring Deposits, and equity mutual funds through SIP. Understanding how to calculate and compare compounding frequencies helps you make smarter investment choices and maximise your wealth-building potential.</p>
+    </div>
+
+    <button class="ci-read-more-btn" id="ciReadMoreBtn" onclick="toggleCIReadMore()">
+      Read More <span class="ci-btn-arrow">▼</span>
+    </button>
+
+    <!-- Expandable educational section -->
+    <div class="ci-edu-section" id="ciEduSection">
+      <div class="ci-edu-inner">
+
+        <h2>How Compound Interest Works</h2>
+        <p>Compound interest works by reinvesting the interest earned at the end of each compounding period back into the principal. So in the next period, you earn interest on a larger amount. The shorter the compounding period — monthly vs. annually — the more frequently this reinvestment happens, and the faster your money grows.</p>
+        <p>For example, ₹1 lakh at 12% compounded <strong>annually</strong> gives you ₹1,12,000 after year one. But at 12% compounded <strong>monthly</strong> (1% per month), you'd have ₹1,12,682 — ₹682 more, simply because interest was computed 12 times instead of once.</p>
+
+        <h2>Compound Interest Formula Explanation</h2>
+        <p>The standard compound interest formula is:</p>
+        <div class="ci-example-box">
+          <p><strong>A = P × (1 + r/n)^(n×t)</strong></p>
+          <p>Where:</p>
+          <p>A = Maturity Amount (future value)</p>
+          <p>P = Principal Amount (initial investment)</p>
+          <p>r = Annual Interest Rate (as a decimal, e.g. 10% = 0.10)</p>
+          <p>n = Number of times interest compounds per year</p>
+          <p>t = Time Period in years</p>
+          <p><strong>Compound Interest (CI) = A – P</strong></p>
+        </div>
+        <p>The key insight is the exponent <strong>n×t</strong> — the total number of compounding periods. Increasing either n (frequency) or t (time) dramatically amplifies growth due to the exponential nature of the formula.</p>
+
+        <h2>Step-by-Step Example</h2>
+        <p>Let's calculate compound interest on a ₹2,00,000 investment at 8% per annum compounded quarterly for 3 years.</p>
+        <div class="ci-example-box">
+          <p><strong>Given:</strong> P = ₹2,00,000 | r = 8% = 0.08 | n = 4 (quarterly) | t = 3 years</p>
+          <p><strong>Step 1:</strong> Rate per period = r/n = 0.08/4 = 0.02 (2% per quarter)</p>
+          <p><strong>Step 2:</strong> Total periods = n×t = 4×3 = 12</p>
+          <p><strong>Step 3:</strong> A = 2,00,000 × (1 + 0.02)^12</p>
+          <p><strong>Step 4:</strong> A = 2,00,000 × (1.02)^12 = 2,00,000 × 1.2682</p>
+          <p><strong>Result: A = ₹2,53,647 | CI = ₹53,647</strong></p>
+        </div>
+
+        <h2>Benefits of Compound Interest</h2>
+        <ul>
+          <li><strong>Exponential growth:</strong> Returns accelerate over time — the longer you invest, the faster your corpus grows.</li>
+          <li><strong>Wealth multiplier:</strong> Even modest, consistent savings can build significant wealth over 10–30 year horizons.</li>
+          <li><strong>Inflation beating:</strong> At higher compounding frequencies, your effective annual returns exceed the nominal rate.</li>
+          <li><strong>Passive income:</strong> Your money works for you 24/7 without any active effort once invested.</li>
+          <li><strong>Reinvestment effect:</strong> Dividends and interest automatically get reinvested in instruments like ELSS and FDs.</li>
+          <li><strong>Early-start advantage:</strong> Starting 5 years earlier can double your final corpus, thanks to the power of exponents.</li>
+        </ul>
+
+        <h2>Simple Interest vs Compound Interest</h2>
+        <p>The fundamental difference: Simple Interest (SI) calculates returns only on the original principal every year, while Compound Interest (CI) calculates returns on the growing balance — principal plus accumulated interest.</p>
+        <div style="overflow-x:auto;margin:1rem 0">
+        <table class="ci-compare-table">
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Simple Interest</th>
+              <th>Compound Interest</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Interest Basis</td><td>Original Principal</td><td>Principal + Accumulated Interest</td></tr>
+            <tr><td>Growth Type</td><td>Linear</td><td>Exponential</td></tr>
+            <tr><td>Formula</td><td>SI = P × r × t</td><td>A = P × (1 + r/n)^(n×t)</td></tr>
+            <tr><td>₹1L @ 10% for 10 yrs</td><td>₹1,00,000 interest</td><td>₹1,59,374 interest</td></tr>
+            <tr><td>Best for</td><td>Short-term loans</td><td>Long-term investments</td></tr>
+            <tr><td>Where used</td><td>Car loans, personal loans</td><td>FD, PPF, mutual funds</td></tr>
+          </tbody>
+        </table>
+        </div>
+
+        <h2>Common Mistakes to Avoid</h2>
+        <ul>
+          <li><strong>Ignoring compounding frequency:</strong> A 10% FD compounded monthly gives more than 10% compounded annually. Always compare APY (Annual Percentage Yield), not just the nominal rate.</li>
+          <li><strong>Withdrawing interest early:</strong> Taking out interest defeats compounding. Let it accumulate to harness exponential growth.</li>
+          <li><strong>Short time horizons:</strong> Compounding really shines after 10+ years. Starting late — even by 5 years — can cost lakhs in lost returns.</li>
+          <li><strong>Not accounting for inflation:</strong> A 7% FD during 6% inflation delivers only ~1% real return. Always compare against inflation.</li>
+          <li><strong>Ignoring tax on interest:</strong> FD interest is fully taxable. Post-tax returns may be significantly lower. Consider tax-efficient instruments like PPF or ELSS.</li>
+          <li><strong>Overestimating equity returns:</strong> Mutual fund returns are not guaranteed. Use conservative rates (10–12%) for long-term equity projections.</li>
+        </ul>
+
+        <h2>Investment Tips for Maximising Compound Returns</h2>
+        <ul>
+          <li>🕐 <strong>Start early:</strong> The first 5–10 years matter most. Even small amounts invested at 25 outperform large amounts invested at 35.</li>
+          <li>🔁 <strong>Reinvest everything:</strong> Opt for cumulative FDs over non-cumulative ones. Choose growth plans in mutual funds over dividend plans.</li>
+          <li>📆 <strong>Choose higher compounding frequency:</strong> Monthly or quarterly compounding beats annual compounding at the same nominal rate.</li>
+          <li>📊 <strong>Use SIPs for equity:</strong> Systematic Investment Plans (SIPs) in equity mutual funds combine the benefits of rupee-cost averaging with compounding.</li>
+          <li>🏦 <strong>PPF for tax-free compounding:</strong> Public Provident Fund offers EEE (Exempt-Exempt-Exempt) tax status — contributions, returns, and withdrawals are all tax-free.</li>
+          <li>💳 <strong>Avoid compound interest on debt:</strong> Credit card debt compounds monthly at 24–48% p.a. Pay off high-interest debt before investing.</li>
+          <li>🔒 <strong>Lock in for longer:</strong> Longer lock-ins (5-year FDs, PPF) prevent premature withdrawal and let compounding work uninterrupted.</li>
+        </ul>
+
+        <h2>Frequently Asked Questions</h2>
+        <div class="ci-faq-list">
+          <details class="faq-item">
+            <summary>What is the difference between nominal rate and effective annual rate (EAR)?</summary>
+            <p>The nominal rate is the stated annual interest rate (e.g. 12%). The Effective Annual Rate (EAR) accounts for compounding frequency and shows the true yearly return. For 12% compounded monthly, EAR = (1 + 0.12/12)^12 – 1 = 12.68%. The more frequently interest compounds, the higher the EAR relative to the nominal rate.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Which compounding frequency gives the highest returns?</summary>
+            <p>More frequent compounding always yields higher returns at the same nominal rate. The order from lowest to highest return is: Annually → Half-Yearly → Quarterly → Monthly → Daily → Continuously. However, the difference diminishes at higher frequencies. Monthly vs quarterly compounding at 10% for 10 years differs by less than 0.5% in final value.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Does PPF use compound interest?</summary>
+            <p>Yes. PPF interest is calculated monthly on the minimum balance between the 5th and last day of each month, but it is credited annually at the end of each financial year (March 31). The current PPF interest rate is 7.1% per annum (compounded annually). Over a 15-year lock-in, ₹1.5 lakh invested annually can grow to approximately ₹40 lakh.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Is interest on Fixed Deposits compound interest?</summary>
+            <p>Cumulative FDs use compound interest — the interest is added to the principal quarterly (as per RBI guidelines for most banks) and the combined amount earns interest in subsequent quarters. Non-cumulative FDs pay out interest at regular intervals (monthly, quarterly, or annually), so only the principal earns interest — effectively simple interest from the investor's perspective.</p>
+          </details>
+          <details class="faq-item">
+            <summary>How does the Rule of 72 relate to compound interest?</summary>
+            <p>The Rule of 72 is a quick mental shortcut for compound interest. Divide 72 by the annual interest rate to estimate how many years it takes to double your money. For example, at 8% p.a., your investment doubles in roughly 72/8 = 9 years. At 12% p.a., it doubles in about 6 years. This rule works best for rates between 6% and 20%.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Can compound interest work against you?</summary>
+            <p>Absolutely. Compound interest is a double-edged sword — it accelerates wealth accumulation on investments but exponentially increases debt burden on loans. Credit card debt at 40% p.a. compounded monthly can more than double in under 2 years if only minimum payments are made. This is why paying off high-interest debt should always precede investing for most individuals.</p>
+          </details>
+          <details class="faq-item">
+            <summary>What is continuous compounding and does it matter?</summary>
+            <p>Continuous compounding is the theoretical maximum — interest is calculated and added at every infinitesimally small moment. The formula is A = P × e^(r×t) where e ≈ 2.71828. In practice, no Indian bank offers continuous compounding. Monthly compounding is the most frequent you'll encounter for retail products, and the difference from continuous compounding at typical rates is less than 0.1% annually.</p>
+          </details>
+        </div>
+
+      </div><!-- /ci-edu-inner -->
+    </div><!-- /ci-edu-section -->
+
+  </section><!-- /ci-content-section -->
+
+  <!-- Back row -->
+  <div class="ci-back-row">
+    <button class="btn-secondary" onclick="showPage('home')">← Back to Home</button>
+    <button class="btn-primary" onclick="openCalc('sip')">📈 Try SIP Calculator</button>
+    <button class="btn-primary" onclick="openCalc('emi')">🏦 Try EMI Calculator</button>
+  </div>
+
+</div><!-- /ci-page -->
+</main>
 <!-- ═══════════════ CALCULATOR MODAL ═══════════════ -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeCalc(event)">
 <div aria-modal="true" class="modal" id="calcModal" role="dialog">
@@ -803,6 +1072,7 @@
 <a href="#" onclick="openCalc('gst')">GST Calculator</a>
 <a href="#" onclick="openCalc('sip')">SIP Calculator</a>
 <a href="#" onclick="openCalc('tax')">Income Tax</a>
+<a href="#" onclick="showPage('compound-interest')">Compound Interest</a>
 </div>
 <div class="footer-links">
 <h4>Company</h4>
@@ -842,6 +1112,39 @@
 }
 </script>
 <script src="script.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the difference between nominal rate and effective annual rate (EAR)?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The nominal rate is the stated annual interest rate. The Effective Annual Rate (EAR) accounts for compounding frequency and shows the true yearly return. For 12% compounded monthly, EAR = (1 + 0.12/12)^12 – 1 = 12.68%." }
+    },
+    {
+      "@type": "Question",
+      "name": "Which compounding frequency gives the highest returns?",
+      "acceptedAnswer": { "@type": "Answer", "text": "More frequent compounding always yields higher returns at the same nominal rate. The order from lowest to highest return is: Annually → Half-Yearly → Quarterly → Monthly → Daily → Continuously." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does PPF use compound interest?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. PPF interest is calculated monthly but credited annually at the end of each financial year. The current PPF interest rate is 7.1% per annum compounded annually." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is interest on Fixed Deposits compound interest?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Cumulative FDs use compound interest — interest is added quarterly to the principal per RBI guidelines. Non-cumulative FDs pay out interest periodically, effectively acting like simple interest from the investor's perspective." }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the Rule of 72 relate to compound interest?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Divide 72 by the annual interest rate to estimate how many years it takes to double your money. At 8% p.a., your investment doubles in roughly 9 years. At 12% p.a., it doubles in about 6 years." }
+    }
+  ]
+}
+</script>
 <script>
 /* Blog page routing — runs AFTER script.js so it correctly wraps showPage */
 (function(){
