@@ -81,7 +81,7 @@ function submitContact(e) {
 /* ═══════════════ MODAL ═══════════════ */
 function openCalc(name) {
   const overlay = document.getElementById('modalOverlay');
-  const body = document.getElementById('modalBody');
+  const body    = document.getElementById('modalBody');
   const builders = { emi, gst, salary, age, sip, pf, hra, gratuity, tax, ci: ciModal };
   if (!builders[name]) return;
   body.innerHTML = builders[name]();
@@ -849,7 +849,11 @@ function calcTax() {
    10. COMPOUND INTEREST CALCULATOR
 ══════════════════════════════════════ */
 
+/* ── Modal version (popup) ── */
+var ciModalN = 1;
+
 function ciModal() {
+  ciModalN = 1; // reset frequency on each open
   return `
     <h2>📊 Compound Interest Calculator</h2>
     <div class="calc-form">
@@ -872,9 +876,9 @@ function ciModal() {
         <label>Compounding Frequency</label>
         <div class="toggle-row">
           <button class="toggle-btn active" data-n="1"  onclick="ciPickFreq(this)">Annually</button>
-          <button class="toggle-btn"         data-n="2"  onclick="ciPickFreq(this)">Half-Yearly</button>
-          <button class="toggle-btn"         data-n="4"  onclick="ciPickFreq(this)">Quarterly</button>
-          <button class="toggle-btn"         data-n="12" onclick="ciPickFreq(this)">Monthly</button>
+          <button class="toggle-btn"        data-n="2"  onclick="ciPickFreq(this)">Half-Yearly</button>
+          <button class="toggle-btn"        data-n="4"  onclick="ciPickFreq(this)">Quarterly</button>
+          <button class="toggle-btn"        data-n="12" onclick="ciPickFreq(this)">Monthly</button>
         </div>
       </div>
       <button class="calc-btn" onclick="calcCIModal()">Calculate</button>
@@ -892,174 +896,152 @@ function ciModal() {
     </div>`;
 }
 
-let ciModalN = 1;
-
 function ciPickFreq(btn) {
-  document.querySelectorAll('#calcModal .toggle-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#calcModal .toggle-btn').forEach(function(b){ b.classList.remove('active'); });
   btn.classList.add('active');
   ciModalN = parseInt(btn.getAttribute('data-n'), 10);
 }
 
 function calcCIModal() {
-  const P = parseFloat(document.getElementById('ciP').value);
-  const r = parseFloat(document.getElementById('ciR').value);
-  const t = parseFloat(document.getElementById('ciT').value);
-  const n = ciModalN;
+  var P = parseFloat(document.getElementById('ciP').value);
+  var r = parseFloat(document.getElementById('ciR').value);
+  var t = parseFloat(document.getElementById('ciT').value);
+  var n = ciModalN;
 
-  // Clear previous errors
-  ['ciErrP2','ciErrR2','ciErrT2'].forEach(id => { const e = document.getElementById(id); if(e){e.textContent='';e.classList.remove('show');} });
+  ['ciErrP2','ciErrR2','ciErrT2'].forEach(function(id){
+    var e = document.getElementById(id);
+    if (e) { e.textContent = ''; e.classList.remove('show'); }
+  });
 
-  let valid = true;
-  if (!P || P <= 0 || isNaN(P)) { showError('ciErrP2','Enter a valid principal amount.'); valid = false; }
-  if (!r || r <= 0 || r > 100 || isNaN(r)) { showError('ciErrR2','Enter a rate between 0.01% and 100%.'); valid = false; }
-  if (!t || t < 1 || t > 50 || isNaN(t)) { showError('ciErrT2','Enter a time period between 1 and 50 years.'); valid = false; }
+  var valid = true;
+  if (!P || P <= 0 || isNaN(P))           { showError('ciErrP2', 'Enter a valid principal amount.'); valid = false; }
+  if (!r || r <= 0 || r > 100 || isNaN(r)){ showError('ciErrR2', 'Enter a rate between 0.01% and 100%.'); valid = false; }
+  if (!t || t < 1  || t > 50  || isNaN(t)){ showError('ciErrT2', 'Enter a time period between 1 and 50 years.'); valid = false; }
   if (!valid) return;
 
-  const rD = r / 100;
-  const A  = P * Math.pow(1 + rD / n, n * t);
-  const CI = A - P;
-  const EAR = (Math.pow(1 + rD / n, n) - 1) * 100;
-  const freqLabel = {1:'Annually',2:'Half-Yearly',4:'Quarterly',12:'Monthly'}[n] || n+'x/yr';
+  var rD  = r / 100;
+  var A   = P * Math.pow(1 + rD / n, n * t);
+  var CI  = A - P;
+  var EAR = (Math.pow(1 + rD / n, n) - 1) * 100;
+  var freqLabel = ({1:'Annually',2:'Half-Yearly',4:'Quarterly',12:'Monthly'})[n] || n+'x/yr';
 
   document.getElementById('rCiA').textContent   = fmt(A);
   document.getElementById('rCiCI').textContent  = fmt(CI);
   document.getElementById('rCiP').textContent   = fmt(P);
   document.getElementById('rCiEAR').textContent = EAR.toFixed(3) + '%';
   document.getElementById('rCiDonut').innerHTML = donut(P, CI);
-  document.getElementById('rCiFormula').innerHTML = `
-    <p><strong>A = P × (1 + r/n)^(n×t)</strong></p>
-    <p>A = ${fmt(P)} × (1 + ${(rD/n).toFixed(6)})^${n*t}</p>
-    <p>Maturity = <strong>${fmt(A)}</strong> | CI = <strong>${fmt(CI)}</strong></p>
-    <p>Frequency: ${freqLabel} (n=${n}) | EAR: ${EAR.toFixed(3)}%</p>`;
+  document.getElementById('rCiFormula').innerHTML =
+    '<p><strong>A = P \xd7 (1 + r/n)^(n\xd7t)</strong></p>' +
+    '<p>A = ' + fmt(P) + ' \xd7 (1 + ' + (rD/n).toFixed(6) + ')^' + (n*t) + '</p>' +
+    '<p>Maturity = <strong>' + fmt(A) + '</strong> | CI = <strong>' + fmt(CI) + '</strong></p>' +
+    '<p>Frequency: ' + freqLabel + ' (n=' + n + ') | EAR: ' + EAR.toFixed(3) + '%</p>';
   showResult('ciResult');
 }
 
-// Selected compounding frequency (n)
-let ciFreqN = 1;
+/* ── Full-page version (page-compound-interest) ── */
+var ciFreqN = 1;
 
 function selectFreq(btn) {
-  document.querySelectorAll('.ci-freq-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.ci-freq-btn').forEach(function(b){ b.classList.remove('active'); });
   btn.classList.add('active');
   ciFreqN = parseInt(btn.getAttribute('data-n'), 10);
 }
 
-function clearCIErrors() {
-  ['ciErrP', 'ciErrR', 'ciErrT'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) { el.textContent = ''; el.classList.remove('show'); }
-  });
-  ['ciPrincipal', 'ciRate', 'ciTime'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.classList.remove('input-error');
-  });
-}
-
-function showCIError(fieldId, errId, msg) {
-  const errEl = document.getElementById(errId);
-  const inputEl = document.getElementById(fieldId);
-  if (errEl) { errEl.textContent = msg; errEl.classList.add('show'); }
-  if (inputEl) inputEl.classList.add('input-error');
-}
-
 function calcCI() {
-  clearCIErrors();
+  ['ciErrP','ciErrR','ciErrT'].forEach(function(id){
+    var e = document.getElementById(id);
+    if (e) { e.textContent = ''; e.classList.remove('show'); }
+  });
+  ['ciPrincipal','ciRate','ciTime'].forEach(function(id){
+    var e = document.getElementById(id);
+    if (e) e.classList.remove('input-error');
+  });
 
-  const P = parseFloat(document.getElementById('ciPrincipal').value);
-  const r = parseFloat(document.getElementById('ciRate').value);
-  const t = parseFloat(document.getElementById('ciTime').value);
-  const n = ciFreqN;
+  var P = parseFloat(document.getElementById('ciPrincipal').value);
+  var r = parseFloat(document.getElementById('ciRate').value);
+  var t = parseFloat(document.getElementById('ciTime').value);
+  var n = ciFreqN;
+  var valid = true;
 
-  let valid = true;
-  if (!P || P <= 0 || isNaN(P)) { showCIError('ciPrincipal', 'ciErrP', 'Enter a valid principal amount.'); valid = false; }
-  if (!r || r <= 0 || r > 100 || isNaN(r)) { showCIError('ciRate', 'ciErrR', 'Enter a rate between 0.01% and 100%.'); valid = false; }
-  if (!t || t < 1 || t > 50 || isNaN(t)) { showCIError('ciTime', 'ciErrT', 'Enter a time period between 1 and 50 years.'); valid = false; }
+  function ciErr(fid, eid, msg){
+    var fe = document.getElementById(fid); if(fe) fe.classList.add('input-error');
+    var ee = document.getElementById(eid); if(ee){ ee.textContent=msg; ee.classList.add('show'); }
+  }
+  if (!P || P <= 0 || isNaN(P))            { ciErr('ciPrincipal','ciErrP','Enter a valid principal amount.'); valid=false; }
+  if (!r || r <= 0 || r > 100 || isNaN(r)) { ciErr('ciRate','ciErrR','Enter a rate between 0.01% and 100%.'); valid=false; }
+  if (!t || t < 1  || t > 50  || isNaN(t)) { ciErr('ciTime','ciErrT','Enter a time period between 1 and 50 years.'); valid=false; }
   if (!valid) return;
 
-  const rDecimal = r / 100;
-  const A = P * Math.pow(1 + rDecimal / n, n * t);
-  const CI = A - P;
+  var rD  = r / 100;
+  var A   = P * Math.pow(1 + rD / n, n * t);
+  var CI  = A - P;
+  var EAR = (Math.pow(1 + rD / n, n) - 1) * 100;
+  var freqLabels = {1:'Annually',2:'Half-Yearly',4:'Quarterly',12:'Monthly'};
+  var freqLabel  = freqLabels[n] || n+'x/year';
+  var total = A;
+  var circ  = 2 * Math.PI * 68;
+  var pArc  = (P / total) * circ;
+  var iArc  = (CI/ total) * circ;
 
-  // Effective Annual Rate
-  const EAR = (Math.pow(1 + rDecimal / n, n) - 1) * 100;
-
-  // Frequency label
-  const freqLabels = { 1: 'Annually', 2: 'Half-Yearly', 4: 'Quarterly', 12: 'Monthly' };
-  const freqLabel = freqLabels[n] || n + 'x/year';
-
-  // Update maturity display
-  document.getElementById('ciMaturity').textContent = fmt(A);
+  document.getElementById('ciMaturity').textContent    = fmt(A);
   document.getElementById('ciPrinDisplay').textContent = fmt(P);
-  document.getElementById('ciInterest').textContent = fmt(CI);
-  document.getElementById('ciRatio').textContent = ((CI / P) * 100).toFixed(1) + '%';
-  document.getElementById('ciEAR').textContent = EAR.toFixed(3) + '%';
+  document.getElementById('ciInterest').textContent    = fmt(CI);
+  document.getElementById('ciRatio').textContent       = ((CI/P)*100).toFixed(1) + '%';
+  document.getElementById('ciEAR').textContent         = EAR.toFixed(3) + '%';
 
-  // Donut chart
-  const total = A;
-  const radius = 68, cx = 78, cy = 78;
-  const circ = 2 * Math.PI * radius;
-  const principalArc = (P / total) * circ;
-  const interestArc  = (CI / total) * circ;
-  document.getElementById('ciDonut').innerHTML = `
-    <div class="donut-wrap">
-      <svg class="donut-svg" width="156" height="156" viewBox="0 0 156 156">
-        <circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="var(--border)" stroke-width="20"/>
-        <circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="var(--accent)" stroke-width="20"
-          stroke-dasharray="${principalArc} ${circ}" stroke-dashoffset="0" stroke-linecap="round"/>
-        <circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="var(--green)" stroke-width="20"
-          stroke-dasharray="${interestArc} ${circ}" stroke-dashoffset="${-principalArc}" stroke-linecap="round"/>
-      </svg>
-      <div class="donut-legend">
-        <div class="donut-legend-item"><div class="donut-dot" style="background:var(--accent)"></div><span>Principal (${((P/total)*100).toFixed(1)}%)</span></div>
-        <div class="donut-legend-item"><div class="donut-dot" style="background:var(--green)"></div><span>Interest (${((CI/total)*100).toFixed(1)}%)</span></div>
-      </div>
-    </div>`;
+  document.getElementById('ciDonut').innerHTML =
+    '<div class="donut-wrap">' +
+    '<svg class="donut-svg" width="156" height="156" viewBox="0 0 156 156">' +
+    '<circle cx="78" cy="78" r="68" fill="none" stroke="var(--border)" stroke-width="20"/>' +
+    '<circle cx="78" cy="78" r="68" fill="none" stroke="var(--accent)" stroke-width="20" stroke-dasharray="' + pArc + ' ' + circ + '" stroke-dashoffset="0" stroke-linecap="round"/>' +
+    '<circle cx="78" cy="78" r="68" fill="none" stroke="var(--green)"  stroke-width="20" stroke-dasharray="' + iArc + ' ' + circ + '" stroke-dashoffset="' + (-pArc) + '" stroke-linecap="round"/>' +
+    '</svg>' +
+    '<div class="donut-legend">' +
+    '<div class="donut-legend-item"><div class="donut-dot" style="background:var(--accent)"></div><span>Principal (' + ((P/total)*100).toFixed(1) + '%)</span></div>' +
+    '<div class="donut-legend-item"><div class="donut-dot" style="background:var(--green)"></div><span>Interest (' + ((CI/total)*100).toFixed(1) + '%)</span></div>' +
+    '</div></div>';
 
-  // Formula explanation
   document.getElementById('ciFormulaText').innerHTML =
-    `<strong>A = P × (1 + r/n)^(n×t)</strong><br>` +
-    `A = ${fmt(P)} × (1 + ${(rDecimal/n).toFixed(6)})^${n*t}<br>` +
-    `A = ${fmt(P)} × ${Math.pow(1 + rDecimal/n, n*t).toFixed(6)}<br>` +
-    `<strong>Maturity Amount = ${fmt(A)}</strong><br>` +
-    `<strong>Compound Interest = ${fmt(A)} − ${fmt(P)} = ${fmt(CI)}</strong><br>` +
-    `Frequency: ${freqLabel} (n=${n}) | EAR: ${EAR.toFixed(3)}%`;
+    '<strong>A = P \xd7 (1 + r/n)^(n\xd7t)</strong><br>' +
+    'A = ' + fmt(P) + ' \xd7 (1 + ' + (rD/n).toFixed(6) + ')^' + (n*t) + '<br>' +
+    'A = ' + fmt(P) + ' \xd7 ' + Math.pow(1+rD/n, n*t).toFixed(6) + '<br>' +
+    '<strong>Maturity = ' + fmt(A) + '</strong><br>' +
+    '<strong>CI = ' + fmt(A) + ' \u2212 ' + fmt(P) + ' = ' + fmt(CI) + '</strong><br>' +
+    'Frequency: ' + freqLabel + ' (n=' + n + ') | EAR: ' + EAR.toFixed(3) + '%';
 
-  // Show results, hide placeholder
-  const resultsEl = document.getElementById('ciResults');
-  const placeholderEl = document.getElementById('ciPlaceholder');
+  var resultsEl = document.getElementById('ciResults');
+  var phEl      = document.getElementById('ciPlaceholder');
   resultsEl.classList.add('show');
-  if (placeholderEl) placeholderEl.style.display = 'none';
+  if (phEl) phEl.style.display = 'none';
   resultsEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function resetCI() {
-  clearCIErrors();
-  document.getElementById('ciPrincipal').value = '';
-  document.getElementById('ciRate').value = '';
-  document.getElementById('ciTime').value = '';
-  // Reset frequency to Annually
+  ['ciPrincipal','ciRate','ciTime'].forEach(function(id){
+    var e = document.getElementById(id); if(e) e.value = '';
+  });
   ciFreqN = 1;
-  document.querySelectorAll('.ci-freq-btn').forEach(b => {
+  document.querySelectorAll('.ci-freq-btn').forEach(function(b){
     b.classList.toggle('active', b.getAttribute('data-n') === '1');
   });
-  // Hide results, show placeholder
   document.getElementById('ciResults').classList.remove('show');
-  const placeholder = document.getElementById('ciPlaceholder');
-  if (placeholder) placeholder.style.display = '';
+  var ph = document.getElementById('ciPlaceholder');
+  if (ph) ph.style.display = '';
 }
 
 function toggleCIReadMore() {
-  const section = document.getElementById('ciEduSection');
-  const btn = document.getElementById('ciReadMoreBtn');
-  const isOpen = section.classList.contains('open');
+  var section = document.getElementById('ciEduSection');
+  var btn     = document.getElementById('ciReadMoreBtn');
+  var isOpen  = section.classList.contains('open');
   if (isOpen) {
     section.classList.remove('open');
     btn.classList.remove('expanded');
-    btn.querySelector('.ci-btn-arrow').textContent = '▼';
+    btn.querySelector('.ci-btn-arrow').textContent = '\u25bc';
     btn.childNodes[0].textContent = 'Read More ';
   } else {
     section.classList.add('open');
     btn.classList.add('expanded');
-    btn.querySelector('.ci-btn-arrow').textContent = '▲';
+    btn.querySelector('.ci-btn-arrow').textContent = '\u25b2';
     btn.childNodes[0].textContent = 'Read Less ';
   }
 }
