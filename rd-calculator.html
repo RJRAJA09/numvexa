@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XY07H7SR37"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XY07H7SR37');
+</script>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>RD Calculator – Recurring Deposit Maturity Amount | Numvexa</title>
+<meta name="description" content="Calculate Recurring Deposit maturity amount and interest earned. Free RD calculator for India with quarterly compounding."/>
+<meta name="author" content="Raja Mahakul"/>
+<meta name="robots" content="index, follow"/>
+<meta property="og:title" content="RD Calculator – Numvexa"/>
+<meta property="og:description" content="Free RD calculator for India. Calculate Recurring Deposit maturity and total interest with quarterly compounding."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://numvexa.in/rd-calculator.html"/>
+<meta property="og:image" content="https://numvexa.in/og-image.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="RD Calculator – Numvexa"/>
+<meta name="twitter:description" content="Free RD calculator for India. Calculate Recurring Deposit maturity and total interest with quarterly compounding."/>
+<meta name="twitter:image" content="https://numvexa.in/og-image.png"/>
+<link rel="canonical" href="https://numvexa.in/rd-calculator.html"/>
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "RD Calculator – Numvexa",
+  "url": "https://numvexa.in/rd-calculator.html",
+  "description": "Calculate Recurring Deposit maturity amount and interest earned. Free RD calculator for India with quarterly compounding.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Numvexa",
+    "url": "https://numvexa.in/",
+    "author": { "@type": "Person", "name": "Raja Mahakul" }
+  },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://numvexa.in/" },
+      { "@type": "ListItem", "position": 2, "name": "All Calculators", "item": "https://numvexa.in/calculators.html" },
+      { "@type": "ListItem", "position": 3, "name": "RD Calculator", "item": "https://numvexa.in/rd-calculator.html" }
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does RD work?",
+      "acceptedAnswer": { "@type": "Answer", "text": "An RD lets you deposit a fixed amount monthly for a fixed tenure and earn interest (compounded quarterly per RBI norms), receiving the maturity amount at the end." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the RD formula?",
+      "acceptedAnswer": { "@type": "Answer", "text": "RD Maturity = R × [(1+r)^n – 1] / [1 – (1+r)^(-1/3)], where R = monthly deposit, r = quarterly rate, n = number of quarters." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is RD better than SIP?",
+      "acceptedAnswer": { "@type": "Answer", "text": "RD is a guaranteed return instrument (bank-backed). SIP in equity mutual funds has potential for higher but market-linked returns. Choose based on risk appetite." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is RD interest taxable?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. RD interest is taxed at your income slab rate. TDS is deducted at 10% if annual interest exceeds ₹40,000 (₹50,000 for senior citizens)." }
+    }
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<script async crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1504204070120650"></script>
+</head>
+<body>
+<!-- ═══════════════ HEADER ═══════════════ -->
+<header class="site-header" id="site-header">
+<div class="header-inner">
+  <a class="logo" href="/">
+    <span class="logo-icon">⚡</span>
+    <span class="logo-text">Num<strong>vexa</strong></span>
+  </a>
+  <nav class="main-nav" id="main-nav">
+    <a href="/">Home</a>
+    <a href="/calculators.html">All Calculators</a>
+    <a href="/#about">About</a>
+    <a href="/#contact">Contact</a>
+    <a href="/#faq">FAQ</a>
+    <a href="/blog.html">Blog</a>
+  </nav>
+  <div class="header-actions">
+    <button aria-label="Toggle dark mode" class="dark-toggle" id="darkToggle" onclick="toggleDark()">
+      <span class="toggle-icon" id="toggleIcon">🌙</span>
+    </button>
+    <button aria-label="Open menu" class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</div>
+</header>
+
+<!-- ═══════════════ PAGE CONTENT ═══════════════ -->
+<main>
+<div class="calc-page-wrap">
+
+  <!-- Breadcrumb -->
+  <nav class="calc-page-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a> <span>›</span>
+    <a href="/calculators.html">All Calculators</a> <span>›</span>
+    <span>RD Calculator</span>
+  </nav>
+
+  <!-- Hero -->
+  <div class="calc-page-hero">
+    <div class="calc-page-icon" style="background:linear-gradient(135deg,var(--accent-glow),var(--bg2))">💰</div>
+    <div class="calc-page-info">
+      <h1>RD Calculator</h1>
+      <p>Calculate Recurring Deposit maturity and total interest</p>
+      <span class="calc-page-badge">Investment Calculator</span>
+    </div>
+  </div>
+
+  <!-- Body: 2-col -->
+  <div class="calc-page-body">
+
+    <!-- LEFT: Calculator inputs -->
+    <div>
+      <div class="calc-input-card">
+        <h2>🧮 Enter Details</h2>
+        
+      <div class="form-group">
+        <label>Monthly Deposit (₹)</label>
+        <input type="number" id="rdR" placeholder="e.g. 5000" min="0"/>
+      </div>
+      <div class="form-group">
+        <label>Annual Interest Rate (%)</label>
+        <input type="number" id="rdRate" placeholder="e.g. 7" min="0"/>
+      </div>
+      <div class="form-group">
+        <label>Tenure (Years)</label>
+        <input type="number" id="rdT" placeholder="e.g. 3" min="0"/>
+      </div>
+      <button class="btn-primary" onclick="calcRDPage()" style="width:100%;justify-content:center;padding:.9rem">Calculate</button>
+      </div>
+
+      <!-- Results -->
+      
+    <div class="result-panel" id="rdPageResult">
+      <h3>Results</h3>
+      <div class="result-grid">
+        <div class="result-item"><span class="result-label">Maturity Amount</span><span class="result-value" id="rRdA">—</span></div>
+        <div class="result-item"><span class="result-label">Total Deposited</span><span class="result-value" style="color:var(--amber)" id="rRdInv">—</span></div>
+        <div class="result-item"><span class="result-label">Interest Earned</span><span class="result-value" style="color:var(--green)" id="rRdCI">—</span></div>
+        
+      </div>
+    </div>
+    </div>
+
+    <!-- RIGHT: Content -->
+    <div class="calc-page-content">
+
+      <!-- Formula -->
+      <div class="formula-section">
+        <h3>📐 Formula Used</h3>
+        <pre>RD Maturity = R × [(1 + r)^n – 1] / [1 – (1 + r)^(-1/3)]
+where r = quarterly rate, n = quarters</pre>
+      </div>
+
+      <!-- FAQ -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-list">
+          
+      <details class="faq-item">
+        <summary>How does RD work?</summary>
+        <p>An RD lets you deposit a fixed amount monthly for a fixed tenure and earn interest (compounded quarterly per RBI norms), receiving the maturity amount at the end.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What is the RD formula?</summary>
+        <p>RD Maturity = R × [(1+r)^n – 1] / [1 – (1+r)^(-1/3)], where R = monthly deposit, r = quarterly rate, n = number of quarters.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is RD better than SIP?</summary>
+        <p>RD is a guaranteed return instrument (bank-backed). SIP in equity mutual funds has potential for higher but market-linked returns. Choose based on risk appetite.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is RD interest taxable?</summary>
+        <p>Yes. RD interest is taxed at your income slab rate. TDS is deducted at 10% if annual interest exceeds ₹40,000 (₹50,000 for senior citizens).</p>
+      </details>
+        </div>
+      </section>
+
+      <!-- Related -->
+      <section class="related-section">
+        <h2>Related Calculators</h2>
+        <div class="related-grid">
+          
+        <a class="calc-dir-card" href="/fd-calculator.html" style="text-decoration:none">
+          <div style="font-size:1.5rem">🏦</div>
+          <div style="font-size:.85rem;font-weight:700;color:var(--text)">FD Calculator</div>
+        </a>
+        <a class="calc-dir-card" href="/sip-calculator.html" style="text-decoration:none">
+          <div style="font-size:1.5rem">📈</div>
+          <div style="font-size:.85rem;font-weight:700;color:var(--text)">SIP Calculator</div>
+        </a>
+        <a class="calc-dir-card" href="/ppf-calculator.html" style="text-decoration:none">
+          <div style="font-size:1.5rem">🏛️</div>
+          <div style="font-size:.85rem;font-weight:700;color:var(--text)">PPF Calculator</div>
+        </a>
+        <a class="calc-dir-card" href="/compound-interest-calculator.html" style="text-decoration:none">
+          <div style="font-size:1.5rem">📊</div>
+          <div style="font-size:.85rem;font-weight:700;color:var(--text)">Compound Interest</div>
+        </a>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+</div>
+</main>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer class="site-footer">
+<div class="footer-inner">
+  <div class="footer-brand">
+    <span class="logo-icon">⚡</span>
+    <strong>Numvexa</strong>
+    <p>Free financial calculators for India.</p>
+    <p style="font-size:.8rem;opacity:.65;margin-top:.35rem;">By Raja Mahakul</p>
+  </div>
+  <div class="footer-links">
+    <h4>Investment</h4>
+    <a href="/sip-calculator.html">SIP Calculator</a>
+    <a href="/fd-calculator.html">FD Calculator</a>
+    <a href="/ppf-calculator.html">PPF Calculator</a>
+    <a href="/nps-calculator.html">NPS Calculator</a>
+    <a href="/lumpsum-calculator.html">Lumpsum Calculator</a>
+  </div>
+  <div class="footer-links">
+    <h4>Tax & Salary</h4>
+    <a href="/income-tax-calculator.html">Income Tax</a>
+    <a href="/gst-calculator.html">GST Calculator</a>
+    <a href="/hra-calculator.html">HRA Calculator</a>
+    <a href="/salary-calculator.html">Salary Calculator</a>
+    <a href="/pf-calculator.html">PF Calculator</a>
+  </div>
+  <div class="footer-links">
+    <h4>Loans</h4>
+    <a href="/emi-calculator.html">EMI Calculator</a>
+    <a href="/home-loan-emi-calculator.html">Home Loan EMI</a>
+    <a href="/car-loan-emi-calculator.html">Car Loan EMI</a>
+    <a href="/education-loan-emi-calculator.html">Education Loan</a>
+  </div>
+  <div class="footer-links">
+    <h4>Quick Links</h4>
+    <a href="/">Home</a>
+    <a href="/calculators.html">All Calculators</a>
+    <a href="/blog.html">Blog</a>
+    <a href="/#about">About</a>
+    <a href="/#contact">Contact</a>
+  </div>
+</div>
+<div class="footer-bottom">
+  <p>© 2025 Numvexa by <strong>Raja Mahakul</strong>. All calculations are for informational purposes only.</p>
+</div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+function calcRDPage() {
+  var R = parseFloat(document.getElementById('rdR').value);
+  var rate = parseFloat(document.getElementById('rdRate').value)/400;
+  var t = parseFloat(document.getElementById('rdT').value);
+  var n = t * 4;
+  if(!R||R<=0||!rate||rate<=0||!t||t<0.25){alert('Please fill all fields correctly.');return;}
+  var A = R * (Math.pow(1+rate,n)-1)/(1-Math.pow(1+rate,-1/3));
+  var inv = R * t * 12;
+  document.getElementById('rRdA').textContent='₹'+Math.round(A).toLocaleString('en-IN');
+  document.getElementById('rRdInv').textContent='₹'+Math.round(inv).toLocaleString('en-IN');
+  document.getElementById('rRdCI').textContent='₹'+Math.round(A-inv).toLocaleString('en-IN');
+  document.getElementById('rdPageResult').classList.add('show');
+}
+</script>
+</body>
+</html>

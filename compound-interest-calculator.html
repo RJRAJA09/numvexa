@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XY07H7SR37"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XY07H7SR37');
+</script>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Compound Interest Calculator – CI with Quarterly & Monthly Compounding | Numvexa</title>
+<meta name="description" content="Calculate compound interest with annual, quarterly or monthly compounding. Free CI calculator for FD, savings and investments."/>
+<meta name="author" content="Raja Mahakul"/>
+<meta name="robots" content="index, follow"/>
+<meta property="og:title" content="Compound Interest Calculator – Numvexa"/>
+<meta property="og:description" content="Free compound interest calculator for India. Calculate maturity amount and CI with different compounding frequencies."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://numvexa.in/compound-interest-calculator.html"/>
+<meta property="og:image" content="https://numvexa.in/og-image.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Compound Interest Calculator – Numvexa"/>
+<meta name="twitter:description" content="Free compound interest calculator for India. Calculate maturity amount and CI with different compounding frequencies."/>
+<meta name="twitter:image" content="https://numvexa.in/og-image.png"/>
+<link rel="canonical" href="https://numvexa.in/compound-interest-calculator.html"/>
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Compound Interest Calculator – Numvexa",
+  "url": "https://numvexa.in/compound-interest-calculator.html",
+  "description": "Calculate compound interest with annual, quarterly or monthly compounding. Free CI calculator for FD, savings and investments.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Numvexa",
+    "url": "https://numvexa.in/",
+    "author": { "@type": "Person", "name": "Raja Mahakul" }
+  },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://numvexa.in/" },
+      { "@type": "ListItem", "position": 2, "name": "All Calculators", "item": "https://numvexa.in/calculators.html" },
+      { "@type": "ListItem", "position": 3, "name": "Compound Interest Calculator", "item": "https://numvexa.in/compound-interest-calculator.html" }
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is compound interest?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Compound interest is interest calculated on both the principal and the interest accumulated from previous periods, causing exponential growth." }
+    },
+    {
+      "@type": "Question",
+      "name": "What compounding frequency is best?",
+      "acceptedAnswer": { "@type": "Answer", "text": "More frequent compounding = higher returns. Monthly > Quarterly > Half-Yearly > Annually at the same nominal rate." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the Rule of 72?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Divide 72 by the annual interest rate to estimate how many years to double your money. At 12% p.a., money doubles in ~6 years." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does PPF use compound interest?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. PPF uses annual compounding at 7.1% p.a. (current rate), making ₹1.5L/year investment grow to ~₹40L over 15 years." }
+    }
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<script async crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1504204070120650"></script>
+</head>
+<body>
+<!-- ═══════════════ HEADER ═══════════════ -->
+<header class="site-header" id="site-header">
+<div class="header-inner">
+  <a class="logo" href="/">
+    <span class="logo-icon">⚡</span>
+    <span class="logo-text">Num<strong>vexa</strong></span>
+  </a>
+  <nav class="main-nav" id="main-nav">
+    <a href="/">Home</a>
+    <a href="/calculators.html">All Calculators</a>
+    <a href="/#about">About</a>
+    <a href="/#contact">Contact</a>
+    <a href="/#faq">FAQ</a>
+    <a href="/blog.html">Blog</a>
+  </nav>
+  <div class="header-actions">
+    <button aria-label="Toggle dark mode" class="dark-toggle" id="darkToggle" onclick="toggleDark()">
+      <span class="toggle-icon" id="toggleIcon">🌙</span>
+    </button>
+    <button aria-label="Open menu" class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</div>
+</header>
+
+<!-- ═══════════════ PAGE CONTENT ═══════════════ -->
+<main>
+<div class="calc-page-wrap">
+
+  <!-- Breadcrumb -->
+  <nav class="calc-page-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a> <span>›</span>
+    <a href="/calculators.html">All Calculators</a> <span>›</span>
+    <span>Compound Interest Calculator</span>
+  </nav>
+
+  <!-- Hero -->
+  <div class="calc-page-hero">
+    <div class="calc-page-icon" style="background:linear-gradient(135deg,var(--accent-glow),var(--bg2))">📊</div>
+    <div class="calc-page-info">
+      <h1>Compound Interest Calculator</h1>
+      <p>Calculate maturity with annual, quarterly & monthly compounding</p>
+      <span class="calc-page-badge">Investment Calculator</span>
+    </div>
+  </div>
+
+  <!-- Body: 2-col -->
+  <div class="calc-page-body">
+
+    <!-- LEFT: Calculator inputs -->
+    <div>
+      <div class="calc-input-card">
+        <h2>🧮 Enter Details</h2>
+        
+      <div class="form-group">
+        <label>Principal Amount (₹)</label>
+        <input type="number" id="ciP2" placeholder="e.g. 100000" min="0"/>
+      </div>
+      <div class="form-group">
+        <label>Annual Interest Rate (%)</label>
+        <input type="number" id="ciR2" placeholder="e.g. 10" min="0"/>
+      </div>
+      <div class="form-group">
+        <label>Time Period (Years)</label>
+        <input type="number" id="ciT2" placeholder="e.g. 5" min="0"/>
+      </div>
+      <div class="form-group">
+        <label>Compounding Frequency</label>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.25rem">
+          <button class="ci-freq-page active" data-n="1" onclick="ciPagePickFreq(this)" style="padding:.4rem .9rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--accent);color:#fff;font-family:'Sora',sans-serif;font-weight:600;cursor:pointer;font-size:.85rem">Annually</button>
+          <button class="ci-freq-page" data-n="2" onclick="ciPagePickFreq(this)" style="padding:.4rem .9rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text2);font-family:'Sora',sans-serif;font-weight:600;cursor:pointer;font-size:.85rem">Half-Yearly</button>
+          <button class="ci-freq-page" data-n="4" onclick="ciPagePickFreq(this)" style="padding:.4rem .9rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text2);font-family:'Sora',sans-serif;font-weight:600;cursor:pointer;font-size:.85rem">Quarterly</button>
+          <button class="ci-freq-page" data-n="12" onclick="ciPagePickFreq(this)" style="padding:.4rem .9rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text2);font-family:'Sora',sans-serif;font-weight:600;cursor:pointer;font-size:.85rem">Monthly</button>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="calcCIPage()" style="width:100%;justify-content:center;padding:.9rem">Calculate CI</button>
+      </div>
+
+      <!-- Results -->
+      
+    <div class="result-panel" id="ciPageResult">
+      <h3>Results</h3>
+      <div class="result-grid">
+        <div class="result-item"><span class="result-label">Maturity Amount</span><span class="result-value" id="rCiA2">—</span></div>
+        <div class="result-item"><span class="result-label">Total Interest</span><span class="result-value" style="color:var(--green)" id="rCiCI2">—</span></div>
+        <div class="result-item"><span class="result-label">Principal</span><span class="result-value" style="color:var(--amber)" id="rCiP2">—</span></div>
+        <div class="result-item"><span class="result-label">Effective Annual Rate</span><span class="result-value" id="rCiEAR2">—</span></div>
+        
+      </div>
+    </div>
+    </div>
+
+    <!-- RIGHT: Content -->
+    <div class="calc-page-content">
+
+      <!-- Formula -->
+      <div class="formula-section">
+        <h3>📐 Formula Used</h3>
+        <pre>A = P × (1 + r/n)^(n×t)
+EAR = (1 + r/n)^n – 1
+CI = A – P</pre>
+      </div>
+
+      <!-- FAQ -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-list">
+          
+      <details class="faq-item">
+        <summary>What is compound interest?</summary>
+        <p>Compound interest is interest calculated on both the principal and the interest accumulated from previous periods, causing exponential growth.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What compounding frequency is best?</summary>
+        <p>More frequent compounding = higher returns. Monthly > Quarterly > Half-Yearly > Annually at the same nominal rate.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What is the Rule of 72?</summary>
+        <p>Divide 72 by the annual interest rate to estimate how many years to double your money. At 12% p.a., money doubles in ~6 years.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does PPF use compound interest?</summary>
+        <p>Yes. PPF uses annual compounding at 7.1% p.a. (current rate), making ₹1.5L/year investment grow to ~₹40L over 15 years.</p>
+      </details>
+        </div>
+      </section>
+
+      <!-- Related -->
+      <section class="related-section">
+        <h2>Related Calculators</h2>
+        <div class="related-grid">
+          
+        <a class="calc-dir-card" href="/fd-calculator.html" style="text-decoration:none">
+          <div style="font-size:1.5rem">🏦</div>
+          <div style="font-size:.85rem;font-weight:700;color:var(--text)">FD Calculator</div>
+        </a>
+        <a class="calc-dir-card" href="/sip-calculator.html" style="text-decoration:none">
+          <div style="font-size:1.5rem">📈</div>
+          <div style="font-size:.85rem;font-weight:700;color:var(--text)">SIP Calculator</div>
+        </a>
+        <a class="calc-dir-card" href="/ppf-calculator.html" style="text-decoration:none">
+          <div style="font-size:1.5rem">🏛️</div>
+          <div style="font-size:.85rem;font-weight:700;color:var(--text)">PPF Calculator</div>
+        </a>
+        <a class="calc-dir-card" href="/rd-calculator.html" style="text-decoration:none">
+          <div style="font-size:1.5rem">💰</div>
+          <div style="font-size:.85rem;font-weight:700;color:var(--text)">RD Calculator</div>
+        </a>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+</div>
+</main>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer class="site-footer">
+<div class="footer-inner">
+  <div class="footer-brand">
+    <span class="logo-icon">⚡</span>
+    <strong>Numvexa</strong>
+    <p>Free financial calculators for India.</p>
+    <p style="font-size:.8rem;opacity:.65;margin-top:.35rem;">By Raja Mahakul</p>
+  </div>
+  <div class="footer-links">
+    <h4>Investment</h4>
+    <a href="/sip-calculator.html">SIP Calculator</a>
+    <a href="/fd-calculator.html">FD Calculator</a>
+    <a href="/ppf-calculator.html">PPF Calculator</a>
+    <a href="/nps-calculator.html">NPS Calculator</a>
+    <a href="/lumpsum-calculator.html">Lumpsum Calculator</a>
+  </div>
+  <div class="footer-links">
+    <h4>Tax & Salary</h4>
+    <a href="/income-tax-calculator.html">Income Tax</a>
+    <a href="/gst-calculator.html">GST Calculator</a>
+    <a href="/hra-calculator.html">HRA Calculator</a>
+    <a href="/salary-calculator.html">Salary Calculator</a>
+    <a href="/pf-calculator.html">PF Calculator</a>
+  </div>
+  <div class="footer-links">
+    <h4>Loans</h4>
+    <a href="/emi-calculator.html">EMI Calculator</a>
+    <a href="/home-loan-emi-calculator.html">Home Loan EMI</a>
+    <a href="/car-loan-emi-calculator.html">Car Loan EMI</a>
+    <a href="/education-loan-emi-calculator.html">Education Loan</a>
+  </div>
+  <div class="footer-links">
+    <h4>Quick Links</h4>
+    <a href="/">Home</a>
+    <a href="/calculators.html">All Calculators</a>
+    <a href="/blog.html">Blog</a>
+    <a href="/#about">About</a>
+    <a href="/#contact">Contact</a>
+  </div>
+</div>
+<div class="footer-bottom">
+  <p>© 2025 Numvexa by <strong>Raja Mahakul</strong>. All calculations are for informational purposes only.</p>
+</div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+var ciPageN = 1;
+function ciPagePickFreq(btn) {
+  document.querySelectorAll('.ci-freq-page').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  ciPageN = parseInt(btn.getAttribute('data-n'));
+}
+function calcCIPage() {
+  var P = parseFloat(document.getElementById('ciP2').value);
+  var r = parseFloat(document.getElementById('ciR2').value)/100;
+  var t = parseFloat(document.getElementById('ciT2').value);
+  var n = ciPageN;
+  if(!P||P<=0||!r||!t||t<1){alert('Please fill all fields correctly.');return;}
+  var A = P * Math.pow(1+r/n,n*t);
+  var CI = A-P;
+  var EAR = (Math.pow(1+r/n,n)-1)*100;
+  document.getElementById('rCiA2').textContent = '₹'+Math.round(A).toLocaleString('en-IN');
+  document.getElementById('rCiCI2').textContent = '₹'+Math.round(CI).toLocaleString('en-IN');
+  document.getElementById('rCiP2').textContent = '₹'+Math.round(P).toLocaleString('en-IN');
+  document.getElementById('rCiEAR2').textContent = EAR.toFixed(3)+'%';
+  document.getElementById('ciPageResult').classList.add('show');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XY07H7SR37"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XY07H7SR37');
+</script>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SWP Calculator – Systematic Withdrawal Plan | Numvexa</title>
+<meta name="description" content="Calculate SWP monthly withdrawals, remaining corpus and total amount withdrawn. Free SWP calculator for India."/>
+<meta name="author" content="Raja Mahakul"/>
+<meta name="robots" content="index, follow"/>
+<meta property="og:title" content="SWP Calculator – Numvexa"/>
+<meta property="og:description" content="Free SWP calculator for India. Plan systematic monthly withdrawals from your mutual fund corpus."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://numvexa.in/swp-calculator.html"/>
+<meta property="og:image" content="https://numvexa.in/og-image.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="SWP Calculator – Numvexa"/>
+<meta name="twitter:description" content="Free SWP calculator for India. Plan systematic monthly withdrawals from your mutual fund corpus."/>
+<meta name="twitter:image" content="https://numvexa.in/og-image.png"/>
+<link rel="canonical" href="https://numvexa.in/swp-calculator.html"/>
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "SWP Calculator – Numvexa",
+  "url": "https://numvexa.in/swp-calculator.html",
+  "description": "Calculate SWP monthly withdrawals, remaining corpus and total amount withdrawn. Free SWP calculator for India.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Numvexa",
+    "url": "https://numvexa.in/",
+    "author": { "@type": "Person", "name": "Raja Mahakul" }
+  },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://numvexa.in/" },
+      { "@type": "ListItem", "position": 2, "name": "All Calculators", "item": "https://numvexa.in/calculators.html" },
+      { "@type": "ListItem", "position": 3, "name": "SWP Calculator", "item": "https://numvexa.in/swp-calculator.html" }
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is SWP?",
+      "acceptedAnswer": { "@type": "Answer", "text": "SWP (Systematic Withdrawal Plan) allows you to withdraw a fixed amount from your mutual fund at regular intervals (usually monthly) while the remaining corpus continues to earn returns." }
+    },
+    {
+      "@type": "Question",
+      "name": "How long can I run SWP?",
+      "acceptedAnswer": { "@type": "Answer", "text": "As long as the corpus lasts. If the return rate is higher than the withdrawal rate, the corpus can last indefinitely and even grow." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is SWP tax-efficient?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. In equity funds, only the capital gains portion of each withdrawal is taxed (LTCG at 12.5% above ₹1.25L, STCG at 20%). Debt fund withdrawals are taxed at your slab rate." }
+    },
+    {
+      "@type": "Question",
+      "name": "What return rate should I use for SWP?",
+      "acceptedAnswer": { "@type": "Answer", "text": "For equity-based SWP, use 10–12% p.a. conservatively. For debt-based, use 6–7% p.a." }
+    }
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<script async crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1504204070120650"></script>
+</head>
+<body>
+<!-- ═══════════════ HEADER ═══════════════ -->
+<header class="site-header" id="site-header">
+<div class="header-inner">
+  <a class="logo" href="/">
+    <span class="logo-icon">⚡</span>
+    <span class="logo-text">Num<strong>vexa</strong></span>
+  </a>
+  <nav class="main-nav" id="main-nav">
+    <a href="/">Home</a>
+    <a href="/calculators.html">All Calculators</a>
+    <a href="/#about">About</a>
+    <a href="/#contact">Contact</a>
+    <a href="/#faq">FAQ</a>
+    <a href="/blog.html">Blog</a>
+  </nav>
+  <div class="header-actions">
+    <button aria-label="Toggle dark mode" class="dark-toggle" id="darkToggle" onclick="toggleDark()">
+      <span class="toggle-icon" id="toggleIcon">🌙</span>
+    </button>
+    <button aria-label="Open menu" class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</div>
+</header>
+
+<!-- ═══════════════ PAGE CONTENT ═══════════════ -->
+<main>
+<div class="calc-page-wrap">
+
+  <!-- Breadcrumb -->
+  <nav class="calc-page-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a> <span>›</span>
+    <a href="/calculators.html">All Calculators</a> <span>›</span>
+    <span>SWP Calculator</span>
+  </nav>
+
+  <!-- Hero -->
+  <div class="calc-page-hero">
+    <div class="calc-page-icon" style="background:linear-gradient(135deg,var(--accent-glow),var(--bg2))">💸</div>
+    <div class="calc-page-info">
+      <h1>SWP Calculator</h1>
+      <p>Plan systematic monthly withdrawals from your mutual fund corpus</p>
+      <span class="calc-page-badge">Investment Calculator</span>
+    </div>
+  </div>
+
+  <!-- Body: 2-col -->
+  <div class="calc-page-body">
+
+    <!-- LEFT: Calculator inputs -->
+    <div>
+      <div class="calc-input-card">
+        <h2>🧮 Enter Details</h2>
+        
+      <div class="form-group">
+        <label>Initial Corpus (₹)</label>
+        <input type="number" id="swpCorpus" placeholder="e.g. 5000000" min="0"/>
+      </div>
+      <div class="form-group">
+        <label>Monthly Withdrawal (₹)</label>
+        <input type="number" id="swpWithdraw" placeholder="e.g. 30000" min="0"/>
+      </div>
+      <div class="form-group">
+        <label>Expected Annual Return (%)</label>
+        <input type="number" id="swpR" placeholder="e.g. 10" min="0"/>
+      </div>
+      <button class="btn-primary" onclick="calcSWPPage()" style="width:100%;justify-content:center;padding:.9rem">Calculate</button>
+      </div>
+
+      <!-- Results -->
+      
+    <div class="result-panel" id="swpPageResult">
+      <h3>Results</h3>
+      <div class="result-grid">
+        <div class="result-item"><span class="result-label">Corpus after 10 years</span><span class="result-value" style="color:var(--green)" id="rSwpCorpus10">—</span></div>
+        <div class="result-item"><span class="result-label">Corpus after 20 years</span><span class="result-value" style="color:var(--amber)" id="rSwpCorpus20">—</span></div>
+        <div class="result-item"><span class="result-label">Total Withdrawn (10yr)</span><span class="result-value" id="rSwpTotal10">—</span></div>
+        <div class="result-item"><span class="result-label">Sustainability</span><span class="result-value" id="rSwpSustain">—</span></div>
+        
+      </div>
+    </div>
+    </div>
+
+    <!-- RIGHT: Content -->
+    <div class="calc-page-content">
+
+      <!-- Formula -->
+      <div class="formula-section">
+        <h3>📐 Formula Used</h3>
+        <pre>Remaining Corpus after each month:
+C(n) = C(n-1) × (1 + r/12) – W
+where W = monthly withdrawal, r = annual return</pre>
+      </div>
+
+      <!-- FAQ -->
+      <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-list">
+          
+      <details class="faq-item">
+        <summary>What is SWP?</summary>
+        <p>SWP (Systematic Withdrawal Plan) allows you to withdraw a fixed amount from your mutual fund at regular intervals (usually monthly) while the remaining corpus continues to earn returns.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How long can I run SWP?</summary>
+        <p>As long as the corpus lasts. If the return rate is higher than the withdrawal rate, the corpus can last indefinitely and even grow.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is SWP tax-efficient?</summary>
+        <p>Yes. In equity funds, only the capital gains portion of each withdrawal is taxed (LTCG at 12.5% above ₹1.25L, STCG at 20%). Debt fund withdrawals are taxed at your slab rate.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What return rate should I use for SWP?</summary>
+        <p>For equity-based SWP, use 10–12% p.a. conservatively. For debt-based, use 6–7% p.a.</p>
+      </details>
+        </div>
+      </section>
+
+      <!-- Related -->
+      <section class="related-section">
+        <h2>Related Calculators</h2>
+        <div class="related-grid">
+          
+        <a class="calc-dir-card" href="/sip-calculator.html" style="text-decoration:none">
+          <div style="font-size:1.5rem">📈</div>
+          <div style="font-size:.85rem;font-weight:700;color:var(--text)">SIP Calculator</div>
+        </a>
+        <a class="calc-dir-card" href="/lumpsum-calculator.html" style="text-decoration:none">
+          <div style="font-size:1.5rem">💎</div>
+          <div style="font-size:.85rem;font-weight:700;color:var(--text)">Lumpsum Calculator</div>
+        </a>
+        <a class="calc-dir-card" href="/nps-calculator.html" style="text-decoration:none">
+          <div style="font-size:1.5rem">🎯</div>
+          <div style="font-size:.85rem;font-weight:700;color:var(--text)">NPS Calculator</div>
+        </a>
+        <a class="calc-dir-card" href="/ppf-calculator.html" style="text-decoration:none">
+          <div style="font-size:1.5rem">🏛️</div>
+          <div style="font-size:.85rem;font-weight:700;color:var(--text)">PPF Calculator</div>
+        </a>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+</div>
+</main>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer class="site-footer">
+<div class="footer-inner">
+  <div class="footer-brand">
+    <span class="logo-icon">⚡</span>
+    <strong>Numvexa</strong>
+    <p>Free financial calculators for India.</p>
+    <p style="font-size:.8rem;opacity:.65;margin-top:.35rem;">By Raja Mahakul</p>
+  </div>
+  <div class="footer-links">
+    <h4>Investment</h4>
+    <a href="/sip-calculator.html">SIP Calculator</a>
+    <a href="/fd-calculator.html">FD Calculator</a>
+    <a href="/ppf-calculator.html">PPF Calculator</a>
+    <a href="/nps-calculator.html">NPS Calculator</a>
+    <a href="/lumpsum-calculator.html">Lumpsum Calculator</a>
+  </div>
+  <div class="footer-links">
+    <h4>Tax & Salary</h4>
+    <a href="/income-tax-calculator.html">Income Tax</a>
+    <a href="/gst-calculator.html">GST Calculator</a>
+    <a href="/hra-calculator.html">HRA Calculator</a>
+    <a href="/salary-calculator.html">Salary Calculator</a>
+    <a href="/pf-calculator.html">PF Calculator</a>
+  </div>
+  <div class="footer-links">
+    <h4>Loans</h4>
+    <a href="/emi-calculator.html">EMI Calculator</a>
+    <a href="/home-loan-emi-calculator.html">Home Loan EMI</a>
+    <a href="/car-loan-emi-calculator.html">Car Loan EMI</a>
+    <a href="/education-loan-emi-calculator.html">Education Loan</a>
+  </div>
+  <div class="footer-links">
+    <h4>Quick Links</h4>
+    <a href="/">Home</a>
+    <a href="/calculators.html">All Calculators</a>
+    <a href="/blog.html">Blog</a>
+    <a href="/#about">About</a>
+    <a href="/#contact">Contact</a>
+  </div>
+</div>
+<div class="footer-bottom">
+  <p>© 2025 Numvexa by <strong>Raja Mahakul</strong>. All calculations are for informational purposes only.</p>
+</div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+function calcSWPPage() {
+  var C = parseFloat(document.getElementById('swpCorpus').value)||0;
+  var W = parseFloat(document.getElementById('swpWithdraw').value)||0;
+  var r = parseFloat(document.getElementById('swpR').value)/1200;
+  if(!C||C<=0||!W||W<=0||!r){alert('Enter valid values.');return;}
+  var c10=C, c20=C, tot10=0;
+  for(var i=1;i<=240;i++){
+    c20=c20*(1+r)-W;
+    if(c20<0){c20=0;}
+    if(i<=120){c10=c10*(1+r)-W; if(c10<0)c10=0; tot10+=W;}
+  }
+  var monthlyEarn=C*r;
+  document.getElementById('rSwpCorpus10').textContent='₹'+Math.round(c10).toLocaleString('en-IN');
+  document.getElementById('rSwpCorpus20').textContent='₹'+Math.round(c20).toLocaleString('en-IN');
+  document.getElementById('rSwpTotal10').textContent='₹'+Math.round(tot10).toLocaleString('en-IN');
+  document.getElementById('rSwpSustain').textContent=monthlyEarn>=W?'Sustainable (corpus grows)':'Depleting corpus';
+  document.getElementById('swpPageResult').classList.add('show');
+}
+</script>
+</body>
+</html>

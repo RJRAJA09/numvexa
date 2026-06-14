@@ -1045,3 +1045,116 @@ function toggleCIReadMore() {
     btn.childNodes[0].textContent = 'Read Less ';
   }
 }
+
+
+/* ═══════════════════════════════════════════════════════
+   NUMVEXA MULTI-PAGE ADDITIONS
+   Safe to include on all pages; each function checks
+   for element existence before acting.
+═══════════════════════════════════════════════════════ */
+
+/* ── Directory page search & filter ── */
+var _dirCurrentCat = 'all';
+var _dirCurrentQuery = '';
+
+function dirPickCat(btn) {
+  document.querySelectorAll('.filter-pill').forEach(function(p){ p.classList.remove('active'); });
+  btn.classList.add('active');
+  _dirCurrentCat = btn.getAttribute('data-cat');
+  _applyDirFilters();
+}
+
+function dirFilter() {
+  var el = document.getElementById('dirSearch');
+  if (!el) return;
+  _dirCurrentQuery = el.value.trim().toLowerCase();
+  _applyDirFilters();
+}
+
+function _applyDirFilters() {
+  var sections = document.querySelectorAll('.calc-cat-section');
+  if (!sections.length) return;
+  var totalVisible = 0;
+
+  sections.forEach(function(section) {
+    var secCat = section.getAttribute('data-cat');
+    var cards  = section.querySelectorAll('.calc-dir-card');
+    var secVisible = 0;
+
+    cards.forEach(function(card) {
+      var tags    = (card.getAttribute('data-tags') || '').toLowerCase();
+      var title   = (card.querySelector('h3') ? card.querySelector('h3').textContent : '').toLowerCase();
+      var cardCat = card.getAttribute('data-cat');
+      var catOk   = _dirCurrentCat === 'all' || cardCat === _dirCurrentCat;
+      var queryOk = !_dirCurrentQuery || tags.includes(_dirCurrentQuery) || title.includes(_dirCurrentQuery);
+
+      if (catOk && queryOk) {
+        card.removeAttribute('hidden');
+        secVisible++;
+        totalVisible++;
+      } else {
+        card.setAttribute('hidden', '');
+      }
+    });
+
+    // Update count badge
+    var countEl = document.getElementById('cnt-' + secCat);
+    if (countEl) countEl.textContent = secVisible + ' calculator' + (secVisible !== 1 ? 's' : '');
+
+    // Show/hide section
+    var catMatch = _dirCurrentCat === 'all' || secCat === _dirCurrentCat;
+    if (secVisible === 0 || !catMatch) {
+      section.setAttribute('hidden', '');
+    } else {
+      section.removeAttribute('hidden');
+    }
+  });
+
+  // No results message
+  var noRes = document.getElementById('dirNoResults');
+  if (noRes) noRes.classList.toggle('show', totalVisible === 0);
+
+  // Result count label
+  var countEl = document.getElementById('dirCount');
+  if (countEl) {
+    if (_dirCurrentQuery || _dirCurrentCat !== 'all') {
+      countEl.textContent = 'Showing ' + totalVisible + ' calculator' + (totalVisible !== 1 ? 's' : '');
+    } else {
+      countEl.textContent = '';
+    }
+  }
+}
+
+function clearDirSearch() {
+  var el = document.getElementById('dirSearch');
+  if (el) el.value = '';
+  _dirCurrentQuery = '';
+  document.querySelectorAll('.filter-pill').forEach(function(p){ p.classList.remove('active'); });
+  var allPill = document.querySelector('[data-cat="all"]');
+  if (allPill) allPill.classList.add('active');
+  _dirCurrentCat = 'all';
+  _applyDirFilters();
+}
+
+/* ── Keyboard shortcut works on all pages ── */
+document.addEventListener('keydown', function(e) {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    e.preventDefault();
+    // Focus directory search if on calculators page
+    var dirSearch = document.getElementById('dirSearch');
+    if (dirSearch) { dirSearch.focus(); return; }
+    // Fall back to homepage search
+    var homeSearch = document.getElementById('searchInput');
+    if (homeSearch) {
+      if (typeof showPage === 'function') showPage('home');
+      setTimeout(function(){ homeSearch.focus(); }, 100);
+    }
+  }
+  if (e.key === 'Escape') {
+    // Close modal if open (homepage)
+    if (typeof closeModal === 'function') closeModal();
+    // Clear dir search if on directory page
+    var dirSearch = document.getElementById('dirSearch');
+    if (dirSearch && dirSearch.value) clearDirSearch();
+  }
+});

@@ -241,6 +241,24 @@
       }
     }
   </style>
+<style>
+/* ── Homepage: "View Full Page" link on calc cards ── */
+.card-view-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  margin-top: .5rem;
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: .02em;
+  position: relative;
+  z-index: 2;
+  transition: opacity .2s;
+}
+.card-view-link:hover { opacity: .75; text-decoration: underline; }
+</style>
 </head>
 <body>
 <!-- ═══════════════ HEADER / NAV ═══════════════ -->
@@ -257,6 +275,7 @@
 <a href="#contact" onclick="showPage('contact');closeMobileMenu()">Contact</a>
 <a href="#faq" onclick="showPage('faq');closeMobileMenu()">FAQ</a>
 <a href="blog.html">Blog</a>
+<a href="calculators.html" style="color:var(--accent);font-weight:700;">All Calculators</a>
 </nav>
 <div class="header-actions">
 <button aria-label="Toggle dark mode" class="dark-toggle" id="darkToggle" onclick="toggleDark()">
@@ -361,7 +380,7 @@
 <section class="calc-section" id="calculators">
 <div class="section-header">
 <h2>All Calculators</h2>
-<p>Click any card to open the calculator instantly.</p>
+<p>Click any card to open instantly — or <a href="calculators.html" style="color:var(--accent);font-weight:600;">browse all 20+ calculators →</a></p>
 </div>
 <div class="calc-grid" id="calcGrid">
 <div class="calc-card" data-tags="emi loan interest tenure" onclick="openCalc('emi')">
@@ -369,60 +388,80 @@
 <h3>EMI Calculator</h3>
 <p>Calculate monthly EMI for home, car &amp; personal loans.</p>
 <span class="card-badge">Loan</span>
+<a href="emi-calculator.html" class="card-view-link" onclick="event.stopPropagation()">View Full Page →</a>
+
 </div>
 <div class="calc-card" data-tags="gst tax goods services" onclick="openCalc('gst')">
 <div class="card-icon" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">🧾</div>
 <h3>GST Calculator</h3>
 <p>Add or remove GST at 5%, 12%, 18% or 28% rates.</p>
 <span class="card-badge">Tax</span>
+<a href="gst-calculator.html" class="card-view-link" onclick="event.stopPropagation()">View Full Page →</a>
+
 </div>
 <div class="calc-card" data-tags="salary ctc take home deduction" onclick="openCalc('salary')">
 <div class="card-icon" style="background:linear-gradient(135deg,#10b981,#059669)">💼</div>
 <h3>Salary Calculator</h3>
 <p>Compute in-hand salary from CTC with all deductions.</p>
 <span class="card-badge">Salary</span>
+<a href="salary-calculator.html" class="card-view-link" onclick="event.stopPropagation()">View Full Page →</a>
+
 </div>
 <div class="calc-card" data-tags="age birthday year month day" onclick="openCalc('age')">
 <div class="card-icon" style="background:linear-gradient(135deg,#ec4899,#f43f5e)">🎂</div>
 <h3>Age Calculator</h3>
 <p>Find your exact age in years, months and days.</p>
 <span class="card-badge">Personal</span>
+<a href="age-calculator.html" class="card-view-link" onclick="event.stopPropagation()">View Full Page →</a>
+
 </div>
 <div class="calc-card" data-tags="sip mutual fund investment return" onclick="openCalc('sip')">
 <div class="card-icon" style="background:linear-gradient(135deg,#3b82f6,#0ea5e9)">📈</div>
 <h3>SIP Calculator</h3>
 <p>Project SIP returns and total wealth gained over time.</p>
 <span class="card-badge">Investment</span>
+<a href="sip-calculator.html" class="card-view-link" onclick="event.stopPropagation()">View Full Page →</a>
+
 </div>
 <div class="calc-card" data-tags="compound interest ci maturity investment savings" onclick="openCalc('ci')">
 <div class="card-icon" style="background:linear-gradient(135deg,#6366f1,#ec4899)">📊</div>
 <h3>Compound Interest Calculator</h3>
 <p>Calculate maturity amount with annual, quarterly &amp; monthly compounding.</p>
 <span class="card-badge">Investment</span>
+<a href="compound-interest-calculator.html" class="card-view-link" onclick="event.stopPropagation()">View Full Page →</a>
+
 </div>
 <div class="calc-card" data-tags="pf provident fund epf employee employer" onclick="openCalc('pf')">
 <div class="card-icon" style="background:linear-gradient(135deg,#f97316,#fb923c)">🏛️</div>
 <h3>PF Calculator</h3>
 <p>Estimate EPF balance with employee &amp; employer contributions.</p>
 <span class="card-badge">Retirement</span>
+<a href="pf-calculator.html" class="card-view-link" onclick="event.stopPropagation()">View Full Page →</a>
+
 </div>
 <div class="calc-card" data-tags="hra house rent allowance exemption" onclick="openCalc('hra')">
 <div class="card-icon" style="background:linear-gradient(135deg,#14b8a6,#0d9488)">🏠</div>
 <h3>HRA Calculator</h3>
 <p>Calculate HRA exemption for your tax filing.</p>
 <span class="card-badge">Tax</span>
+<a href="hra-calculator.html" class="card-view-link" onclick="event.stopPropagation()">View Full Page →</a>
+
 </div>
 <div class="calc-card" data-tags="gratuity service years employer" onclick="openCalc('gratuity')">
 <div class="card-icon" style="background:linear-gradient(135deg,#a855f7,#7c3aed)">🎁</div>
 <h3>Gratuity Calculator</h3>
 <p>Compute gratuity amount as per Payment of Gratuity Act.</p>
 <span class="card-badge">Salary</span>
+<a href="gratuity-calculator.html" class="card-view-link" onclick="event.stopPropagation()">View Full Page →</a>
+
 </div>
 <div class="calc-card" data-tags="income tax india slab old new regime" onclick="openCalc('tax')">
 <div class="card-icon" style="background:linear-gradient(135deg,#dc2626,#b91c1c)">🇮🇳</div>
 <h3>Income Tax Calculator</h3>
 <p>Old vs New regime tax computation with slabs (FY 2025-26).</p>
 <span class="card-badge">Tax</span>
+<a href="income-tax-calculator.html" class="card-view-link" onclick="event.stopPropagation()">View Full Page →</a>
+
 </div>
 </div><!-- /calc-grid -->
 <p class="no-results" id="noResults" style="display:none">No calculators found. Try a different keyword.</p>
@@ -1068,11 +1107,12 @@
 </div>
 <div class="footer-links">
 <h4>Calculators</h4>
-<a href="#" onclick="openCalc('emi')">EMI Calculator</a>
-<a href="#" onclick="openCalc('gst')">GST Calculator</a>
-<a href="#" onclick="openCalc('sip')">SIP Calculator</a>
-<a href="#" onclick="openCalc('tax')">Income Tax</a>
-<a href="#" onclick="showPage('compound-interest')">Compound Interest</a>
+<a href="calculators.html">All Calculators</a>
+<a href="emi-calculator.html">EMI Calculator</a>
+<a href="sip-calculator.html">SIP Calculator</a>
+<a href="gst-calculator.html">GST Calculator</a>
+<a href="income-tax-calculator.html">Income Tax</a>
+<a href="fd-calculator.html">FD Calculator</a>
 </div>
 <div class="footer-links">
 <h4>Company</h4>
