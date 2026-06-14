@@ -25,6 +25,36 @@
     <priority>0.95</priority>
   </url>
 
+  <!-- Site pages -->
+  <url>
+    <loc>https://numvexa.in/about.html</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Legal pages -->
+  <url>
+    <loc>https://numvexa.in/privacy-policy.html</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+  <url>
+    <loc>https://numvexa.in/terms.html</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+  <url>
+    <loc>https://numvexa.in/disclaimer.html</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
   <!-- Individual Calculator Pages -->
   <url>
     <loc>https://numvexa.in/sip-calculator.html</loc>
