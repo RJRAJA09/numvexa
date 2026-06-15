@@ -12,9 +12,17 @@
   <!-- Blog listing page -->
   <url>
     <loc>https://numvexa.in/blog.html</loc>
-    <lastmod>2026-06-13</lastmod>
+    <lastmod>2026-06-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+
+  <!-- Blog articles -->
+  <url>
+    <loc>https://numvexa.in/blog.html#blog-50000-salary-india-2026</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
   </url>
 
   <!-- All Calculators Directory -->
