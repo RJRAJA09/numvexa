@@ -157,17 +157,7 @@
       </div>
       <button class="btn-primary" onclick="calcPFPage()" style="width:100%;justify-content:center;padding:.9rem">Calculate</button>
       </div>
-
-      <!-- Results -->
-      
-    <div class="result-panel" id="pfPageResult">
-      <h3>Results</h3>
-      <div class="result-grid">
-        <div class="result-item"><span class="result-label">EPF Corpus at Retirement</span><span class="result-value" style="color:var(--green)" id="rPfCorpus">—</span></div>
-        <div class="result-item"><span class="result-label">Total Contributions</span><span class="result-value" style="color:var(--amber)" id="rPfContrib">—</span></div>
-        <div class="result-item"><span class="result-label">Total Interest Earned</span><span class="result-value" id="rPfInt">—</span></div>
-        
-      </div>
+    </div>
     </div>
     </div>
 
@@ -282,11 +272,12 @@ Annual Interest = EPF Balance × 8.25% / 12 (compounded monthly)</pre>
 </footer>
 
 <script src="script.js"></script>
+
 <script>
 function calcPFPage() {
   var basic = parseFloat(document.getElementById('pfBasic').value)||0;
-  var bal = parseFloat(document.getElementById('pfBalance').value)||0;
-  var yrs = parseFloat(document.getElementById('pfYears').value)||0;
+  var bal   = parseFloat(document.getElementById('pfBalance').value)||0;
+  var yrs   = parseFloat(document.getElementById('pfYears').value)||0;
   if(!basic||basic<=0||!yrs||yrs<1){alert('Enter valid values.');return;}
   var monthlyEmp = basic*0.12;
   var monthlyEmr = basic*0.0367;
@@ -295,10 +286,15 @@ function calcPFPage() {
   var n = yrs*12;
   var A = bal*Math.pow(1+r,n) + monthly*(Math.pow(1+r,n)-1)/r;
   var contrib = bal + monthly*n;
-  document.getElementById('rPfCorpus').textContent = '₹'+Math.round(A).toLocaleString('en-IN');
-  document.getElementById('rPfContrib').textContent = '₹'+Math.round(contrib).toLocaleString('en-IN');
-  document.getElementById('rPfInt').textContent = '₹'+Math.round(A-contrib).toLocaleString('en-IN');
-  document.getElementById('pfPageResult').classList.add('show');
+  function fmt(v){return '₹'+Math.round(v).toLocaleString('en-IN');}
+  NvModal.open({
+    emoji: '🏛️', title: 'PF Calculator Results', subtitle: 'EPF Corpus at Retirement',
+    hero: { label: 'EPF Corpus', value: fmt(A), note: 'Total corpus at retirement' },
+    cards: [
+      { label: 'Total Contributions', value: fmt(contrib), color: 'amber' },
+      { label: 'Total Interest Earned', value: fmt(A-contrib), color: 'green' }
+    ]
+  });
 }
 </script>
 </body>

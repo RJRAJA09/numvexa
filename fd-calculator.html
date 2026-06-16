@@ -157,17 +157,7 @@
       </div>
       <button class="btn-primary" onclick="calcFDPage()" style="width:100%;justify-content:center;padding:.9rem">Calculate</button>
       </div>
-
-      <!-- Results -->
-      
-    <div class="result-panel" id="fdPageResult">
-      <h3>Results</h3>
-      <div class="result-grid">
-        <div class="result-item"><span class="result-label">Maturity Amount</span><span class="result-value" id="rFdA">—</span></div>
-        <div class="result-item"><span class="result-label">Interest Earned</span><span class="result-value" style="color:var(--green)" id="rFdCI">—</span></div>
-        <div class="result-item"><span class="result-label">Principal</span><span class="result-value" style="color:var(--amber)" id="rFdP">—</span></div>
-        
-      </div>
+    </div>
     </div>
     </div>
 
@@ -283,6 +273,7 @@ CI = A – P</pre>
 </footer>
 
 <script src="script.js"></script>
+
 <script>
 function calcFDPage() {
   var P = parseFloat(document.getElementById('fdP').value);
@@ -290,11 +281,16 @@ function calcFDPage() {
   var t = parseFloat(document.getElementById('fdT').value);
   if(!P||P<=0||!r||r<=0||!t||t<0.25){alert('Please fill all fields correctly.');return;}
   var A = P*Math.pow(1+r/4,4*t);
-  var CI=A-P;
-  document.getElementById('rFdA').textContent='₹'+Math.round(A).toLocaleString('en-IN');
-  document.getElementById('rFdCI').textContent='₹'+Math.round(CI).toLocaleString('en-IN');
-  document.getElementById('rFdP').textContent='₹'+Math.round(P).toLocaleString('en-IN');
-  document.getElementById('fdPageResult').classList.add('show');
+  var CI = A-P;
+  function fmt(v){return '₹'+Math.round(v).toLocaleString('en-IN');}
+  NvModal.open({
+    emoji: '🏦', title: 'FD Calculator Results', subtitle: 'Fixed Deposit Maturity',
+    hero: { label: 'Maturity Amount', value: fmt(A), note: 'Principal + Interest earned' },
+    cards: [
+      { label: 'Principal', value: fmt(P) },
+      { label: 'Interest Earned', value: fmt(CI), color: 'green' }
+    ]
+  });
 }
 </script>
 </body>

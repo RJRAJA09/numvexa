@@ -150,17 +150,7 @@
       <button class="btn-primary" onclick="calcAgePage()" style="width:100%;justify-content:center;padding:.9rem">Calculate Age</button>
 
       </div>
-
-      <!-- Results -->
-      
-    <div class="result-panel" id="agePageResult">
-      <h3>Your Age</h3>
-      <div class="result-grid">
-        <div class="result-item"><span class="result-label">Exact Age</span><span class="result-value" id="rAgeYMD">—</span></div>
-        <div class="result-item"><span class="result-label">Total Days</span><span class="result-value" id="rAgeDays">—</span></div>
-        <div class="result-item"><span class="result-label">Total Weeks</span><span class="result-value" id="rAgeWeeks">—</span></div>
-        <div class="result-item"><span class="result-label">Next Birthday In</span><span class="result-value" style="color:var(--accent)" id="rAgeBday">—</span></div>
-      </div>
+    </div>
     </div>
     </div>
 
@@ -275,6 +265,7 @@ Years (completed) → Remaining Months → Remaining Days</pre>
 </footer>
 
 <script src="script.js"></script>
+
 <script>
 function calcAgePage() {
   var dob = new Date(document.getElementById('ageDob').value);
@@ -290,11 +281,16 @@ function calcAgePage() {
   var nextBD=new Date(today.getFullYear(),dob.getMonth(),dob.getDate());
   if(nextBD<=today) nextBD.setFullYear(today.getFullYear()+1);
   var daysLeft=Math.ceil((nextBD-today)/(1000*60*60*24));
-  document.getElementById('rAgeYMD').textContent = y+' Years, '+m+' Months, '+d+' Days';
-  document.getElementById('rAgeDays').textContent = totalDays.toLocaleString('en-IN')+' days';
-  document.getElementById('rAgeWeeks').textContent = Math.floor(totalDays/7).toLocaleString('en-IN')+' weeks';
-  document.getElementById('rAgeBday').textContent = daysLeft===0?'Today is your birthday! 🎉':daysLeft+' days';
-  document.getElementById('agePageResult').classList.add('show');
+  var bdayText=daysLeft===0?'Today is your birthday! 🎉':daysLeft+' days';
+  NvModal.open({
+    emoji: '🎂', title: 'Age Calculator Results', subtitle: 'As of today',
+    hero: { label: 'Exact Age', value: y+' Years, '+m+' Months, '+d+' Days', note: 'Calculated from date of birth' },
+    cards: [
+      { label: 'Total Days', value: totalDays.toLocaleString('en-IN')+' days' },
+      { label: 'Total Weeks', value: Math.floor(totalDays/7).toLocaleString('en-IN')+' weeks' },
+      { label: 'Next Birthday In', value: bdayText, color: 'accent' }
+    ]
+  });
 }
 </script>
 </body>

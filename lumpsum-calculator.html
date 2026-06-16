@@ -157,17 +157,7 @@
       </div>
       <button class="btn-primary" onclick="calcLSPage()" style="width:100%;justify-content:center;padding:.9rem">Calculate</button>
       </div>
-
-      <!-- Results -->
-      
-    <div class="result-panel" id="lsPageResult">
-      <h3>Results</h3>
-      <div class="result-grid">
-        <div class="result-item"><span class="result-label">Future Value</span><span class="result-value" id="rLsFV">—</span></div>
-        <div class="result-item"><span class="result-label">Wealth Gained</span><span class="result-value" style="color:var(--green)" id="rLsGain">—</span></div>
-        <div class="result-item"><span class="result-label">Investment</span><span class="result-value" style="color:var(--amber)" id="rLsInv">—</span></div>
-        
-      </div>
+    </div>
     </div>
     </div>
 
@@ -282,17 +272,23 @@ where P = Principal, r = Annual Return Rate, t = Years</pre>
 </footer>
 
 <script src="script.js"></script>
+
 <script>
 function calcLSPage() {
-  var P=parseFloat(document.getElementById('lsP').value)||0;
-  var r=parseFloat(document.getElementById('lsR').value)/100;
-  var t=parseFloat(document.getElementById('lsT').value)||0;
+  var P = parseFloat(document.getElementById('lsP').value)||0;
+  var r = parseFloat(document.getElementById('lsR').value)/100;
+  var t = parseFloat(document.getElementById('lsT').value)||0;
   if(!P||P<=0||!r||!t||t<1){alert('Please fill all fields correctly.');return;}
-  var FV=P*Math.pow(1+r,t);
-  document.getElementById('rLsFV').textContent='₹'+Math.round(FV).toLocaleString('en-IN');
-  document.getElementById('rLsGain').textContent='₹'+Math.round(FV-P).toLocaleString('en-IN');
-  document.getElementById('rLsInv').textContent='₹'+Math.round(P).toLocaleString('en-IN');
-  document.getElementById('lsPageResult').classList.add('show');
+  var FV = P*Math.pow(1+r,t);
+  function fmt(v){return '₹'+Math.round(v).toLocaleString('en-IN');}
+  NvModal.open({
+    emoji: '💎', title: 'Lumpsum Calculator Results', subtitle: 'One-Time Investment',
+    hero: { label: 'Future Value', value: fmt(FV), note: 'Projected corpus at end of period' },
+    cards: [
+      { label: 'Investment', value: fmt(P) },
+      { label: 'Wealth Gained', value: fmt(FV-P), color: 'green' }
+    ]
+  });
 }
 </script>
 </body>

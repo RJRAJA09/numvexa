@@ -157,18 +157,7 @@
       </div>
       <button class="btn-primary" onclick="calcEMIPage()" style="width:100%;justify-content:center;padding:.9rem">Calculate</button>
       </div>
-
-      <!-- Results -->
-      
-    <div class="result-panel" id="emiPageResult">
-      <h3>Results</h3>
-      <div class="result-grid">
-        <div class="result-item"><span class="result-label">Monthly EMI</span><span class="result-value" id="rEmiE">—</span></div>
-        <div class="result-item"><span class="result-label">Total Interest</span><span class="result-value" style="color:var(--red)" id="rEmiI">—</span></div>
-        <div class="result-item"><span class="result-label">Total Payment</span><span class="result-value" style="color:var(--amber)" id="rEmiT">—</span></div>
-        <div class="result-item"><span class="result-label">Principal</span><span class="result-value" style="color:var(--green)" id="rEmiP">—</span></div>
-        
-      </div>
+    </div>
     </div>
     </div>
 
@@ -283,6 +272,7 @@ where P = Principal, r = Monthly Rate, n = Months</pre>
 </footer>
 
 <script src="script.js"></script>
+
 <script>
 function calcEMIPage() {
   var P = parseFloat(document.getElementById('emiP').value);
@@ -292,11 +282,16 @@ function calcEMIPage() {
   var emi = P * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1);
   var tot = emi * n;
   var int = tot - P;
-  document.getElementById('rEmiE').textContent = '₹'+Math.round(emi).toLocaleString('en-IN');
-  document.getElementById('rEmiI').textContent = '₹'+Math.round(int).toLocaleString('en-IN');
-  document.getElementById('rEmiT').textContent = '₹'+Math.round(tot).toLocaleString('en-IN');
-  document.getElementById('rEmiP').textContent = '₹'+Math.round(P).toLocaleString('en-IN');
-  document.getElementById('emiPageResult').classList.add('show');
+  function fmt(v){return '₹'+Math.round(v).toLocaleString('en-IN');}
+  NvModal.open({
+    emoji: '🏧', title: 'EMI Calculator Results', subtitle: 'Loan EMI Breakdown',
+    hero: { label: 'Monthly EMI', value: fmt(emi), note: 'Payable every month' },
+    cards: [
+      { label: 'Principal', value: fmt(P) },
+      { label: 'Total Interest', value: fmt(int), color: 'red' },
+      { label: 'Total Payment', value: fmt(tot) }
+    ]
+  });
 }
 </script>
 </body>

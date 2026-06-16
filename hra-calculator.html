@@ -142,40 +142,31 @@
     <div>
       <div class="calc-input-card">
         <h2>🧮 Enter Details</h2>
-        
-      <div class="form-group">
-        <label>Annual Basic Salary (₹)</label>
-        <input type="number" id="hraBasic" placeholder="e.g. 600000" min="0"/>
-      </div>
-      <div class="form-group">
-        <label>Annual HRA Received (₹)</label>
-        <input type="number" id="hraReceived" placeholder="e.g. 240000" min="0"/>
-      </div>
-      <div class="form-group">
-        <label>Annual Rent Paid (₹)</label>
-        <input type="number" id="hraRent" placeholder="e.g. 180000" min="0"/>
-      </div>
-      <div class="form-group">
-        <label style="display:flex;align-items:center;gap:.6rem;cursor:pointer">
-          <input type="checkbox" id="hraMetro" checked style="width:1.1rem;height:1.1rem"/>
-          Metro City (Delhi/Mumbai/Kolkata/Chennai)
-        </label>
-      </div>
-      <button class="btn-primary" onclick="calcHRAPage()" style="width:100%;justify-content:center;padding:.9rem">Calculate HRA</button>
-      </div>
 
-      <!-- Results -->
-      
-    <div class="result-panel" id="hraPageResult">
-      <h3>Results</h3>
-      <div class="result-grid">
-        <div class="result-item"><span class="result-label">HRA Exemption</span><span class="result-value" style="color:var(--green)" id="rHraExempt">—</span></div>
-        <div class="result-item"><span class="result-label">Taxable HRA</span><span class="result-value" style="color:var(--red)" id="rHraTaxable">—</span></div>
-        <div class="result-item"><span class="result-label">Condition (a)</span><span class="result-value" id="rHraA">—</span></div>
-        <div class="result-item"><span class="result-label">Condition (b)</span><span class="result-value" id="rHraB">—</span></div>
-        
+        <div class="form-group">
+          <label>Annual Basic Salary (₹)</label>
+          <input type="number" id="hraBasic" placeholder="e.g. 600000" min="0"/>
+        </div>
+        <div class="form-group">
+          <label>Annual HRA Received (₹)</label>
+          <input type="number" id="hraReceived" placeholder="e.g. 240000" min="0"/>
+        </div>
+        <div class="form-group">
+          <label>Annual Rent Paid (₹)</label>
+          <input type="number" id="hraRent" placeholder="e.g. 180000" min="0"/>
+        </div>
+        <div class="form-group">
+          <label style="display:flex;align-items:center;gap:.6rem;cursor:pointer">
+            <input type="checkbox" id="hraMetro" checked style="width:1.1rem;height:1.1rem"/>
+            Metro City (Delhi/Mumbai/Kolkata/Chennai)
+          </label>
+        </div>
+        <button class="btn-primary" onclick="calcHRAPage()" style="width:100%;justify-content:center;padding:.9rem">
+          Calculate HRA
+        </button>
       </div>
-    </div>
+      <!-- NOTE: The old .result-panel has been intentionally removed.
+           Results now appear in the modal popup. -->
     </div>
 
     <!-- RIGHT: Content -->
@@ -194,23 +185,22 @@
       <section class="faq-section">
         <h2>Frequently Asked Questions</h2>
         <div class="faq-list">
-          
-      <details class="faq-item">
-        <summary>How is HRA exemption calculated?</summary>
-        <p>HRA exemption = Minimum of: (a) Actual HRA received, (b) 50% of Basic Salary for metro / 40% for non-metro, (c) Actual rent paid minus 10% of Basic Salary.</p>
-      </details>
-      <details class="faq-item">
-        <summary>Which cities are considered metro for HRA?</summary>
-        <p>Delhi, Mumbai, Kolkata, and Chennai are considered metro cities for HRA exemption. Bangalore, Hyderabad, Pune etc. are non-metro (40% limit).</p>
-      </details>
-      <details class="faq-item">
-        <summary>What if I don't pay rent?</summary>
-        <p>If you do not pay rent, the third condition (Rent paid – 10% Basic) will be negative or zero, making the entire HRA taxable.</p>
-      </details>
-      <details class="faq-item">
-        <summary>Is HRA available in the new tax regime?</summary>
-        <p>No. HRA exemption is not available under the new tax regime. It is only claimable under the old tax regime.</p>
-      </details>
+          <details class="faq-item">
+            <summary>How is HRA exemption calculated?</summary>
+            <p>HRA exemption = Minimum of: (a) Actual HRA received, (b) 50% of Basic Salary for metro / 40% for non-metro, (c) Actual rent paid minus 10% of Basic Salary.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Which cities are considered metro for HRA?</summary>
+            <p>Delhi, Mumbai, Kolkata, and Chennai are considered metro cities for HRA exemption. Bangalore, Hyderabad, Pune etc. are non-metro (40% limit).</p>
+          </details>
+          <details class="faq-item">
+            <summary>What if I don't pay rent?</summary>
+            <p>If you do not pay rent, the third condition (Rent paid – 10% Basic) will be negative or zero, making the entire HRA taxable.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Is HRA available in the new tax regime?</summary>
+            <p>No. HRA exemption is not available under the new tax regime. It is only claimable under the old tax regime.</p>
+          </details>
         </div>
       </section>
 
@@ -218,23 +208,22 @@
       <section class="related-section">
         <h2>Related Calculators</h2>
         <div class="related-grid">
-          
-        <a class="calc-dir-card" href="/income-tax-calculator.html" style="text-decoration:none">
-          <div style="font-size:1.5rem">🇮🇳</div>
-          <div style="font-size:.85rem;font-weight:700;color:var(--text)">Income Tax</div>
-        </a>
-        <a class="calc-dir-card" href="/salary-calculator.html" style="text-decoration:none">
-          <div style="font-size:1.5rem">💼</div>
-          <div style="font-size:.85rem;font-weight:700;color:var(--text)">Salary Calculator</div>
-        </a>
-        <a class="calc-dir-card" href="/gst-calculator.html" style="text-decoration:none">
-          <div style="font-size:1.5rem">🧾</div>
-          <div style="font-size:.85rem;font-weight:700;color:var(--text)">GST Calculator</div>
-        </a>
-        <a class="calc-dir-card" href="/pf-calculator.html" style="text-decoration:none">
-          <div style="font-size:1.5rem">🏛️</div>
-          <div style="font-size:.85rem;font-weight:700;color:var(--text)">PF Calculator</div>
-        </a>
+          <a class="calc-dir-card" href="/income-tax-calculator.html" style="text-decoration:none">
+            <div style="font-size:1.5rem">🇮🇳</div>
+            <div style="font-size:.85rem;font-weight:700;color:var(--text)">Income Tax</div>
+          </a>
+          <a class="calc-dir-card" href="/salary-calculator.html" style="text-decoration:none">
+            <div style="font-size:1.5rem">💼</div>
+            <div style="font-size:.85rem;font-weight:700;color:var(--text)">Salary Calculator</div>
+          </a>
+          <a class="calc-dir-card" href="/gst-calculator.html" style="text-decoration:none">
+            <div style="font-size:1.5rem">🧾</div>
+            <div style="font-size:.85rem;font-weight:700;color:var(--text)">GST Calculator</div>
+          </a>
+          <a class="calc-dir-card" href="/pf-calculator.html" style="text-decoration:none">
+            <div style="font-size:1.5rem">🏛️</div>
+            <div style="font-size:.85rem;font-weight:700;color:var(--text)">PF Calculator</div>
+          </a>
         </div>
       </section>
 
@@ -290,25 +279,58 @@
 </div>
 </footer>
 
-<script src="script.js"></script>
+<!-- ═══════════════ SCRIPTS ═══════════════ -->
+<script src="script.js"></script><!-- NvModal is defined at the bottom of script.js -->
+
 <script>
+/* ── HRA Calculator – modal-powered ── */
 function calcHRAPage() {
-  var basic = parseFloat(document.getElementById('hraBasic').value)||0;
-  var recv = parseFloat(document.getElementById('hraReceived').value)||0;
-  var rent = parseFloat(document.getElementById('hraRent').value)||0;
+  var basic = parseFloat(document.getElementById('hraBasic').value)   || 0;
+  var recv  = parseFloat(document.getElementById('hraReceived').value) || 0;
+  var rent  = parseFloat(document.getElementById('hraRent').value)     || 0;
   var metro = document.getElementById('hraMetro').checked;
-  if(!basic||!recv){alert('Enter valid values.');return;}
-  var a = recv;
-  var b = basic*(metro?0.5:0.4);
-  var c = Math.max(0, rent - basic*0.1);
-  var exempt = Math.min(a,b,c);
+
+  if (!basic || !recv) {
+    alert('Please enter Annual Basic Salary and HRA Received.');
+    return;
+  }
+
+  /* ── Original calculation logic – UNCHANGED ── */
+  var a       = recv;
+  var b       = basic * (metro ? 0.5 : 0.4);
+  var c       = Math.max(0, rent - basic * 0.1);
+  var exempt  = Math.min(a, b, c);
   var taxable = recv - exempt;
-  document.getElementById('rHraExempt').textContent = '₹'+Math.round(exempt).toLocaleString('en-IN');
-  document.getElementById('rHraTaxable').textContent = '₹'+Math.round(taxable).toLocaleString('en-IN');
-  document.getElementById('rHraA').textContent = '₹'+Math.round(a).toLocaleString('en-IN');
-  document.getElementById('rHraB').textContent = '₹'+Math.round(b).toLocaleString('en-IN');
-  document.getElementById('hraPageResult').classList.add('show');
+
+  /* ── Helper ── */
+  function fmt(n) {
+    return '₹' + Math.round(n).toLocaleString('en-IN');
+  }
+
+  /* ── Open result modal ── */
+  NvModal.open({
+    emoji:    '🏠',
+    title:    'HRA Calculator Results',
+    subtitle: (metro ? 'Metro City' : 'Non-Metro City') + ' · Old Tax Regime',
+
+    hero: {
+      label: 'HRA Exemption (Tax-Free)',
+      value: fmt(exempt),
+      note:  'Minimum of Condition (a), (b) and (c) below'
+    },
+
+    cards: [
+      { label: 'Taxable HRA',    value: fmt(taxable), color: taxable > 0 ? 'red'   : 'green' },
+      { label: 'Condition (a) — Actual HRA Received',       value: fmt(a) },
+      { label: 'Condition (b) — ' + (metro ? '50%' : '40%') + ' of Basic', value: fmt(b) },
+      { label: 'Condition (c) — Rent Paid – 10% of Basic',  value: fmt(c) }
+    ],
+
+    note: '<strong>HRA Exemption = MIN(a, b, c)</strong> &nbsp;|&nbsp; '
+        + 'City type: <strong>' + (metro ? 'Metro (50%)' : 'Non-Metro (40%)') + '</strong>'
+  });
 }
 </script>
+
 </body>
 </html>

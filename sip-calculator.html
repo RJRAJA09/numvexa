@@ -157,17 +157,7 @@
       </div>
       <button class="btn-primary" onclick="calcSIP()" style="width:100%;justify-content:center;padding:.9rem">Calculate</button>
       </div>
-
-      <!-- Results -->
-      
-    <div class="result-panel" id="sipResult">
-      <h3>Results</h3>
-      <div class="result-grid">
-        <div class="result-item"><span class="result-label">Maturity Amount</span><span class="result-value" id="rSipA">—</span></div>
-        <div class="result-item"><span class="result-label">Total Invested</span><span class="result-value" style="color:var(--amber)" id="rSipP">—</span></div>
-        <div class="result-item"><span class="result-label">Wealth Gained</span><span class="result-value" style="color:var(--green)" id="rSipCI">—</span></div>
-        
-      </div>
+    </div>
     </div>
     </div>
 
@@ -282,6 +272,7 @@ where P = monthly SIP, r = monthly rate, n = months</pre>
 </footer>
 
 <script src="script.js"></script>
+
 <script>
 function calcSIP() {
   var P = parseFloat(document.getElementById('sipP').value);
@@ -293,10 +284,15 @@ function calcSIP() {
   var A = P * (Math.pow(1+rm,n)-1) / rm * (1+rm);
   var inv = P * n;
   var gain = A - inv;
-  document.getElementById('rSipA').textContent = '₹'+Math.round(A).toLocaleString('en-IN');
-  document.getElementById('rSipP').textContent = '₹'+Math.round(inv).toLocaleString('en-IN');
-  document.getElementById('rSipCI').textContent = '₹'+Math.round(gain).toLocaleString('en-IN');
-  document.getElementById('sipResult').classList.add('show');
+  function fmt(v){return '₹'+Math.round(v).toLocaleString('en-IN');}
+  NvModal.open({
+    emoji: '📈', title: 'SIP Calculator Results', subtitle: 'Monthly SIP · Mutual Fund',
+    hero: { label: 'Maturity Amount', value: fmt(A), note: 'Total corpus at end of SIP period' },
+    cards: [
+      { label: 'Total Invested', value: fmt(inv), color: 'amber' },
+      { label: 'Wealth Gained', value: fmt(gain), color: 'green' }
+    ]
+  });
 }
 </script>
 </body>

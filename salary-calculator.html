@@ -157,18 +157,7 @@
       </div>
       <button class="btn-primary" onclick="calcSalaryPage()" style="width:100%;justify-content:center;padding:.9rem">Calculate</button>
       </div>
-
-      <!-- Results -->
-      
-    <div class="result-panel" id="salPageResult">
-      <h3>Results</h3>
-      <div class="result-grid">
-        <div class="result-item"><span class="result-label">Annual In-Hand</span><span class="result-value" style="color:var(--green)" id="rSalNet">—</span></div>
-        <div class="result-item"><span class="result-label">Monthly In-Hand</span><span class="result-value" id="rSalMth">—</span></div>
-        <div class="result-item"><span class="result-label">Employee PF/year</span><span class="result-value" style="color:var(--amber)" id="rSalPF">—</span></div>
-        <div class="result-item"><span class="result-label">Gross Salary/year</span><span class="result-value" id="rSalGross">—</span></div>
-        
-      </div>
+    </div>
     </div>
     </div>
 
@@ -284,6 +273,7 @@ Employee PF = 12% of Basic (max ₹1,800/month)</pre>
 </footer>
 
 <script src="script.js"></script>
+
 <script>
 function calcSalaryPage() {
   var ctc = parseFloat(document.getElementById('salCTC').value)||0;
@@ -291,16 +281,20 @@ function calcSalaryPage() {
   var hraPct = parseFloat(document.getElementById('salHraPct').value)||50;
   if(!ctc||ctc<=0){alert('Enter a valid CTC.');return;}
   var basic = ctc * bpct/100;
-  var hra = basic * hraPct/100;
-  var gross = ctc * 0.9; // approximate
+  var gross = ctc * 0.9;
   var empPF = Math.min(basic * 0.12, 21600);
   var profTax = 2400;
-  var net = ctc - empPF - profTax - (ctc*0.05); // rough TDS
-  document.getElementById('rSalNet').textContent = '₹'+Math.round(net).toLocaleString('en-IN');
-  document.getElementById('rSalMth').textContent = '₹'+Math.round(net/12).toLocaleString('en-IN');
-  document.getElementById('rSalPF').textContent = '₹'+Math.round(empPF).toLocaleString('en-IN');
-  document.getElementById('rSalGross').textContent = '₹'+Math.round(gross).toLocaleString('en-IN');
-  document.getElementById('salPageResult').classList.add('show');
+  var net = ctc - empPF - profTax - (ctc*0.05);
+  function fmt(v){return '₹'+Math.round(v).toLocaleString('en-IN');}
+  NvModal.open({
+    emoji: '💼', title: 'Salary Calculator Results', subtitle: 'Take-Home Salary Breakdown',
+    hero: { label: 'Monthly In-Hand', value: fmt(net/12), note: 'Net salary after deductions' },
+    cards: [
+      { label: 'Annual In-Hand', value: fmt(net), color: 'green' },
+      { label: 'Gross Salary/year', value: fmt(gross) },
+      { label: 'Employee PF/year', value: fmt(empPF), color: 'amber' }
+    ]
+  });
 }
 </script>
 </body>

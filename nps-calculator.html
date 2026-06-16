@@ -157,18 +157,7 @@
       </div>
       <button class="btn-primary" onclick="calcNPSPage()" style="width:100%;justify-content:center;padding:.9rem">Calculate</button>
       </div>
-
-      <!-- Results -->
-      
-    <div class="result-panel" id="npsPageResult">
-      <h3>Results</h3>
-      <div class="result-grid">
-        <div class="result-item"><span class="result-label">Total Corpus</span><span class="result-value" id="rNpsCorpus">—</span></div>
-        <div class="result-item"><span class="result-label">Annuity Corpus (40%)</span><span class="result-value" style="color:var(--amber)" id="rNpsAnnuity">—</span></div>
-        <div class="result-item"><span class="result-label">Est. Monthly Pension</span><span class="result-value" style="color:var(--green)" id="rNpsPension">—</span></div>
-        <div class="result-item"><span class="result-label">Lump Sum (60%)</span><span class="result-value" id="rNpsLump">—</span></div>
-        
-      </div>
+    </div>
     </div>
     </div>
 
@@ -284,21 +273,27 @@ Monthly Pension = Annuity Corpus × 6% / 12</pre>
 </footer>
 
 <script src="script.js"></script>
+
 <script>
 function calcNPSPage() {
-  var m=parseFloat(document.getElementById('npsMonthly').value)||0;
-  var r=parseFloat(document.getElementById('npsR').value)/1200;
-  var n=parseFloat(document.getElementById('npsT').value)*12;
+  var m = parseFloat(document.getElementById('npsMonthly').value)||0;
+  var r = parseFloat(document.getElementById('npsR').value)/1200;
+  var n = parseFloat(document.getElementById('npsT').value)*12;
   if(!m||m<=0||!r||!n||n<12){alert('Please fill all fields correctly.');return;}
-  var corpus=m*(Math.pow(1+r,n)-1)/r*(1+r);
-  var annuity=corpus*0.4;
-  var lump=corpus*0.6;
-  var pension=annuity*0.06/12;
-  document.getElementById('rNpsCorpus').textContent='₹'+Math.round(corpus).toLocaleString('en-IN');
-  document.getElementById('rNpsAnnuity').textContent='₹'+Math.round(annuity).toLocaleString('en-IN');
-  document.getElementById('rNpsPension').textContent='₹'+Math.round(pension).toLocaleString('en-IN')+'/month';
-  document.getElementById('rNpsLump').textContent='₹'+Math.round(lump).toLocaleString('en-IN');
-  document.getElementById('npsPageResult').classList.add('show');
+  var corpus = m*(Math.pow(1+r,n)-1)/r*(1+r);
+  var annuity = corpus*0.4;
+  var lump = corpus*0.6;
+  var pension = annuity*0.06/12;
+  function fmt(v){return '₹'+Math.round(v).toLocaleString('en-IN');}
+  NvModal.open({
+    emoji: '🧓', title: 'NPS Calculator Results', subtitle: 'National Pension Scheme',
+    hero: { label: 'Total Corpus', value: fmt(corpus), note: 'At retirement age' },
+    cards: [
+      { label: 'Lump Sum (60%)', value: fmt(lump), color: 'green' },
+      { label: 'Annuity Corpus (40%)', value: fmt(annuity), color: 'amber' },
+      { label: 'Est. Monthly Pension', value: fmt(pension)+'/month', color: 'accent' }
+    ]
+  });
 }
 </script>
 </body>

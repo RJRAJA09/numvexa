@@ -157,18 +157,7 @@
       </div>
       <button class="btn-primary" onclick="calcHLPage()" style="width:100%;justify-content:center;padding:.9rem">Calculate</button>
       </div>
-
-      <!-- Results -->
-      
-    <div class="result-panel" id="hlPageResult">
-      <h3>Results</h3>
-      <div class="result-grid">
-        <div class="result-item"><span class="result-label">Monthly EMI</span><span class="result-value" id="rHlEMI">—</span></div>
-        <div class="result-item"><span class="result-label">Total Interest</span><span class="result-value" style="color:var(--red)" id="rHlInt">—</span></div>
-        <div class="result-item"><span class="result-label">Total Amount</span><span class="result-value" style="color:var(--amber)" id="rHlTotal">—</span></div>
-        <div class="result-item"><span class="result-label">Principal</span><span class="result-value" style="color:var(--green)" id="rHlP">—</span></div>
-        
-      </div>
+    </div>
     </div>
     </div>
 
@@ -284,19 +273,25 @@ Typically compounded monthly</pre>
 </footer>
 
 <script src="script.js"></script>
+
 <script>
 function calcHLPage() {
-  var P=parseFloat(document.getElementById('hlP').value)||0;
-  var r=parseFloat(document.getElementById('hlR').value)/1200;
-  var n=parseFloat(document.getElementById('hlT').value)*12;
+  var P = parseFloat(document.getElementById('hlP').value)||0;
+  var r = parseFloat(document.getElementById('hlR').value)/1200;
+  var n = parseFloat(document.getElementById('hlT').value)*12;
   if(!P||P<=0||!r||!n){alert('Enter valid values.');return;}
-  var emi=P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
-  var tot=emi*n; var int=tot-P;
-  document.getElementById('rHlEMI').textContent='₹'+Math.round(emi).toLocaleString('en-IN');
-  document.getElementById('rHlInt').textContent='₹'+Math.round(int).toLocaleString('en-IN');
-  document.getElementById('rHlTotal').textContent='₹'+Math.round(tot).toLocaleString('en-IN');
-  document.getElementById('rHlP').textContent='₹'+Math.round(P).toLocaleString('en-IN');
-  document.getElementById('hlPageResult').classList.add('show');
+  var emi = P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+  var tot = emi*n; var int = tot-P;
+  function fmt(v){return '₹'+Math.round(v).toLocaleString('en-IN');}
+  NvModal.open({
+    emoji: '🏠', title: 'Home Loan EMI Results', subtitle: 'Home Loan Breakdown',
+    hero: { label: 'Monthly EMI', value: fmt(emi), note: 'Payable every month' },
+    cards: [
+      { label: 'Principal', value: fmt(P) },
+      { label: 'Total Interest', value: fmt(int), color: 'red' },
+      { label: 'Total Amount', value: fmt(tot) }
+    ]
+  });
 }
 </script>
 </body>

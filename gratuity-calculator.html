@@ -153,17 +153,7 @@
       </div>
       <button class="btn-primary" onclick="calcGratuityPage()" style="width:100%;justify-content:center;padding:.9rem">Calculate</button>
       </div>
-
-      <!-- Results -->
-      
-    <div class="result-panel" id="gratPageResult">
-      <h3>Results</h3>
-      <div class="result-grid">
-        <div class="result-item"><span class="result-label">Gratuity Amount</span><span class="result-value" style="color:var(--green)" id="rGratAmt">—</span></div>
-        <div class="result-item"><span class="result-label">Tax-Free Gratuity</span><span class="result-value" style="color:var(--amber)" id="rGratTax">—</span></div>
-        <div class="result-item"><span class="result-label">Taxable Portion</span><span class="result-value" style="color:var(--red)" id="rGratTaxable">—</span></div>
-        
-      </div>
+    </div>
     </div>
     </div>
 
@@ -279,18 +269,24 @@
 </footer>
 
 <script src="script.js"></script>
+
 <script>
 function calcGratuityPage() {
   var basic = parseFloat(document.getElementById('gratBasic').value)||0;
-  var yrs = parseFloat(document.getElementById('gratYears').value)||0;
-  if(!basic||basic<=0||!yrs||yrs<5){alert('Minimum 5 years of service required. Enter valid values.');return;}
+  var yrs   = parseFloat(document.getElementById('gratYears').value)||0;
+  if(!basic||basic<=0||!yrs||yrs<5){alert('Minimum 5 years of service required.');return;}
   var gratuity = basic * 15/26 * Math.floor(yrs);
-  var exempt = Math.min(gratuity, 2000000);
-  var taxable = Math.max(0, gratuity - exempt);
-  document.getElementById('rGratAmt').textContent = '₹'+Math.round(gratuity).toLocaleString('en-IN');
-  document.getElementById('rGratTax').textContent = '₹'+Math.round(exempt).toLocaleString('en-IN');
-  document.getElementById('rGratTaxable').textContent = '₹'+Math.round(taxable).toLocaleString('en-IN');
-  document.getElementById('gratPageResult').classList.add('show');
+  var exempt   = Math.min(gratuity, 2000000);
+  var taxable  = Math.max(0, gratuity - exempt);
+  function fmt(v){return '₹'+Math.round(v).toLocaleString('en-IN');}
+  NvModal.open({
+    emoji: '🎖️', title: 'Gratuity Calculator Results', subtitle: 'As per Payment of Gratuity Act',
+    hero: { label: 'Gratuity Amount', value: fmt(gratuity), note: 'Based on last drawn basic salary' },
+    cards: [
+      { label: 'Tax-Free Gratuity', value: fmt(exempt), color: 'green' },
+      { label: 'Taxable Portion', value: fmt(taxable), color: taxable>0?'red':'green' }
+    ]
+  });
 }
 </script>
 </body>

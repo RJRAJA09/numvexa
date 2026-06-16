@@ -157,18 +157,7 @@
       </div>
       <button class="btn-primary" onclick="calcEdPage()" style="width:100%;justify-content:center;padding:.9rem">Calculate</button>
       </div>
-
-      <!-- Results -->
-      
-    <div class="result-panel" id="edPageResult">
-      <h3>Results</h3>
-      <div class="result-grid">
-        <div class="result-item"><span class="result-label">Monthly EMI</span><span class="result-value" id="rEdEMI">—</span></div>
-        <div class="result-item"><span class="result-label">Total Interest</span><span class="result-value" style="color:var(--red)" id="rEdInt">—</span></div>
-        <div class="result-item"><span class="result-label">Total Amount</span><span class="result-value" style="color:var(--amber)" id="rEdTotal">—</span></div>
-        <div class="result-item"><span class="result-label">Principal</span><span class="result-value" style="color:var(--green)" id="rEdP">—</span></div>
-        
-      </div>
+    </div>
     </div>
     </div>
 
@@ -283,19 +272,25 @@ EMI = [Balance × r/12 × (1+r/12)^n] / [(1+r/12)^n – 1]</pre>
 </footer>
 
 <script src="script.js"></script>
+
 <script>
 function calcEdPage() {
-  var P=parseFloat(document.getElementById('edP').value)||0;
-  var r=parseFloat(document.getElementById('edR').value)/1200;
-  var n=parseFloat(document.getElementById('edT').value)*12;
+  var P = parseFloat(document.getElementById('edP').value)||0;
+  var r = parseFloat(document.getElementById('edR').value)/1200;
+  var n = parseFloat(document.getElementById('edT').value)*12;
   if(!P||P<=0||!r||!n){alert('Enter valid values.');return;}
-  var emi=P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
-  var tot=emi*n; var int=tot-P;
-  document.getElementById('rEdEMI').textContent='₹'+Math.round(emi).toLocaleString('en-IN');
-  document.getElementById('rEdInt').textContent='₹'+Math.round(int).toLocaleString('en-IN');
-  document.getElementById('rEdTotal').textContent='₹'+Math.round(tot).toLocaleString('en-IN');
-  document.getElementById('rEdP').textContent='₹'+Math.round(P).toLocaleString('en-IN');
-  document.getElementById('edPageResult').classList.add('show');
+  var emi = P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+  var tot = emi*n; var int = tot-P;
+  function fmt(v){return '₹'+Math.round(v).toLocaleString('en-IN');}
+  NvModal.open({
+    emoji: '🎓', title: 'Education Loan EMI Results', subtitle: 'Education Loan Breakdown',
+    hero: { label: 'Monthly EMI', value: fmt(emi), note: 'Payable every month' },
+    cards: [
+      { label: 'Principal', value: fmt(P) },
+      { label: 'Total Interest', value: fmt(int), color: 'red' },
+      { label: 'Total Amount', value: fmt(tot) }
+    ]
+  });
 }
 </script>
 </body>

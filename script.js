@@ -1158,3 +1158,453 @@ document.addEventListener('keydown', function(e) {
     if (dirSearch && dirSearch.value) clearDirSearch();
   }
 });
+
+/* ══════════════════════════════════════════════════════════
+   NUMVEXA RESULT MODAL SYSTEM
+   Appended below all existing code — safe, no modifications above
+   NvModal.open(cfg) is globally available on every page that
+   loads this script.js.
+══════════════════════════════════════════════════════════ */
+(function () {
+  'use strict';
+
+  /**
+   * NvModal – Universal result-modal for all Numvexa calculator pages.
+   *
+   * Usage:
+   *   NvModal.open({
+   *     title:    'HRA Calculator',
+   *     emoji:    '🏠',
+   *     subtitle: 'FY 2024-25 · Old Tax Regime',
+   *
+   *     // hero: the single most important result (optional but recommended)
+   *     hero: { label: 'HRA Exemption', value: '₹1,20,000', note: 'Exempt from tax' },
+   *
+   *     // cards: secondary breakdown values (2-col desktop, 1-col mobile)
+   *     cards: [
+   *       { label: 'Taxable HRA',    value: '₹1,20,000', color: 'red' },
+   *       { label: 'Condition (a)',  value: '₹2,40,000' },
+   *       { label: 'Condition (b)',  value: '₹3,00,000' },
+   *       { label: 'Condition (c)',  value: '₹1,20,000' },
+   *       // add  full: true  to span a card across both columns
+   *     ],
+   *
+   *     // note: optional formula/info line (HTML allowed)
+   *     note: '<strong>Min(a, b, c)</strong> = HRA Exemption',
+   *
+   *     // copyText: plain text for "Copy Results" (auto-built if omitted)
+   *     // onAgain:  function to call on "Calculate Again" (defaults to refocusing first input)
+   *   });
+   *
+   * Color options for cards: 'green' | 'red' | 'amber' | 'accent' | '' (default text color)
+   */
+
+  var _overlay, _modal, _onAgain;
+
+  /* Build modal DOM once, on first use */
+  function _build() {
+    if (document.getElementById('nvModalOverlay')) {
+      _overlay = document.getElementById('nvModalOverlay');
+      _modal   = document.getElementById('nvModalBox');
+      return;
+    }
+
+    var div = document.createElement('div');
+    div.innerHTML = [
+      '<div class="nv-modal-overlay" id="nvModalOverlay" role="dialog" aria-modal="true" aria-labelledby="nvModalTitle">',
+      '  <div class="nv-modal" id="nvModalBox">',
+      '    <div class="nv-modal-header">',
+      '      <div class="nv-modal-title-group">',
+      '        <span class="nv-modal-emoji" id="nvModalEmoji">📊</span>',
+      '        <div>',
+      '          <div class="nv-modal-title" id="nvModalTitle"></div>',
+      '          <div class="nv-modal-subtitle" id="nvModalSubtitle"></div>',
+      '        </div>',
+      '      </div>',
+      '      <button class="nv-modal-close" id="nvModalCloseX" aria-label="Close">✕</button>',
+      '    </div>',
+      '    <div class="nv-modal-body" id="nvModalBody"></div>',
+      '  </div>',
+      '</div>'
+    ].join('');
+
+    document.body.appendChild(div.firstElementChild);
+
+    _overlay = document.getElementById('nvModalOverlay');
+    _modal   = document.getElementById('nvModalBox');
+
+    document.getElementById('nvModalCloseX').addEventListener('click', function () { NvModal.close(); });
+    _overlay.addEventListener('click', function (e) {
+      if (e.target === _overlay) NvModal.close();
+    });
+    /* Escape key: close NvModal if open (coexists with existing closeModal for the old modal) */
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && _overlay && _overlay.classList.contains('nv-open')) {
+        NvModal.close();
+      }
+    });
+  }
+
+  function _colorClass(c) {
+    return { green: 'is-green', red: 'is-red', amber: 'is-amber', accent: 'is-accent' }[c] || '';
+  }
+
+  function _buildCopyText(cfg) {
+    var lines = ['📊 ' + (cfg.title || 'Results')];
+    if (cfg.subtitle) lines.push(cfg.subtitle);
+    lines.push('');
+    if (cfg.hero) lines.push((cfg.hero.label || 'Result') + ': ' + (cfg.hero.value || ''));
+    if (cfg.cards) {
+      cfg.cards.forEach(function (c) {
+        lines.push((c.label || '') + ': ' + (c.value || ''));
+      });
+    }
+    lines.push('');
+    lines.push('Calculated at numvexa.in');
+    return lines.join('\n');
+  }
+
+  window.NvModal = {
+
+    open: function (cfg) {
+      _build();
+      _onAgain = cfg.onAgain || null;
+
+      /* ── Header ── */
+      document.getElementById('nvModalEmoji').textContent    = cfg.emoji    || '📊';
+      document.getElementById('nvModalTitle').textContent    = cfg.title    || 'Results';
+      document.getElementById('nvModalSubtitle').textContent = cfg.subtitle || '';
+
+      /* ── Build body HTML ── */
+      var body  = document.getElementById('nvModalBody');
+      var parts = [];
+
+      /* Hero */
+      if (cfg.hero) {
+        parts.push(
+          '<div class="nv-result-hero">',
+          '  <div class="nv-result-hero-label">' + _esc(cfg.hero.label || '') + '</div>',
+          '  <div class="nv-result-hero-value">'  + _esc(cfg.hero.value || '—') + '</div>',
+          cfg.hero.note ? '<div class="nv-result-hero-note">' + _esc(cfg.hero.note) + '</div>' : '',
+          '</div>'
+        );
+      }
+
+      /* Cards */
+      if (cfg.cards && cfg.cards.length) {
+        parts.push('<div class="nv-result-grid">');
+        cfg.cards.forEach(function (c) {
+          var cls    = 'nv-result-card' + (c.full ? ' nv-full' : '');
+          var valCls = ('nv-result-card-value ' + _colorClass(c.color || '')).trim();
+          parts.push(
+            '<div class="' + cls + '">',
+            '  <span class="nv-result-card-label">' + _esc(c.label || '') + '</span>',
+            '  <div class="' + valCls + '">' + _esc(c.value || '—') + '</div>',
+            '</div>'
+          );
+        });
+        parts.push('</div>');
+      }
+
+      /* Note (allows safe HTML like <strong>) */
+      if (cfg.note) {
+        parts.push('<div class="nv-modal-note">' + cfg.note + '</div>');
+      }
+
+      /* Action buttons */
+      var copyText = cfg.copyText || _buildCopyText(cfg);
+      parts.push(
+        '<div class="nv-modal-actions">',
+        '  <button class="nv-btn nv-btn-ghost nv-btn-copy" id="nvCopyBtn" onclick="NvModal._copy()">📋 Copy Results</button>',
+        '  <button class="nv-btn nv-btn-ghost" onclick="NvModal.close()">✕ Close</button>',
+        '  <button class="nv-btn nv-btn-primary" onclick="NvModal._again()">🔄 Calculate Again</button>',
+        '</div>'
+      );
+
+      body.innerHTML = parts.join('');
+      body.dataset.copyText = copyText;
+
+      /* ── Open ── */
+      document.body.style.overflow = 'hidden';
+      _overlay.classList.add('nv-open');
+    },
+
+    close: function () {
+      if (!_overlay) return;
+      _overlay.classList.remove('nv-open');
+      document.body.style.overflow = '';
+    },
+
+    _copy: function () {
+      var body = document.getElementById('nvModalBody');
+      var text = body ? body.dataset.copyText : '';
+      if (!text) return;
+      var btn = document.getElementById('nvCopyBtn');
+
+      function _done() {
+        if (!btn) return;
+        btn.textContent = '✅ Copied!';
+        btn.classList.add('copied');
+        setTimeout(function () {
+          btn.textContent = '📋 Copy Results';
+          btn.classList.remove('copied');
+        }, 2200);
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(_done).catch(function () { _fallback(text); _done(); });
+      } else {
+        _fallback(text);
+        _done();
+      }
+    },
+
+    _again: function () {
+      NvModal.close();
+      if (_onAgain) { _onAgain(); return; }
+      /* Default: scroll to first input in the calc card and focus it */
+      var inp = document.querySelector('.calc-input-card input, .calc-input-card select, .calc-form input, .calc-form select');
+      if (inp) {
+        inp.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(function () { inp.focus(); if (inp.select) inp.select(); }, 300);
+      }
+    }
+  };
+
+  /* textarea clipboard fallback */
+  function _fallback(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;opacity:0;pointer-events:none';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+
+  /* Escape text for insertion as textContent via innerHTML (labels/values only) */
+  function _esc(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+})();
+/* ── End of Numvexa Result Modal System ── */
+
+/* ══════════════════════════════════════════
+   NUMVEXA RESULT MODAL SYSTEM
+   Append this block to the END of script.js
+══════════════════════════════════════════ */
+
+/* ─── Modal Core ─── */
+(function () {
+  'use strict';
+
+  /**
+   * NvModal – Universal result-modal for all Numvexa calculator pages.
+   *
+   * Usage:
+   *   NvModal.open({
+   *     title:    'HRA Calculator',
+   *     emoji:    '🏠',
+   *     subtitle: 'FY 2024-25 · Old Tax Regime',
+   *
+   *     // hero: the single most important result (optional)
+   *     hero: { label: 'HRA Exemption', value: '₹1,20,000', note: 'Exempt from tax' },
+   *
+   *     // cards: secondary breakdown values
+   *     cards: [
+   *       { label: 'Taxable HRA', value: '₹1,20,000', color: 'red' },
+   *       { label: 'Condition (a)', value: '₹2,40,000' },
+   *       { label: 'Condition (b)', value: '₹3,00,000' },
+   *       { label: 'Condition (c)', value: '₹1,20,000' },
+   *     ],
+   *
+   *     // note: optional formula/info line inside modal
+   *     note: '<strong>Min(a, b, c)</strong> = HRA Exemption',
+   *
+   *     // copyText: what "Copy Results" copies (auto-built if omitted)
+   *   });
+   *
+   * Color options for cards: 'green' | 'red' | 'amber' | 'accent' | '' (default)
+   */
+  var overlay, modal, _onAgain;
+
+  function _build() {
+    if (document.getElementById('nvModalOverlay')) return;
+
+    var html = [
+      '<div class="nv-modal-overlay" id="nvModalOverlay" role="dialog" aria-modal="true" aria-labelledby="nvModalTitle">',
+      '  <div class="nv-modal" id="nvModalBox">',
+      '    <div class="nv-modal-header">',
+      '      <div class="nv-modal-title-group">',
+      '        <span class="nv-modal-emoji" id="nvModalEmoji">📊</span>',
+      '        <div>',
+      '          <div class="nv-modal-title" id="nvModalTitle"></div>',
+      '          <div class="nv-modal-subtitle" id="nvModalSubtitle"></div>',
+      '        </div>',
+      '      </div>',
+      '      <button class="nv-modal-close" id="nvModalCloseX" aria-label="Close">✕</button>',
+      '    </div>',
+      '    <div class="nv-modal-body" id="nvModalBody"></div>',
+      '  </div>',
+      '</div>'
+    ].join('');
+
+    var tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    document.body.appendChild(tmp.firstElementChild);
+
+    overlay = document.getElementById('nvModalOverlay');
+    modal   = document.getElementById('nvModalBox');
+
+    document.getElementById('nvModalCloseX').addEventListener('click', NvModal.close);
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) NvModal.close();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') NvModal.close();
+    });
+  }
+
+  function _fmt(v) {
+    var n = parseFloat(String(v).replace(/[^0-9.-]/g, ''));
+    if (isNaN(n)) return v;
+    return '₹' + Math.round(n).toLocaleString('en-IN');
+  }
+
+  function _colorClass(c) {
+    var map = { green: 'is-green', red: 'is-red', amber: 'is-amber', accent: 'is-accent' };
+    return map[c] || '';
+  }
+
+  window.NvModal = {
+    open: function (cfg) {
+      _build();
+      _onAgain = cfg.onAgain || null;
+
+      /* Header */
+      document.getElementById('nvModalEmoji').textContent    = cfg.emoji    || '📊';
+      document.getElementById('nvModalTitle').textContent    = cfg.title    || 'Results';
+      document.getElementById('nvModalSubtitle').textContent = cfg.subtitle || '';
+
+      /* Body */
+      var body = document.getElementById('nvModalBody');
+      var parts = [];
+
+      /* Hero */
+      if (cfg.hero) {
+        parts.push(
+          '<div class="nv-result-hero">',
+          '  <div class="nv-result-hero-label">' + (cfg.hero.label || '') + '</div>',
+          '  <div class="nv-result-hero-value">' + (cfg.hero.value || '—') + '</div>',
+          cfg.hero.note ? '<div class="nv-result-hero-note">' + cfg.hero.note + '</div>' : '',
+          '</div>'
+        );
+      }
+
+      /* Cards */
+      if (cfg.cards && cfg.cards.length) {
+        parts.push('<div class="nv-result-grid">');
+        cfg.cards.forEach(function (c) {
+          var cls = 'nv-result-card' + (c.full ? ' nv-full' : '');
+          var valCls = 'nv-result-card-value ' + _colorClass(c.color || '');
+          parts.push(
+            '<div class="' + cls + '">',
+            '  <span class="nv-result-card-label">' + (c.label || '') + '</span>',
+            '  <div class="' + valCls.trim() + '">' + (c.value || '—') + '</div>',
+            '</div>'
+          );
+        });
+        parts.push('</div>');
+      }
+
+      /* Note */
+      if (cfg.note) {
+        parts.push('<div class="nv-modal-note">' + cfg.note + '</div>');
+      }
+
+      /* Action buttons */
+      var copyText = cfg.copyText || _buildCopyText(cfg);
+      parts.push(
+        '<div class="nv-modal-actions">',
+        '  <button class="nv-btn nv-btn-ghost nv-btn-copy" id="nvCopyBtn" onclick="NvModal._copy()">📋 Copy Results</button>',
+        '  <button class="nv-btn nv-btn-ghost" onclick="NvModal.close()">✕ Close</button>',
+        '  <button class="nv-btn nv-btn-primary" onclick="NvModal._again()">🔄 Calculate Again</button>',
+        '</div>'
+      );
+
+      body.innerHTML = parts.join('');
+      body.dataset.copyText = copyText;
+
+      /* Open */
+      document.body.style.overflow = 'hidden';
+      overlay.classList.add('nv-open');
+      modal.focus && modal.focus();
+    },
+
+    close: function () {
+      if (!overlay) return;
+      overlay.classList.remove('nv-open');
+      document.body.style.overflow = '';
+    },
+
+    _copy: function () {
+      var body = document.getElementById('nvModalBody');
+      var text = body ? body.dataset.copyText : '';
+      if (!text) return;
+      navigator.clipboard.writeText(text).then(function () {
+        var btn = document.getElementById('nvCopyBtn');
+        if (!btn) return;
+        btn.textContent = '✅ Copied!';
+        btn.classList.add('copied');
+        setTimeout(function () {
+          btn.textContent = '📋 Copy Results';
+          btn.classList.remove('copied');
+        }, 2200);
+      }).catch(function () {
+        /* fallback */
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      });
+    },
+
+    _again: function () {
+      NvModal.close();
+      if (_onAgain) { _onAgain(); return; }
+      /* Default: scroll to first input and focus it */
+      var inp = document.querySelector('.calc-input-card input, .calc-input-card select');
+      if (inp) {
+        inp.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(function () { inp.focus(); inp.select && inp.select(); }, 300);
+      }
+    }
+  };
+
+  /* Auto-build plain-text copy string from cfg */
+  function _buildCopyText(cfg) {
+    var lines = ['📊 ' + (cfg.title || 'Results')];
+    if (cfg.subtitle) lines.push(cfg.subtitle);
+    lines.push('');
+    if (cfg.hero) lines.push((cfg.hero.label || 'Result') + ': ' + (cfg.hero.value || ''));
+    if (cfg.cards) {
+      cfg.cards.forEach(function (c) {
+        lines.push((c.label || '') + ': ' + (c.value || ''));
+      });
+    }
+    lines.push('');
+    lines.push('Calculated at numvexa.in');
+    return lines.join('\n');
+  }
+
+})();
+/* ── End of Modal Core ── */

@@ -157,17 +157,7 @@
       </div>
       <button class="btn-primary" onclick="calcCAGRPage()" style="width:100%;justify-content:center;padding:.9rem">Calculate</button>
       </div>
-
-      <!-- Results -->
-      
-    <div class="result-panel" id="cagrPageResult">
-      <h3>Results</h3>
-      <div class="result-grid">
-        <div class="result-item"><span class="result-label">CAGR</span><span class="result-value" style="color:var(--green)" id="rCagrPct">—</span></div>
-        <div class="result-item"><span class="result-label">Absolute Return</span><span class="result-value" style="color:var(--amber)" id="rCagrAbs">—</span></div>
-        <div class="result-item"><span class="result-label">Profit / Loss</span><span class="result-value" id="rCagrProfit">—</span></div>
-        
-      </div>
+    </div>
     </div>
     </div>
 
@@ -282,19 +272,24 @@ Future Value = Present Value × (1 + CAGR)^Years</pre>
 </footer>
 
 <script src="script.js"></script>
+
 <script>
 function calcCAGRPage() {
   var init = parseFloat(document.getElementById('cagrInitial').value)||0;
-  var fin = parseFloat(document.getElementById('cagrFinal').value)||0;
-  var yrs = parseFloat(document.getElementById('cagrYears').value)||0;
+  var fin  = parseFloat(document.getElementById('cagrFinal').value)||0;
+  var yrs  = parseFloat(document.getElementById('cagrYears').value)||0;
   if(!init||init<=0||!fin||fin<=0||!yrs||yrs<0.5){alert('Enter valid values.');return;}
-  var cagr = (Math.pow(fin/init,1/yrs)-1)*100;
-  var abs = ((fin-init)/init)*100;
-  var profit = fin-init;
-  document.getElementById('rCagrPct').textContent=cagr.toFixed(2)+'% p.a.';
-  document.getElementById('rCagrAbs').textContent=abs.toFixed(2)+'%';
-  document.getElementById('rCagrProfit').textContent=(profit>=0?'₹+':'₹')+Math.abs(Math.round(profit)).toLocaleString('en-IN');
-  document.getElementById('cagrPageResult').classList.add('show');
+  var cagr   = (Math.pow(fin/init, 1/yrs)-1)*100;
+  var abs    = ((fin-init)/init)*100;
+  var profit = fin - init;
+  NvModal.open({
+    emoji: '📉', title: 'CAGR Calculator Results', subtitle: 'Compounded Annual Growth Rate',
+    hero: { label: 'CAGR', value: cagr.toFixed(2)+'% p.a.', note: 'Annualised return rate' },
+    cards: [
+      { label: 'Absolute Return', value: abs.toFixed(2)+'%' },
+      { label: 'Profit / Loss', value: (profit>=0?'₹+':'₹')+Math.abs(Math.round(profit)).toLocaleString('en-IN'), color: profit>=0?'green':'red' }
+    ]
+  });
 }
 </script>
 </body>

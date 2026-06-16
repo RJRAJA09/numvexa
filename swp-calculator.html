@@ -157,18 +157,7 @@
       </div>
       <button class="btn-primary" onclick="calcSWPPage()" style="width:100%;justify-content:center;padding:.9rem">Calculate</button>
       </div>
-
-      <!-- Results -->
-      
-    <div class="result-panel" id="swpPageResult">
-      <h3>Results</h3>
-      <div class="result-grid">
-        <div class="result-item"><span class="result-label">Corpus after 10 years</span><span class="result-value" style="color:var(--green)" id="rSwpCorpus10">—</span></div>
-        <div class="result-item"><span class="result-label">Corpus after 20 years</span><span class="result-value" style="color:var(--amber)" id="rSwpCorpus20">—</span></div>
-        <div class="result-item"><span class="result-label">Total Withdrawn (10yr)</span><span class="result-value" id="rSwpTotal10">—</span></div>
-        <div class="result-item"><span class="result-label">Sustainability</span><span class="result-value" id="rSwpSustain">—</span></div>
-        
-      </div>
+    </div>
     </div>
     </div>
 
@@ -284,6 +273,7 @@ where W = monthly withdrawal, r = annual return</pre>
 </footer>
 
 <script src="script.js"></script>
+
 <script>
 function calcSWPPage() {
   var C = parseFloat(document.getElementById('swpCorpus').value)||0;
@@ -292,16 +282,21 @@ function calcSWPPage() {
   if(!C||C<=0||!W||W<=0||!r){alert('Enter valid values.');return;}
   var c10=C, c20=C, tot10=0;
   for(var i=1;i<=240;i++){
-    c20=c20*(1+r)-W;
-    if(c20<0){c20=0;}
+    c20=c20*(1+r)-W; if(c20<0) c20=0;
     if(i<=120){c10=c10*(1+r)-W; if(c10<0)c10=0; tot10+=W;}
   }
   var monthlyEarn=C*r;
-  document.getElementById('rSwpCorpus10').textContent='₹'+Math.round(c10).toLocaleString('en-IN');
-  document.getElementById('rSwpCorpus20').textContent='₹'+Math.round(c20).toLocaleString('en-IN');
-  document.getElementById('rSwpTotal10').textContent='₹'+Math.round(tot10).toLocaleString('en-IN');
-  document.getElementById('rSwpSustain').textContent=monthlyEarn>=W?'Sustainable (corpus grows)':'Depleting corpus';
-  document.getElementById('swpPageResult').classList.add('show');
+  var sustain=monthlyEarn>=W?'Sustainable ✅':'Corpus Depleting ⚠️';
+  function fmt(v){return '₹'+Math.round(v).toLocaleString('en-IN');}
+  NvModal.open({
+    emoji: '💸', title: 'SWP Calculator Results', subtitle: 'Systematic Withdrawal Plan',
+    hero: { label: 'Corpus after 10 years', value: fmt(c10), note: 'Remaining corpus after monthly withdrawals' },
+    cards: [
+      { label: 'Corpus after 20 years', value: fmt(c20) },
+      { label: 'Total Withdrawn (10yr)', value: fmt(tot10), color: 'amber' },
+      { label: 'Sustainability', value: sustain, color: monthlyEarn>=W?'green':'red' }
+    ]
+  });
 }
 </script>
 </body>

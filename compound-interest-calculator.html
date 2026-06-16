@@ -166,18 +166,7 @@
       </div>
       <button class="btn-primary" onclick="calcCIPage()" style="width:100%;justify-content:center;padding:.9rem">Calculate CI</button>
       </div>
-
-      <!-- Results -->
-      
-    <div class="result-panel" id="ciPageResult">
-      <h3>Results</h3>
-      <div class="result-grid">
-        <div class="result-item"><span class="result-label">Maturity Amount</span><span class="result-value" id="rCiA2">—</span></div>
-        <div class="result-item"><span class="result-label">Total Interest</span><span class="result-value" style="color:var(--green)" id="rCiCI2">—</span></div>
-        <div class="result-item"><span class="result-label">Principal</span><span class="result-value" style="color:var(--amber)" id="rCiP2">—</span></div>
-        <div class="result-item"><span class="result-label">Effective Annual Rate</span><span class="result-value" id="rCiEAR2">—</span></div>
-        
-      </div>
+    </div>
     </div>
     </div>
 
@@ -293,6 +282,7 @@ CI = A – P</pre>
 </footer>
 
 <script src="script.js"></script>
+
 <script>
 var ciPageN = 1;
 function ciPagePickFreq(btn) {
@@ -306,14 +296,19 @@ function calcCIPage() {
   var t = parseFloat(document.getElementById('ciT2').value);
   var n = ciPageN;
   if(!P||P<=0||!r||!t||t<1){alert('Please fill all fields correctly.');return;}
-  var A = P * Math.pow(1+r/n,n*t);
-  var CI = A-P;
-  var EAR = (Math.pow(1+r/n,n)-1)*100;
-  document.getElementById('rCiA2').textContent = '₹'+Math.round(A).toLocaleString('en-IN');
-  document.getElementById('rCiCI2').textContent = '₹'+Math.round(CI).toLocaleString('en-IN');
-  document.getElementById('rCiP2').textContent = '₹'+Math.round(P).toLocaleString('en-IN');
-  document.getElementById('rCiEAR2').textContent = EAR.toFixed(3)+'%';
-  document.getElementById('ciPageResult').classList.add('show');
+  var A   = P * Math.pow(1+r/n, n*t);
+  var CI  = A - P;
+  var EAR = (Math.pow(1+r/n, n)-1)*100;
+  function fmt(v){return '₹'+Math.round(v).toLocaleString('en-IN');}
+  NvModal.open({
+    emoji: '📊', title: 'Compound Interest Results', subtitle: 'Compounding Growth',
+    hero: { label: 'Maturity Amount', value: fmt(A), note: 'Principal + Compound Interest' },
+    cards: [
+      { label: 'Principal', value: fmt(P) },
+      { label: 'Total Interest', value: fmt(CI), color: 'green' },
+      { label: 'Effective Annual Rate', value: EAR.toFixed(3)+'%', color: 'accent' }
+    ]
+  });
 }
 </script>
 </body>

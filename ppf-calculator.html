@@ -157,17 +157,7 @@
       </div>
       <button class="btn-primary" onclick="calcPPFPage()" style="width:100%;justify-content:center;padding:.9rem">Calculate</button>
       </div>
-
-      <!-- Results -->
-      
-    <div class="result-panel" id="ppfPageResult">
-      <h3>Results</h3>
-      <div class="result-grid">
-        <div class="result-item"><span class="result-label">Maturity Amount</span><span class="result-value" style="color:var(--green)" id="rPpfA">—</span></div>
-        <div class="result-item"><span class="result-label">Total Invested</span><span class="result-value" style="color:var(--amber)" id="rPpfInv">—</span></div>
-        <div class="result-item"><span class="result-label">Interest Earned</span><span class="result-value" id="rPpfCI">—</span></div>
-        
-      </div>
+    </div>
     </div>
     </div>
 
@@ -283,6 +273,7 @@ Y = Annual Contribution</pre>
 </footer>
 
 <script src="script.js"></script>
+
 <script>
 function calcPPFPage() {
   var Y = parseFloat(document.getElementById('ppfY').value)||0;
@@ -293,10 +284,15 @@ function calcPPFPage() {
   var A = bal*Math.pow(1+r,t);
   for(var i=1;i<=t;i++) A += Y*Math.pow(1+r,t-i+1);
   var inv = bal + Y*t;
-  document.getElementById('rPpfA').textContent='₹'+Math.round(A).toLocaleString('en-IN');
-  document.getElementById('rPpfInv').textContent='₹'+Math.round(inv).toLocaleString('en-IN');
-  document.getElementById('rPpfCI').textContent='₹'+Math.round(A-inv).toLocaleString('en-IN');
-  document.getElementById('ppfPageResult').classList.add('show');
+  function fmt(v){return '₹'+Math.round(v).toLocaleString('en-IN');}
+  NvModal.open({
+    emoji: '🏛️', title: 'PPF Calculator Results', subtitle: 'Public Provident Fund',
+    hero: { label: 'Maturity Amount', value: fmt(A), note: 'Tax-free corpus at maturity' },
+    cards: [
+      { label: 'Total Invested', value: fmt(inv), color: 'amber' },
+      { label: 'Interest Earned', value: fmt(A-inv), color: 'green' }
+    ]
+  });
 }
 </script>
 </body>

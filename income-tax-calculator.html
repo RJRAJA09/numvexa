@@ -157,17 +157,7 @@
       </div>
       <button class="btn-primary" onclick="calcTaxPage()" style="width:100%;justify-content:center;padding:.9rem">Calculate</button>
       </div>
-
-      <!-- Results -->
-      
-    <div class="result-panel" id="taxPageResult">
-      <h3>Results</h3>
-      <div class="result-grid">
-        <div class="result-item"><span class="result-label">Tax (Old Regime)</span><span class="result-value" style="color:var(--red)" id="rTaxOld">—</span></div>
-        <div class="result-item"><span class="result-label">Tax (New Regime)</span><span class="result-value" style="color:var(--amber)" id="rTaxNew">—</span></div>
-        <div class="result-item"><span class="result-label">Better Regime</span><span class="result-value" style="color:var(--green)" id="rTaxBetter">—</span></div>
-        
-      </div>
+    </div>
     </div>
     </div>
 
@@ -283,6 +273,7 @@ New: Standard deduction ₹75,000 only</pre>
 </footer>
 
 <script src="script.js"></script>
+
 <script>
 function calcTaxPage() {
   var inc = parseFloat(document.getElementById('taxIncome').value)||0;
@@ -297,22 +288,26 @@ function calcTaxPage() {
     }
     return t;
   }
-  // Old regime
   var tiOld = Math.max(0, inc - 50000 - d80c - dOther);
   var slabsOld=[[0,250000,0],[250000,500000,5],[500000,1000000,20],[1000000,Infinity,30]];
   var tOld = taxSlab(tiOld, slabsOld);
-  if(tiOld<=500000) tOld=0; // 87A rebate
-  tOld = tOld * 1.04; // 4% cess
-  // New regime
+  if(tiOld<=500000) tOld=0;
+  tOld = tOld * 1.04;
   var tiNew = Math.max(0, inc - 75000);
   var slabsNew=[[0,300000,0],[300000,700000,5],[700000,1000000,10],[1000000,1200000,15],[1200000,1500000,20],[1500000,Infinity,30]];
   var tNew = taxSlab(tiNew, slabsNew);
-  if(tiNew<=700000) tNew=0; // 87A rebate
+  if(tiNew<=700000) tNew=0;
   tNew = tNew * 1.04;
-  document.getElementById('rTaxOld').textContent = '₹'+Math.round(tOld).toLocaleString('en-IN');
-  document.getElementById('rTaxNew').textContent = '₹'+Math.round(tNew).toLocaleString('en-IN');
-  document.getElementById('rTaxBetter').textContent = tOld<=tNew ? 'Old Regime saves ₹'+Math.round(tNew-tOld).toLocaleString('en-IN') : 'New Regime saves ₹'+Math.round(tOld-tNew).toLocaleString('en-IN');
-  document.getElementById('taxPageResult').classList.add('show');
+  var better = tOld<=tNew ? 'Old Regime saves ₹'+Math.round(tNew-tOld).toLocaleString('en-IN') : 'New Regime saves ₹'+Math.round(tOld-tNew).toLocaleString('en-IN');
+  function fmt(v){return '₹'+Math.round(v).toLocaleString('en-IN');}
+  NvModal.open({
+    emoji: '🇮🇳', title: 'Income Tax Results', subtitle: 'Old vs New Regime · FY 2024-25',
+    hero: { label: 'Tax – Old Regime', value: fmt(tOld), note: 'Including 4% cess' },
+    cards: [
+      { label: 'Tax – New Regime', value: fmt(tNew) },
+      { label: 'Better Regime', value: better, color: 'green' }
+    ]
+  });
 }
 </script>
 </body>

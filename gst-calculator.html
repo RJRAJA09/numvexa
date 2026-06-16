@@ -170,18 +170,7 @@
       <button class="btn-primary" onclick="calcGSTPage()" style="width:100%;justify-content:center;padding:.9rem">Calculate GST</button>
 
       </div>
-
-      <!-- Results -->
-      
-    <div class="result-panel" id="gstPageResult">
-      <h3>GST Breakdown</h3>
-      <div class="result-grid">
-        <div class="result-item"><span class="result-label">Base Price</span><span class="result-value" id="rGstBase">—</span></div>
-        <div class="result-item"><span class="result-label">GST Amount</span><span class="result-value" id="rGstAmt" style="color:var(--red)">—</span></div>
-        <div class="result-item"><span class="result-label">Total Price</span><span class="result-value" style="color:var(--amber)" id="rGstTotal">—</span></div>
-        <div class="result-item"><span class="result-label">CGST</span><span class="result-value" id="rGstCgst">—</span></div>
-        <div class="result-item"><span class="result-label">SGST</span><span class="result-value" id="rGstSgst">—</span></div>
-      </div>
+    </div>
     </div>
     </div>
 
@@ -297,6 +286,7 @@ CGST = SGST = GST Amount / 2 (intra-state)</pre>
 </footer>
 
 <script src="script.js"></script>
+
 <script>
 function calcGSTPage() {
   var amount = parseFloat(document.getElementById('gstAmount').value);
@@ -309,12 +299,17 @@ function calcGSTPage() {
   } else {
     total = amount; base = total/(1+rate/100); gstAmt = total-base;
   }
-  document.getElementById('rGstBase').textContent = '₹'+base.toFixed(2);
-  document.getElementById('rGstAmt').textContent = '₹'+gstAmt.toFixed(2);
-  document.getElementById('rGstTotal').textContent = '₹'+total.toFixed(2);
-  document.getElementById('rGstCgst').textContent = '₹'+(gstAmt/2).toFixed(2);
-  document.getElementById('rGstSgst').textContent = '₹'+(gstAmt/2).toFixed(2);
-  document.getElementById('gstPageResult').classList.add('show');
+  function fmt(v){return '₹'+v.toFixed(2);}
+  NvModal.open({
+    emoji: '🧾', title: 'GST Calculator Results', subtitle: 'GST Breakdown · '+rate+'%',
+    hero: { label: 'Total Price (incl. GST)', value: fmt(total), note: 'Base price + GST amount' },
+    cards: [
+      { label: 'Base Price', value: fmt(base) },
+      { label: 'GST Amount', value: fmt(gstAmt), color: 'red' },
+      { label: 'CGST ('+rate/2+'%)', value: fmt(gstAmt/2) },
+      { label: 'SGST ('+rate/2+'%)', value: fmt(gstAmt/2) }
+    ]
+  });
 }
 </script>
 </body>
