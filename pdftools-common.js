@@ -21,6 +21,7 @@ function pdftoolsSetupDropzone(dropzoneEl, inputEl, onFiles) {
   if (!dropzoneEl || !inputEl) return;
   dropzoneEl.addEventListener('click', function (e) {
     if (e.target.closest('.pdftools-file-remove')) return;
+    if (e.target === inputEl || e.target.closest('input[type="file"]')) return;
     inputEl.click();
   });
   inputEl.addEventListener('change', function (e) {
