@@ -202,9 +202,63 @@
     margin-top: .1rem;
   }
 
+  /* ── Compact cards (no image) for articles 5-8 ── */
+  .latest-articles-grid-compact {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: .85rem;
+    margin-top: .85rem;
+  }
+  .lat-card-compact {
+    background: var(--card-bg, #f8f8ff);
+    border: 1.5px solid var(--border, #e5e7eb);
+    border-radius: 14px;
+    padding: .9rem 1rem;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+    transition: transform .2s, box-shadow .2s, border-color .2s;
+  }
+  .lat-card-compact:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 22px rgba(99,102,241,.12);
+    border-color: var(--accent, #6366f1);
+    text-decoration: none;
+  }
+  .lat-card-compact-tag {
+    display: inline-block;
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    background: var(--accent, #6366f1);
+    color: #fff;
+    border-radius: 5px;
+    padding: .12rem .45rem;
+    width: fit-content;
+  }
+  .lat-card-compact-title {
+    font-size: .85rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .lat-card-compact-meta {
+    font-size: .7rem;
+    opacity: .55;
+    margin-top: auto;
+  }
+
   /* ── Responsive: tablet 2 cols ── */
   @media (max-width: 900px) {
     .latest-articles-grid { grid-template-columns: repeat(2, 1fr); }
+    .latest-articles-grid-compact { grid-template-columns: repeat(2, 1fr); }
   }
   /* ── Responsive: mobile 2 cols ── */
   @media (max-width: 640px) {
@@ -217,6 +271,10 @@
     .lat-card-meta { font-size: .68rem; }
     .lat-card-cta { font-size: .74rem; }
     .latest-articles-title { font-size: 1rem; }
+    .latest-articles-grid-compact { grid-template-columns: repeat(2, 1fr); gap: .55rem; margin-top: .65rem; }
+    .lat-card-compact { padding: .75rem .85rem; }
+    .lat-card-compact-title { font-size: .78rem; }
+    .lat-card-compact-meta { font-size: .66rem; }
   }
   @media (max-width: 360px) {
     .latest-articles-grid { gap: .5rem; }
@@ -322,7 +380,20 @@
 <a class="latest-articles-viewall" href="blog.html">View All →</a>
 </div>
 <div class="latest-articles-grid">
-<!-- Card 1: Form 16 Explained 2026 (newest) -->
+<!-- Card 1: New Tax Slabs 2026 (newest) -->
+<a class="lat-card" href="new-tax-slabs-2026-complete-guide.html">
+<div class="lat-card-img">
+<img alt="Indian salaried employee checking salary slip and tax details on laptop" height="200" loading="lazy" src="https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=480&q=80&auto=format&fit=crop" width="480"/>
+</div>
+<div class="lat-card-body">
+<span class="lat-card-tag" style="background:linear-gradient(135deg,#dc2626,#b91c1c)">Tax</span>
+<h3 class="lat-card-title">New Tax Slabs 2026: Complete Guide for Salaried Employees in India</h3>
+<p class="lat-card-excerpt">Full breakdown of the new income tax slabs for FY 2025-26 — rates, standard deduction, Section 87A rebate, and real salary examples.</p>
+<div class="lat-card-meta">Jun 19, 2026 · 13 min read</div>
+<span class="lat-card-cta">Read More →</span>
+</div>
+</a>
+<!-- Card 2: Form 16 Explained 2026 -->
 <a class="lat-card" href="form-16-explained-2026.html">
 <div class="lat-card-img">
 <img alt="Indian salaried employee reviewing Form 16 TDS certificate documents" height="200" loading="lazy" src="https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=480&q=80&auto=format&fit=crop" width="480"/>
@@ -335,7 +406,7 @@
 <span class="lat-card-cta">Read More →</span>
 </div>
 </a>
-<!-- Card 2: ₹50,000 Salary India 2026 (newest) -->
+<!-- Card 3: ₹50,000 Salary India 2026 -->
 <a class="lat-card" href="blog.html#blog-50000-salary-india-2026">
 <div class="lat-card-img">
 <img alt="Indian professional checking salary credit on smartphone at modern workspace" height="200" loading="lazy" src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=480&q=80&auto=format&fit=crop" width="480"/>
@@ -348,7 +419,7 @@
 <span class="lat-card-cta">Read More →</span>
 </div>
 </a>
-<!-- Card 2: SIP 10000 Future Value -->
+<!-- Card 4: SIP 10000 Future Value -->
 <a class="lat-card" href="blog.html#blog-sip-10000-future-value">
 <div class="lat-card-img">
 <img alt="Investor reviewing SIP investment growth charts" height="200" loading="lazy" src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=480&amp;q=80&amp;auto=format&amp;fit=crop" width="480"/>
@@ -361,18 +432,28 @@
 <span class="lat-card-cta">Read More →</span>
 </div>
 </a>
-<!-- Card 3: Emergency Fund -->
-<a class="lat-card" href="blog.html#blog-emergency-fund-guide">
-<div class="lat-card-img">
-<img alt="Emergency fund guide" height="200" loading="lazy" src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=480&amp;q=80&amp;auto=format&amp;fit=crop" width="480"/>
 </div>
-<div class="lat-card-body">
-<span class="lat-card-tag" style="background:linear-gradient(135deg,#ef4444,#dc2626)">Savings</span>
-<h3 class="lat-card-title">No Emergency Fund Yet? Advisors Warn This Could Be a Major Problem</h3>
-<p class="lat-card-excerpt">Most Indian households are one layoff away from a debt spiral. Learn how much to save, where to keep it, and how to build it fast.</p>
-<div class="lat-card-meta">Jun 12, 2026 · 8 min read</div>
-<span class="lat-card-cta">Read More →</span>
-</div>
+<!-- Compact cards: articles 5-8 (no images) -->
+<div class="latest-articles-grid-compact">
+<a class="lat-card-compact" href="blog.html#blog-emergency-fund-guide">
+<span class="lat-card-compact-tag" style="background:linear-gradient(135deg,#ef4444,#dc2626)">Savings</span>
+<h3 class="lat-card-compact-title">No Emergency Fund Yet? Advisors Warn This Could Be a Major Problem</h3>
+<div class="lat-card-compact-meta">Jun 12, 2026 · 8 min read</div>
+</a>
+<a class="lat-card-compact" href="blog.html#blog-epf-retirement-savings">
+<span class="lat-card-compact-tag" style="background:linear-gradient(135deg,#f97316,#ea580c)">Retirement</span>
+<h3 class="lat-card-compact-title">Ignoring Your EPF Balance? Experts Say This Could Hurt Your Retirement Savings</h3>
+<div class="lat-card-compact-meta">Jun 12, 2026 · 7 min read</div>
+</a>
+<a class="lat-card-compact" href="blog.html#blog-tax-regime-2026">
+<span class="lat-card-compact-tag" style="background:linear-gradient(135deg,#6366f1,#ec4899)">Tax</span>
+<h3 class="lat-card-compact-title">Old vs New Tax Regime 2026: Which One Saves You More?</h3>
+<div class="lat-card-compact-meta">Jun 10, 2026 · 6 min read</div>
+</a>
+<a class="lat-card-compact" href="blog.html#blog-ctc-vs-inhand">
+<span class="lat-card-compact-tag" style="background:linear-gradient(135deg,#10b981,#059669)">Salary</span>
+<h3 class="lat-card-compact-title">CTC vs In-Hand Salary: What's the Difference?</h3>
+<div class="lat-card-compact-meta">Jun 11, 2026 · 5 min read</div>
 </a>
 </div>
 </section>
