@@ -12,12 +12,33 @@
   <!-- Blog listing page -->
   <url>
     <loc>https://numvexa.in/blog.html</loc>
-    <lastmod>2026-06-22</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <!-- Blog articles – standalone pages -->
+  <url>
+    <loc>https://numvexa.in/tds-rules-changes-india-2026-27.html</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.88</priority>
+  </url>
+
+  <url>
+    <loc>https://numvexa.in/elss-vs-ppf-tax-saving-2026.html</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.88</priority>
+  </url>
+
+  <url>
+    <loc>https://numvexa.in/best-tax-saving-investments-80c-india-2026.html</loc>
+    <lastmod>2026-06-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.88</priority>
+  </url>
+
   <url>
     <loc>https://numvexa.in/new-tax-slabs-2026-complete-guide.html</loc>
     <lastmod>2026-06-19</lastmod>
@@ -211,7 +232,7 @@
     <priority>0.85</priority>
   </url>
 
-  <!-- PDF Tools — added below, all existing entries above are unchanged -->
+  <!-- PDF Tools -->
   <url>
     <loc>https://numvexa.in/pdf-tools.html</loc>
     <lastmod>2026-06-17</lastmod>
@@ -261,12 +282,12 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- Blog articles – standalone pages -->
+  <!-- Downloadable Resources -->
   <url>
-    <loc>https://numvexa.in/best-tax-saving-investments-80c-india-2026.html</loc>
-    <lastmod>2026-06-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.88</priority>
+    <loc>https://numvexa.in/downloads/tds-tcs-rate-chart-fy2026-27-numvexa.pdf</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
   </url>
 
 </urlset>
