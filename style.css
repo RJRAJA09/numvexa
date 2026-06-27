@@ -2481,3 +2481,192 @@ a:hover { text-decoration: underline; }
   .pdftools-grid { grid-template-columns: 1fr; }
   .pdftools-range-row input[type="number"] { width: 80px; }
 }
+
+/* ══════════════════════════════════════════════════════════
+   DOCUMENT TOOLS — appended below all existing styles.
+   All selectors below use a unique "doctools-" prefix so they
+   cannot collide with or override any rule above this line.
+   Nothing above this comment has been modified. Layout/sizing
+   values intentionally mirror .pdftools-* for visual parity.
+══════════════════════════════════════════════════════════ */
+
+/* ── Homepage preview section (index.html) ── */
+.doctools-home-section { max-width: 1100px; margin: 0 auto 1.5rem; padding: 0 1.25rem; }
+.doctools-home-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+.doctools-home-title { font-size: 1.15rem; font-weight: 700; margin: 0; }
+.doctools-home-viewall { font-size: .85rem; font-weight: 600; color: var(--accent); text-decoration: none; opacity: .85; transition: opacity .2s; }
+.doctools-home-viewall:hover { opacity: 1; text-decoration: underline; }
+.doctools-home-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem; }
+.doctools-home-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 1.1rem 1rem;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: .55rem;
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+}
+.doctools-home-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(99,102,241,.13); border-color: var(--accent); text-decoration: none; }
+.doctools-home-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+.doctools-home-body { display: flex; flex-direction: column; gap: .25rem; }
+.doctools-home-card-title { font-size: .88rem; font-weight: 700; margin: 0; color: var(--text); }
+.doctools-home-card-excerpt { font-size: .76rem; color: var(--text2); line-height: 1.45; margin: 0; }
+
+/* ── Breadcrumb (tool pages) ── */
+.doctools-breadcrumb {
+  display: flex; align-items: center; gap: .4rem;
+  font-size: .82rem; color: var(--text3);
+  max-width: 980px; margin: 0 auto; padding: 1.25rem 1.5rem 0;
+  flex-wrap: wrap;
+}
+.doctools-breadcrumb a { color: var(--accent); text-decoration: none; }
+.doctools-breadcrumb a:hover { text-decoration: underline; }
+.doctools-breadcrumb span { color: var(--text3); }
+
+/* ── Individual tool pages (excel-to-word.html / word-to-excel.html) ── */
+.doctools-tool-wrap { max-width: 980px; margin: 0 auto; padding: 1.75rem 1.5rem 4rem; }
+.doctools-tool-hero { display: flex; gap: 1.25rem; align-items: flex-start; margin-bottom: 2rem; flex-wrap: wrap; }
+.doctools-tool-icon {
+  width: 64px; height: 64px; border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem; flex-shrink: 0;
+}
+.doctools-tool-info h1 { font-size: clamp(1.4rem, 3vw, 2rem); margin-bottom: .4rem; }
+.doctools-tool-info p { font-size: 1rem; color: var(--text2); max-width: 620px; margin: 0; }
+.doctools-tool-badge {
+  display: inline-block; margin-top: .6rem;
+  font-size: .72rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+  background: var(--accent-glow); border: 1px solid var(--accent); color: var(--accent);
+  border-radius: 999px; padding: .25rem .75rem;
+}
+
+.doctools-tool-card {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: var(--radius); padding: 1.75rem; box-shadow: var(--shadow);
+  margin-bottom: 2rem;
+}
+
+.doctools-dropzone {
+  border: 2px dashed var(--border); border-radius: var(--radius);
+  padding: 2.5rem 1.5rem; text-align: center; cursor: pointer;
+  transition: all var(--transition); background: var(--bg2);
+}
+.doctools-dropzone:hover, .doctools-dropzone.dragover { border-color: var(--accent); background: var(--accent-glow); }
+.doctools-dropzone-icon { font-size: 2.2rem; margin-bottom: .6rem; }
+.doctools-dropzone strong { color: var(--accent); }
+.doctools-dropzone-hint { font-size: .78rem; color: var(--text3); margin-top: .4rem; }
+.doctools-dropzone input[type="file"] { display: none; }
+
+.doctools-file-list { display: flex; flex-direction: column; gap: .6rem; margin-top: 1.25rem; }
+.doctools-file-item {
+  display: flex; align-items: center; gap: .75rem;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: .65rem .9rem;
+}
+.doctools-file-icon { font-size: 1.3rem; flex-shrink: 0; }
+.doctools-file-meta { flex: 1; min-width: 0; }
+.doctools-file-name { font-size: .85rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.doctools-file-size { font-size: .74rem; color: var(--text3); }
+.doctools-file-remove {
+  background: none; border: none; color: var(--text3); cursor: pointer;
+  font-size: 1rem; padding: .2rem .5rem; border-radius: 6px;
+  transition: all var(--transition); flex-shrink: 0;
+}
+.doctools-file-remove:hover { color: var(--red); background: var(--bg3); }
+
+.doctools-actions { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 1.5rem; }
+
+.doctools-progress-wrap { margin-top: 1.25rem; display: none; }
+.doctools-progress-wrap.show { display: block; }
+.doctools-progress-bar-track { width: 100%; height: 8px; border-radius: 999px; background: var(--bg3); overflow: hidden; }
+.doctools-progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 999px; transition: width .25s ease; }
+
+.doctools-status { margin-top: .75rem; font-size: .85rem; color: var(--text2); display: none; align-items: center; gap: .5rem; }
+.doctools-status.show { display: flex; }
+.doctools-spinner {
+  width: 16px; height: 16px; border: 2px solid var(--border);
+  border-top-color: var(--accent); border-radius: 50%;
+  animation: doctools-spin .7s linear infinite; flex-shrink: 0;
+}
+@keyframes doctools-spin { to { transform: rotate(360deg); } }
+
+.doctools-error {
+  margin-top: 1rem; font-size: .85rem; color: var(--red); display: none;
+  background: rgba(239,68,68,.08); border: 1px solid var(--red);
+  border-radius: var(--radius-sm); padding: .7rem 1rem;
+}
+.doctools-error.show { display: block; }
+
+.doctools-result {
+  margin-top: 1.25rem; display: none;
+  background: var(--bg2); border: 1.5px solid var(--green);
+  border-radius: var(--radius); padding: 1.25rem;
+  animation: fadeUp .3s ease both;
+}
+.doctools-result.show { display: block; }
+.doctools-result-title { font-size: .92rem; font-weight: 700; color: var(--green); margin-bottom: .5rem; display: flex; align-items: center; gap: .4rem; }
+.doctools-result p { font-size: .85rem; color: var(--text2); margin-bottom: .9rem; }
+.doctools-result-files { display: flex; flex-direction: column; gap: .5rem; margin-bottom: .9rem; }
+
+.doctools-privacy-note {
+  display: flex; align-items: flex-start; gap: .5rem;
+  font-size: .78rem; color: var(--text3); margin-top: 1.25rem;
+  padding-top: 1rem; border-top: 1px solid var(--border);
+}
+
+.doctools-content { margin-top: 2.5rem; }
+.doctools-content h2 { font-size: 1.2rem; font-weight: 700; margin: 0 0 .9rem; }
+.doctools-content p { color: var(--text2); line-height: 1.8; font-size: .95rem; margin-bottom: .9rem; }
+.doctools-content ul.doctools-feature-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: .7rem; margin: 1rem 0 1.5rem; }
+.doctools-content ul.doctools-feature-list li { display: flex; gap: .7rem; align-items: flex-start; font-size: .92rem; color: var(--text2); line-height: 1.6; }
+.doctools-content ul.doctools-feature-list li span.doctools-feature-tick { color: var(--green); font-weight: 700; flex-shrink: 0; }
+
+.doctools-steps { display: flex; flex-direction: column; gap: .75rem; margin: 1rem 0 1.5rem; }
+.doctools-step { display: flex; gap: .9rem; align-items: flex-start; }
+.doctools-step-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--accent-glow); border: 1.5px solid var(--accent); color: var(--accent);
+  font-weight: 700; font-size: .85rem; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.doctools-step-text { font-size: .92rem; color: var(--text2); line-height: 1.6; padding-top: .2rem; }
+.doctools-step-text strong { color: var(--text); }
+
+.doctools-related { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+.doctools-related h2 { font-size: 1rem; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 1rem; }
+.doctools-related-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .75rem; }
+.doctools-related-grid a {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); padding: .8rem .9rem;
+  text-decoration: none; display: flex; flex-direction: column; gap: .3rem;
+  font-size: .82rem; font-weight: 700; color: var(--text);
+  transition: all var(--transition);
+}
+.doctools-related-grid a:hover { border-color: var(--accent); transform: translateY(-2px); text-decoration: none; }
+
+/* ── Document Tools responsive ── */
+@media (max-width: 900px) {
+  .doctools-home-grid { grid-template-columns: repeat(3, 1fr); }
+  .doctools-related-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .doctools-home-section { padding: 0 .75rem; margin-bottom: 1rem; }
+  .doctools-home-grid { grid-template-columns: repeat(2, 1fr); gap: .65rem; }
+  .doctools-home-card { padding: .85rem .75rem; }
+  .doctools-home-icon { width: 40px; height: 40px; font-size: 1.2rem; }
+  .doctools-home-card-excerpt { display: none; }
+  .doctools-home-title { font-size: 1rem; }
+  .doctools-tool-wrap { padding: 1.25rem 1rem 2.5rem; }
+  .doctools-tool-hero { gap: 1rem; }
+  .doctools-tool-icon { width: 52px; height: 52px; font-size: 1.6rem; }
+  .doctools-tool-card { padding: 1.25rem; }
+  .doctools-related-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 420px) {
+  .doctools-related-grid { grid-template-columns: 1fr; }
+}

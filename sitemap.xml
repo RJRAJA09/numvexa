@@ -282,6 +282,21 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- Document Tools -->
+  <url>
+    <loc>https://numvexa.in/excel-to-word.html</loc>
+    <lastmod>2026-06-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://numvexa.in/word-to-excel.html</loc>
+    <lastmod>2026-06-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- Downloadable Resources -->
   <url>
     <loc>https://numvexa.in/downloads/tds-tcs-rate-chart-fy2026-27-numvexa.pdf</loc>
