@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XY07H7SR37"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XY07H7SR37');</script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PowerPoint to PDF Converter – Free Online | Numvexa</title>
+<meta content="Convert PowerPoint (.pptx) presentations into professional PDF documents for free. Runs entirely in your browser — no upload, no signup, 100% private." name="description"/>
+<meta content="powerpoint to pdf, pptx to pdf, convert ppt to pdf online free, presentation to pdf converter" name="keywords"/>
+<meta content="Raja Mahakul" name="author"/>
+<meta content="index, follow" name="robots"/>
+<meta content="PowerPoint to PDF Converter – Free Online | Numvexa" property="og:title"/>
+<meta content="Convert PowerPoint presentations to PDF free, right in your browser." property="og:description"/>
+<meta content="website" property="og:type"/>
+<meta content="https://numvexa.in/powerpoint-to-pdf.html" property="og:url"/>
+<meta content="https://numvexa.in/og-image.png" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="https://numvexa.in/powerpoint-to-pdf.html" rel="canonical"/>
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://numvexa.in/"},{"@type":"ListItem","position":2,"name":"Document Tools","item":"https://numvexa.in/document-tools.html"},{"@type":"ListItem","position":3,"name":"PowerPoint to PDF","item":"https://numvexa.in/powerpoint-to-pdf.html"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is PowerPoint to PDF conversion free?","acceptedAnswer":{"@type":"Answer","text":"Yes, completely free. No signup, no watermark, no limits."}},{"@type":"Question","name":"Are my files uploaded to a server?","acceptedAnswer":{"@type":"Answer","text":"No. Everything runs in your browser. Your files never leave your device."}},{"@type":"Question","name":"What PowerPoint formats are supported?","acceptedAnswer":{"@type":"Answer","text":"Currently .pptx files are supported. This is the modern PowerPoint format used by Microsoft Office 2007 and later."}}]}</script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="/style.css?v=20260627" rel="stylesheet"/>
+<script async crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1504204070120650"></script>
+<!-- Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header class="site-header" id="site-header">
+<div class="header-inner">
+  <a class="logo" href="/"><span class="logo-icon">⚡</span><span class="logo-text">Num<strong>vexa</strong></span></a>
+  <nav class="main-nav" id="main-nav">
+    <a href="/" onclick="closeMobileMenu()">Home</a>
+    <a href="/calculators.html" onclick="closeMobileMenu()">All Calculators</a>
+    <a href="/pdf-tools.html" onclick="closeMobileMenu()">PDF Tools</a>
+    <a href="/document-tools.html" style="color:var(--accent);font-weight:700;" onclick="closeMobileMenu()">Document Tools</a>
+    <a href="/blog.html" onclick="closeMobileMenu()">Blog</a>
+    <a href="/about.html" onclick="closeMobileMenu()">About</a>
+    <a href="/#contact" onclick="closeMobileMenu()">Contact</a>
+    <a href="/#faq" onclick="closeMobileMenu()">FAQ</a>
+  </nav>
+  <div class="header-actions">
+    <button aria-label="Toggle dark mode" class="dark-toggle" id="darkToggle" onclick="toggleDark()"><span class="toggle-icon" id="toggleIcon">🌙</span></button>
+    <button aria-label="Open menu" class="hamburger" id="hamburger" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
+  </div>
+</div>
+</header>
+
+<main>
+<div class="doctools-tool-wrap">
+
+  <nav class="doctools-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a><span>/</span>
+    <a href="/document-tools.html">Document Tools</a><span>/</span>
+    <span>PowerPoint to PDF</span>
+  </nav>
+
+  <div class="doctools-tool-hero">
+    <div class="doctools-tool-icon" style="background:linear-gradient(135deg,#f97316,#ea580c)">📑</div>
+    <div class="doctools-tool-info">
+      <h1>PowerPoint to PDF Converter</h1>
+      <p>Convert PowerPoint (.pptx) presentations into professional PDF documents. Slide text and layout are extracted and rendered cleanly into a multi-page PDF.</p>
+      <span class="doctools-tool-badge">🔒 Browser-Only · No Upload · Free</span>
+    </div>
+  </div>
+
+  <div class="doctools-tool-card">
+    <div class="doctools-dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)" role="button" tabindex="0" aria-label="Drop PowerPoint file here or click to browse">
+      <div class="doctools-dropzone-icon">📑</div>
+      <p><strong>Drop your PowerPoint (.pptx) here</strong> or click to browse</p>
+      <p class="doctools-dropzone-hint">Supports: .pptx files · Processed 100% in your browser</p>
+      <input type="file" id="fileInput" accept=".pptx,application/vnd.openxmlformats-officedocument.presentationml.presentation" onchange="handleFile(this.files)"/>
+    </div>
+
+    <div class="doctools-file-list" id="fileList"></div>
+
+    <div class="doctools-actions" id="actionsRow" style="display:none">
+      <button class="btn-primary" onclick="convertNow()" id="convertBtn">Convert to PDF →</button>
+      <button class="btn-secondary" onclick="resetTool()">✕ Clear</button>
+    </div>
+
+    <div class="doctools-progress-wrap" id="progressWrap">
+      <div class="doctools-progress-bar-track"><div class="doctools-progress-bar-fill" id="progressFill"></div></div>
+    </div>
+    <div class="doctools-status" id="statusMsg"><div class="doctools-spinner"></div><span id="statusText">Processing…</span></div>
+    <div class="doctools-error" id="errorBox"></div>
+
+    <div class="doctools-result" id="resultBox">
+      <div class="doctools-result-title">✅ Conversion Complete!</div>
+      <p>Your PDF is ready. Click below to download.</p>
+      <div class="doctools-result-files" id="resultFiles"></div>
+    </div>
+
+    <div class="doctools-privacy-note">
+      <span>🔒</span>
+      <span>Your file is processed entirely in your browser using JavaScript. It is <strong>never uploaded</strong> to any server.</span>
+    </div>
+  </div>
+
+  <div class="doctools-content">
+    <h2>How to Convert PowerPoint to PDF</h2>
+    <div class="doctools-steps">
+      <div class="doctools-step"><div class="doctools-step-num">1</div><p class="doctools-step-text"><strong>Upload your .pptx file</strong> — drag and drop or click to browse.</p></div>
+      <div class="doctools-step"><div class="doctools-step-num">2</div><p class="doctools-step-text"><strong>Click "Convert to PDF"</strong> — slide titles and text content are extracted and laid out in the PDF.</p></div>
+      <div class="doctools-step"><div class="doctools-step-num">3</div><p class="doctools-step-text"><strong>Download your PDF</strong> — ready to share, email or print.</p></div>
+    </div>
+    <h2>Why Use This Tool?</h2>
+    <ul class="doctools-feature-list">
+      <li><span class="doctools-feature-tick">✓</span> 100% free — no subscription, no watermark, no account needed</li>
+      <li><span class="doctools-feature-tick">✓</span> Privacy-first — files never leave your device</li>
+      <li><span class="doctools-feature-tick">✓</span> Each slide is rendered as a separate PDF page</li>
+      <li><span class="doctools-feature-tick">✓</span> Works on desktop and mobile browsers — no software install required</li>
+    </ul>
+  </div>
+
+  <div class="doctools-related">
+    <h2>Related Tools</h2>
+    <div class="doctools-related-grid">
+      <a href="/pdf-to-powerpoint.html">📄 PDF to PowerPoint</a>
+      <a href="/word-to-pdf.html">📝 Word to PDF</a>
+      <a href="/excel-to-pdf.html">📊 Excel to PDF</a>
+      <a href="/document-tools.html">📂 All Document Tools</a>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer class="site-footer">
+<div class="footer-inner">
+  <div class="footer-brand"><span class="logo-icon">⚡</span><strong>Numvexa</strong><p>Free financial calculators for India.</p><p style="font-size:.8rem;opacity:.65;margin-top:.35rem;">By Raja Mahakul</p></div>
+  <div class="footer-links"><h4>Calculators</h4><a href="/calculators.html">All Calculators</a><a href="/emi-calculator.html">EMI Calculator</a><a href="/sip-calculator.html">SIP Calculator</a><a href="/gst-calculator.html">GST Calculator</a><a href="/income-tax-calculator.html">Income Tax</a><a href="/pdf-tools.html">PDF Tools</a><a href="/document-tools.html">Document Tools</a></div>
+  <div class="footer-links"><h4>Company</h4><a href="/about.html">About</a><a href="/#contact">Contact</a><a href="/#faq">FAQ</a><a href="/blog.html">Blog</a></div>
+  <div class="footer-links"><h4>Legal</h4><a href="/privacy-policy.html">Privacy Policy</a><a href="/terms.html">Terms of Use</a><a href="/disclaimer.html">Disclaimer</a></div>
+</div>
+<div class="footer-bottom">
+  <p>© 2026 Numvexa by <strong>Raja Mahakul</strong>. All calculations are for informational purposes only.</p>
+  <p style="margin-top:.4rem;font-size:.78rem;opacity:.6;"><a href="/privacy-policy.html" style="color:inherit;">Privacy Policy</a> · <a href="/terms.html" style="color:inherit;">Terms of Use</a> · <a href="/disclaimer.html" style="color:inherit;">Disclaimer</a></p>
+</div>
+</footer>
+
+<script src="/script.js?v=20260627"></script>
+<script>
+/* ── PowerPoint to PDF Converter ──
+   Strategy: unzip the .pptx (it's a ZIP), parse slide XML to extract
+   text runs from each slide, then render a styled multi-page PDF with jsPDF.
+*/
+let selectedFile = null;
+
+function onDragOver(e){ e.preventDefault(); document.getElementById('dropzone').classList.add('dragover'); }
+function onDragLeave(){ document.getElementById('dropzone').classList.remove('dragover'); }
+function onDrop(e){
+  e.preventDefault(); document.getElementById('dropzone').classList.remove('dragover');
+  if(e.dataTransfer.files.length) handleFile(e.dataTransfer.files);
+}
+
+function handleFile(files){
+  const file = files[0];
+  if(!file) return;
+  const ext = file.name.split('.').pop().toLowerCase();
+  if(ext !== 'pptx'){ showError('Please select a .pptx file.'); return; }
+  selectedFile = file; hideError(); hideResult();
+  document.getElementById('fileList').innerHTML = `
+    <div class="doctools-file-item">
+      <span class="doctools-file-icon">📑</span>
+      <div class="doctools-file-meta">
+        <div class="doctools-file-name">${escHtml(file.name)}</div>
+        <div class="doctools-file-size">${formatSize(file.size)}</div>
+      </div>
+      <button class="doctools-file-remove" onclick="resetTool()">✕</button>
+    </div>`;
+  document.getElementById('actionsRow').style.display = 'flex';
+}
+
+async function convertNow(){
+  if(!selectedFile){ showError('Please select a .pptx file first.'); return; }
+  setStatus(true,'Reading PowerPoint file…'); setProgress(10);
+  hideError(); hideResult();
+  document.getElementById('convertBtn').disabled = true;
+
+  try {
+    const arrayBuffer = await selectedFile.arrayBuffer();
+    setProgress(20); setStatus(true,'Unpacking slides…');
+
+    // Load ZIP
+    const zip = await JSZip.loadAsync(arrayBuffer);
+
+    // Find all slide XML files in order
+    const slideKeys = Object.keys(zip.files)
+      .filter(k => /^ppt\/slides\/slide\d+\.xml$/.test(k))
+      .sort((a,b)=>{
+        const na = parseInt(a.match(/\d+/)[0]);
+        const nb = parseInt(b.match(/\d+/)[0]);
+        return na - nb;
+      });
+
+    if(slideKeys.length === 0) throw new Error('No slides found in this .pptx file.');
+
+    // Extract text from each slide XML
+    const slides = [];
+    for(let i=0; i<slideKeys.length; i++){
+      const xmlStr = await zip.files[slideKeys[i]].async('string');
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(xmlStr, 'text/xml');
+
+      // Get all text runs (a:t elements)
+      const textNodes = doc.querySelectorAll('t');
+      const lines = [];
+      let currentPara = [];
+
+      // Walk through paragraphs (a:p)
+      const paras = doc.querySelectorAll('p');
+      paras.forEach(para => {
+        const runs = para.querySelectorAll('t');
+        if(runs.length === 0) return;
+        const paraText = Array.from(runs).map(r=>r.textContent).join('').trim();
+        if(paraText) lines.push(paraText);
+      });
+
+      slides.push(lines);
+    }
+
+    setProgress(55); setStatus(true,'Building PDF pages…');
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ unit:'mm', format:'a4', orientation:'landscape' });
+    const W = pdf.internal.pageSize.getWidth();
+    const H = pdf.internal.pageSize.getHeight();
+    const margin = 18;
+    const maxW = W - margin * 2;
+
+    // Accent colour (indigo 6366f1)
+    const accent = [99, 102, 241];
+
+    slides.forEach((lines, idx) => {
+      if(idx > 0) pdf.addPage();
+
+      // Slide background: white
+      pdf.setFillColor(255,255,255);
+      pdf.rect(0, 0, W, H, 'F');
+
+      // Slide number strip on left
+      pdf.setFillColor(...accent);
+      pdf.rect(0, 0, 5, H, 'F');
+
+      // Slide number badge
+      pdf.setFont('helvetica','bold');
+      pdf.setFontSize(8);
+      pdf.setTextColor(255,255,255);
+      pdf.text(`${idx+1}`, 2.5, H/2, { align:'center', angle: 90 });
+
+      let y = margin;
+
+      if(lines.length === 0){
+        pdf.setFont('helvetica','italic');
+        pdf.setFontSize(11);
+        pdf.setTextColor(160,160,160);
+        pdf.text('(Empty slide)', margin + 5, H/2, { align:'left' });
+        return;
+      }
+
+      // First line = slide title
+      const title = lines[0];
+      pdf.setFont('helvetica','bold');
+      pdf.setFontSize(20);
+      pdf.setTextColor(...accent);
+      const titleWrapped = pdf.splitTextToSize(title, maxW - 5);
+      titleWrapped.forEach(tl => {
+        if(y + 10 > H - margin){ return; }
+        pdf.text(tl, margin + 5, y);
+        y += 10;
+      });
+
+      // Divider
+      pdf.setDrawColor(...accent);
+      pdf.setLineWidth(0.5);
+      pdf.line(margin + 5, y + 1, W - margin, y + 1);
+      y += 8;
+
+      // Body lines
+      pdf.setFont('helvetica','normal');
+      pdf.setFontSize(11);
+      pdf.setTextColor(40, 40, 40);
+
+      for(let li = 1; li < lines.length; li++){
+        const wrapped = pdf.splitTextToSize(lines[li], maxW - 5);
+        for(const wl of wrapped){
+          if(y + 7 > H - margin) break;
+          pdf.text('• ' + wl, margin + 8, y);
+          y += 6.5;
+        }
+        y += 1;
+      }
+
+      setProgress(55 + Math.round(((idx+1)/slides.length)*35));
+    });
+
+    setProgress(95);
+    const outName = selectedFile.name.replace(/\.pptx$/i,'') + '.pdf';
+    const blob = pdf.output('blob');
+    const url = URL.createObjectURL(blob);
+    setProgress(100); setStatus(false,'');
+    showResult([{ url, name: outName }]);
+
+  } catch(err){
+    setStatus(false,'');
+    showError('Conversion failed: ' + err.message);
+  } finally {
+    document.getElementById('convertBtn').disabled = false;
+  }
+}
+
+function showResult(files){
+  document.getElementById('resultFiles').innerHTML = files.map(f=>
+    `<a href="${f.url}" download="${escHtml(f.name)}" class="btn-primary" style="text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;">⬇ Download ${escHtml(f.name)}</a>`
+  ).join('');
+  document.getElementById('resultBox').classList.add('show');
+  document.getElementById('resultBox').scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+function resetTool(){ selectedFile=null; document.getElementById('fileList').innerHTML=''; document.getElementById('actionsRow').style.display='none'; document.getElementById('fileInput').value=''; setStatus(false,''); setProgress(0); hideError(); hideResult(); }
+function setProgress(p){ document.getElementById('progressFill').style.width=p+'%'; document.getElementById('progressWrap').classList.toggle('show',p>0&&p<100); }
+function setStatus(show,txt){ document.getElementById('statusMsg').classList.toggle('show',show); document.getElementById('statusText').textContent=txt; }
+function showError(msg){ const el=document.getElementById('errorBox'); el.textContent=msg; el.classList.add('show'); }
+function hideError(){ document.getElementById('errorBox').classList.remove('show'); }
+function hideResult(){ document.getElementById('resultBox').classList.remove('show'); }
+function formatSize(b){ return b<1048576?(b/1024).toFixed(1)+'KB':(b/1048576).toFixed(1)+'MB'; }
+function escHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+</script>
+</body>
+</html>

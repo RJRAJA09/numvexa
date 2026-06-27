@@ -304,6 +304,48 @@
     <priority>0.8</priority>
   </url>
 
+  <url>
+    <loc>https://numvexa.in/pdf-to-word.html</loc>
+    <lastmod>2026-06-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://numvexa.in/word-to-pdf.html</loc>
+    <lastmod>2026-06-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://numvexa.in/pdf-to-excel.html</loc>
+    <lastmod>2026-06-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://numvexa.in/excel-to-pdf.html</loc>
+    <lastmod>2026-06-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://numvexa.in/pdf-to-powerpoint.html</loc>
+    <lastmod>2026-06-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://numvexa.in/powerpoint-to-pdf.html</loc>
+    <lastmod>2026-06-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- Downloadable Resources -->
   <url>
     <loc>https://numvexa.in/downloads/tds-tcs-rate-chart-fy2026-27-numvexa.pdf</loc>

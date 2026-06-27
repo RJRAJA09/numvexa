@@ -2670,3 +2670,40 @@ a:hover { text-decoration: underline; }
 @media (max-width: 420px) {
   .doctools-related-grid { grid-template-columns: 1fr; }
 }
+
+/* ═══════════════════════════════════════════════
+   Document Tools Directory — Badge Variants
+   Added: 2026-06-27
+═══════════════════════════════════════════════ */
+
+/* Coloured mini-badge row inside each tool card */
+.card-dir-badge-row {
+  display: flex;
+  gap: .35rem;
+  flex-wrap: wrap;
+  margin-top: .25rem;
+}
+
+.card-dir-badge-sm {
+  display: inline-block;
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: .13rem .45rem;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+/* Fast — green */
+.dt-badge-fast  { background: linear-gradient(135deg,#10b981,#059669); color:#fff; }
+/* Secure — indigo/violet */
+.dt-badge-sec   { background: linear-gradient(135deg,#6366f1,#8b5cf6); color:#fff; }
+/* Browser — amber/orange */
+.dt-badge-brow  { background: linear-gradient(135deg,#f59e0b,#ef4444); color:#fff; }
+
+/* Hide mini-badges on smallest screens to keep cards compact */
+@media (max-width: 480px) {
+  .card-dir-badge-row { display: none; }
+}

@@ -46,9 +46,12 @@ function closeMobileMenu() {
   document.getElementById('main-nav').classList.remove('open');
 }
 
-/* ─── Search Filter ─── */
+/* ─── Search Filter (index.html only) ─── */
 function filterCalcs() {
-  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const searchEl = document.getElementById('searchInput');
+  const noResEl  = document.getElementById('noResults');
+  if (!searchEl) return; // guard: only index.html has this element
+  const q = searchEl.value.trim().toLowerCase();
   const cards = document.querySelectorAll('.calc-card');
   let visible = 0;
   cards.forEach(card => {
@@ -58,17 +61,37 @@ function filterCalcs() {
     card.style.display = match ? '' : 'none';
     if (match) visible++;
   });
-  document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+  if (noResEl) noResEl.style.display = visible === 0 ? 'block' : 'none';
 }
 
 // Keyboard shortcut ⌘K / Ctrl+K
 document.addEventListener('keydown', e => {
   if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
     e.preventDefault();
-    showPage('home');
-    setTimeout(() => document.getElementById('searchInput')?.focus(), 100);
+    // Document-tools directory search box
+    const dtSearch = document.getElementById('dtSearch');
+    // Calculators directory search box
+    const calcDirSearch = document.getElementById('calcDirSearch');
+    if (dtSearch) {
+      dtSearch.focus();
+    } else if (calcDirSearch) {
+      calcDirSearch.focus();
+    } else {
+      // index.html SPA: switch to home page then focus search
+      if (typeof showPage === 'function') showPage('home');
+      setTimeout(() => document.getElementById('searchInput')?.focus(), 100);
+    }
   }
-  if (e.key === 'Escape') closeModal();
+  if (e.key === 'Escape') {
+    // Close SPA modal (index.html only — guard to avoid errors on other pages)
+    const spaOverlay = document.getElementById('modalOverlay');
+    if (spaOverlay && typeof closeModal === 'function') closeModal();
+    // Close NvModal result modal if open
+    if (window.NvModal) NvModal.close();
+    // Close mobile nav if open
+    const nav = document.getElementById('main-nav');
+    if (nav && nav.classList.contains('open')) closeMobileMenu();
+  }
 });
 
 /* ─── Contact form ─── */
@@ -82,6 +105,7 @@ function submitContact(e) {
 function openCalc(name) {
   const overlay = document.getElementById('modalOverlay');
   const body    = document.getElementById('modalBody');
+  if (!overlay || !body) return; // guard: only runs on index.html
   const builders = { emi, gst, salary, age, sip, pf, hra, gratuity, tax, ci: ciModal };
   if (!builders[name]) return;
   body.innerHTML = builders[name]();
@@ -89,7 +113,9 @@ function openCalc(name) {
   document.body.style.overflow = 'hidden';
 }
 function closeModal() {
-  document.getElementById('modalOverlay').classList.remove('active');
+  const overlay = document.getElementById('modalOverlay');
+  if (!overlay) return; // guard: only runs on index.html
+  overlay.classList.remove('active');
   document.body.style.overflow = '';
 }
 function closeCalc(e) {
@@ -1136,28 +1162,7 @@ function clearDirSearch() {
   _applyDirFilters();
 }
 
-/* ── Keyboard shortcut works on all pages ── */
-document.addEventListener('keydown', function(e) {
-  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-    e.preventDefault();
-    // Focus directory search if on calculators page
-    var dirSearch = document.getElementById('dirSearch');
-    if (dirSearch) { dirSearch.focus(); return; }
-    // Fall back to homepage search
-    var homeSearch = document.getElementById('searchInput');
-    if (homeSearch) {
-      if (typeof showPage === 'function') showPage('home');
-      setTimeout(function(){ homeSearch.focus(); }, 100);
-    }
-  }
-  if (e.key === 'Escape') {
-    // Close modal if open (homepage)
-    if (typeof closeModal === 'function') closeModal();
-    // Clear dir search if on directory page
-    var dirSearch = document.getElementById('dirSearch');
-    if (dirSearch && dirSearch.value) clearDirSearch();
-  }
-});
+/* ── Note: ⌘K / Escape keydown listener is defined once above (line ~67) ── */
 
 /* ══════════════════════════════════════════════════════════
    NUMVEXA RESULT MODAL SYSTEM
@@ -1394,217 +1399,4 @@ document.addEventListener('keydown', function(e) {
 })();
 /* ── End of Numvexa Result Modal System ── */
 
-/* ══════════════════════════════════════════
-   NUMVEXA RESULT MODAL SYSTEM
-   Append this block to the END of script.js
-══════════════════════════════════════════ */
-
-/* ─── Modal Core ─── */
-(function () {
-  'use strict';
-
-  /**
-   * NvModal – Universal result-modal for all Numvexa calculator pages.
-   *
-   * Usage:
-   *   NvModal.open({
-   *     title:    'HRA Calculator',
-   *     emoji:    '🏠',
-   *     subtitle: 'FY 2024-25 · Old Tax Regime',
-   *
-   *     // hero: the single most important result (optional)
-   *     hero: { label: 'HRA Exemption', value: '₹1,20,000', note: 'Exempt from tax' },
-   *
-   *     // cards: secondary breakdown values
-   *     cards: [
-   *       { label: 'Taxable HRA', value: '₹1,20,000', color: 'red' },
-   *       { label: 'Condition (a)', value: '₹2,40,000' },
-   *       { label: 'Condition (b)', value: '₹3,00,000' },
-   *       { label: 'Condition (c)', value: '₹1,20,000' },
-   *     ],
-   *
-   *     // note: optional formula/info line inside modal
-   *     note: '<strong>Min(a, b, c)</strong> = HRA Exemption',
-   *
-   *     // copyText: what "Copy Results" copies (auto-built if omitted)
-   *   });
-   *
-   * Color options for cards: 'green' | 'red' | 'amber' | 'accent' | '' (default)
-   */
-  var overlay, modal, _onAgain;
-
-  function _build() {
-    if (document.getElementById('nvModalOverlay')) return;
-
-    var html = [
-      '<div class="nv-modal-overlay" id="nvModalOverlay" role="dialog" aria-modal="true" aria-labelledby="nvModalTitle">',
-      '  <div class="nv-modal" id="nvModalBox">',
-      '    <div class="nv-modal-header">',
-      '      <div class="nv-modal-title-group">',
-      '        <span class="nv-modal-emoji" id="nvModalEmoji">📊</span>',
-      '        <div>',
-      '          <div class="nv-modal-title" id="nvModalTitle"></div>',
-      '          <div class="nv-modal-subtitle" id="nvModalSubtitle"></div>',
-      '        </div>',
-      '      </div>',
-      '      <button class="nv-modal-close" id="nvModalCloseX" aria-label="Close">✕</button>',
-      '    </div>',
-      '    <div class="nv-modal-body" id="nvModalBody"></div>',
-      '  </div>',
-      '</div>'
-    ].join('');
-
-    var tmp = document.createElement('div');
-    tmp.innerHTML = html;
-    document.body.appendChild(tmp.firstElementChild);
-
-    overlay = document.getElementById('nvModalOverlay');
-    modal   = document.getElementById('nvModalBox');
-
-    document.getElementById('nvModalCloseX').addEventListener('click', NvModal.close);
-    overlay.addEventListener('click', function (e) {
-      if (e.target === overlay) NvModal.close();
-    });
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') NvModal.close();
-    });
-  }
-
-  function _fmt(v) {
-    var n = parseFloat(String(v).replace(/[^0-9.-]/g, ''));
-    if (isNaN(n)) return v;
-    return '₹' + Math.round(n).toLocaleString('en-IN');
-  }
-
-  function _colorClass(c) {
-    var map = { green: 'is-green', red: 'is-red', amber: 'is-amber', accent: 'is-accent' };
-    return map[c] || '';
-  }
-
-  window.NvModal = {
-    open: function (cfg) {
-      _build();
-      _onAgain = cfg.onAgain || null;
-
-      /* Header */
-      document.getElementById('nvModalEmoji').textContent    = cfg.emoji    || '📊';
-      document.getElementById('nvModalTitle').textContent    = cfg.title    || 'Results';
-      document.getElementById('nvModalSubtitle').textContent = cfg.subtitle || '';
-
-      /* Body */
-      var body = document.getElementById('nvModalBody');
-      var parts = [];
-
-      /* Hero */
-      if (cfg.hero) {
-        parts.push(
-          '<div class="nv-result-hero">',
-          '  <div class="nv-result-hero-label">' + (cfg.hero.label || '') + '</div>',
-          '  <div class="nv-result-hero-value">' + (cfg.hero.value || '—') + '</div>',
-          cfg.hero.note ? '<div class="nv-result-hero-note">' + cfg.hero.note + '</div>' : '',
-          '</div>'
-        );
-      }
-
-      /* Cards */
-      if (cfg.cards && cfg.cards.length) {
-        parts.push('<div class="nv-result-grid">');
-        cfg.cards.forEach(function (c) {
-          var cls = 'nv-result-card' + (c.full ? ' nv-full' : '');
-          var valCls = 'nv-result-card-value ' + _colorClass(c.color || '');
-          parts.push(
-            '<div class="' + cls + '">',
-            '  <span class="nv-result-card-label">' + (c.label || '') + '</span>',
-            '  <div class="' + valCls.trim() + '">' + (c.value || '—') + '</div>',
-            '</div>'
-          );
-        });
-        parts.push('</div>');
-      }
-
-      /* Note */
-      if (cfg.note) {
-        parts.push('<div class="nv-modal-note">' + cfg.note + '</div>');
-      }
-
-      /* Action buttons */
-      var copyText = cfg.copyText || _buildCopyText(cfg);
-      parts.push(
-        '<div class="nv-modal-actions">',
-        '  <button class="nv-btn nv-btn-ghost nv-btn-copy" id="nvCopyBtn" onclick="NvModal._copy()">📋 Copy Results</button>',
-        '  <button class="nv-btn nv-btn-ghost" onclick="NvModal.close()">✕ Close</button>',
-        '  <button class="nv-btn nv-btn-primary" onclick="NvModal._again()">🔄 Calculate Again</button>',
-        '</div>'
-      );
-
-      body.innerHTML = parts.join('');
-      body.dataset.copyText = copyText;
-
-      /* Open */
-      document.body.style.overflow = 'hidden';
-      overlay.classList.add('nv-open');
-      modal.focus && modal.focus();
-    },
-
-    close: function () {
-      if (!overlay) return;
-      overlay.classList.remove('nv-open');
-      document.body.style.overflow = '';
-    },
-
-    _copy: function () {
-      var body = document.getElementById('nvModalBody');
-      var text = body ? body.dataset.copyText : '';
-      if (!text) return;
-      navigator.clipboard.writeText(text).then(function () {
-        var btn = document.getElementById('nvCopyBtn');
-        if (!btn) return;
-        btn.textContent = '✅ Copied!';
-        btn.classList.add('copied');
-        setTimeout(function () {
-          btn.textContent = '📋 Copy Results';
-          btn.classList.remove('copied');
-        }, 2200);
-      }).catch(function () {
-        /* fallback */
-        var ta = document.createElement('textarea');
-        ta.value = text;
-        ta.style.position = 'fixed';
-        ta.style.opacity = '0';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-      });
-    },
-
-    _again: function () {
-      NvModal.close();
-      if (_onAgain) { _onAgain(); return; }
-      /* Default: scroll to first input and focus it */
-      var inp = document.querySelector('.calc-input-card input, .calc-input-card select');
-      if (inp) {
-        inp.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        setTimeout(function () { inp.focus(); inp.select && inp.select(); }, 300);
-      }
-    }
-  };
-
-  /* Auto-build plain-text copy string from cfg */
-  function _buildCopyText(cfg) {
-    var lines = ['📊 ' + (cfg.title || 'Results')];
-    if (cfg.subtitle) lines.push(cfg.subtitle);
-    lines.push('');
-    if (cfg.hero) lines.push((cfg.hero.label || 'Result') + ': ' + (cfg.hero.value || ''));
-    if (cfg.cards) {
-      cfg.cards.forEach(function (c) {
-        lines.push((c.label || '') + ': ' + (c.value || ''));
-      });
-    }
-    lines.push('');
-    lines.push('Calculated at numvexa.in');
-    return lines.join('\n');
-  }
-
-})();
-/* ── End of Modal Core ── */
+/* ── End of script.js ── */
