@@ -1455,15 +1455,32 @@ function confirmDownloadPDF() {
   const holder = document.createElement('div');
   holder.id = 'rbPdfRenderHolder';
   holder.style.position = 'fixed';
-  holder.style.left = '-99999px';
+  holder.style.left = '0';
   holder.style.top = '0';
+  holder.style.zIndex = '-1';
+  holder.style.opacity = '0';
+  holder.style.pointerEvents = 'none';
   holder.style.width = '210mm';
   holder.style.background = '#fff';
-  holder.innerHTML = `<style>${styleText}</style><div id="rbPdfRenderTarget">${bodyText}</div>`;
+  // Strip the fixed min-height:297mm from the template's body rule so the
+  // rendered element is only as tall as its actual content — this is what
+  // removes the extra blank space at the bottom of short resumes.
+  const trimmedStyle = styleText.replace(/min-height:\s*297mm;?/gi, '');
+  holder.innerHTML = `<style>${trimmedStyle}</style><div id="rbPdfRenderTarget" style="width:210mm;background:#fff;">${bodyText}</div>`;
   document.body.appendChild(holder);
 
   const finish = () => { holder.remove(); btn.disabled = false; btn.textContent = '⬇️ Download PDF'; };
   const target = document.getElementById('rbPdfRenderTarget');
+
+  // Wait for fonts/images (profile photo) inside the target to finish loading
+  // before capturing — this avoids blank/partial captures that cause errors.
+  function waitForImages(el) {
+    const imgs = Array.from(el.querySelectorAll('img'));
+    if (!imgs.length) return Promise.resolve();
+    return Promise.all(imgs.map(img => img.complete ? Promise.resolve() : new Promise(res => {
+      img.onload = res; img.onerror = res;
+    })));
+  }
 
   setTimeout(() => {
     if (!window.html2pdf || !target) {
@@ -1471,15 +1488,28 @@ function confirmDownloadPDF() {
       showToast('⚠️ Could not generate PDF. Try again.');
       return;
     }
-    html2pdf().set({
-      margin: 0,
-      filename: fileName,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).from(target).save().then(() => {
-      finish();
-      showToast('✅ Resume downloaded!');
+
+    waitForImages(target).then(() => {
+      // Measure actual rendered content height (in mm) so the PDF page
+      // matches the resume exactly — no leftover blank space.
+      const pxHeight = target.scrollHeight;
+      const mmToPx = 96 / 25.4; // CSS px-per-mm at 96dpi
+      const contentHeightMm = Math.max(pxHeight / mmToPx, 50); // safety floor
+
+      html2pdf().set({
+        margin: 0,
+        filename: fileName,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', windowWidth: target.scrollWidth },
+        jsPDF: { unit: 'mm', format: [210, contentHeightMm], orientation: 'portrait' },
+        pagebreak: { mode: ['avoid-all'] }
+      }).from(target).save().then(() => {
+        finish();
+        showToast('✅ Resume downloaded!');
+      }).catch(() => {
+        finish();
+        showToast('⚠️ Download failed. Try again.');
+      });
     }).catch(() => {
       finish();
       showToast('⚠️ Download failed. Try again.');
