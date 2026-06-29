@@ -68,7 +68,7 @@
 /* ── Template Selector ── */
 .rb-templates-wrap { margin-bottom: 2rem; }
 .rb-section-label { font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text3); margin-bottom: .85rem; }
-.rb-templates { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; }
+.rb-templates { display: grid; grid-template-columns: repeat(5,1fr); gap: 1rem; }
 .rb-tpl-card {
   border: 2.5px solid var(--border); border-radius: 14px; overflow: hidden;
   cursor: pointer; transition: all .22s; background: var(--surface);
@@ -287,6 +287,9 @@
   .rb-builder { grid-template-columns: 1fr; }
   .rb-preview-panel { position: static; }
 }
+@media (max-width: 900px) {
+  .rb-templates { grid-template-columns: repeat(3,1fr); }
+}
 @media (max-width: 760px) {
   .rb-templates { grid-template-columns: repeat(2,1fr); }
   .rb-row { grid-template-columns: 1fr; gap: .5rem; }
@@ -333,12 +336,8 @@
       <a href="/calculators.html">All Calculators</a>
       <a href="/pdf-tools.html">PDF Tools</a>
       <a href="/document-tools.html">Document Tools</a>
-      <a href="resume-builder.html">Resume Builder</a>
-      <a href="blog.html">Blog</a>
-      <a href="about.html">About</a>
-      <a href="#contact">Contact</a>
-      <a href="faq.html">FAQ</a>
       <a href="/resume-builder.html" style="color:var(--accent);font-weight:700;">Resume Builder</a>
+      <a href="/blog.html">Blog</a>
     </nav>
     <div class="header-actions">
       <button aria-label="Toggle dark mode" class="dark-toggle" id="darkToggle" onclick="toggleRbDark()">
@@ -469,6 +468,26 @@
         <div class="rb-tpl-body">
           <div class="rb-tpl-name">Centered Teal <span class="rb-tpl-check">✓</span></div>
           <div class="rb-tpl-desc">Centered header, single column, teal accent</div>
+        </div>
+      </div>
+      <div class="rb-tpl-card" data-tpl="ats" onclick="selectTemplate('ats', this)">
+        <div class="rb-tpl-thumb" style="background:#fff;border-bottom:1px solid #e2e8f0;position:relative;">
+          <div style="position:absolute;inset:0;padding:8px 10px;display:flex;flex-direction:column;gap:3px">
+            <div class="rb-mock-txt dark bold" style="font-size:10px">Andrew Clifford</div>
+            <div class="rb-mock-txt" style="color:#2563eb;font-size:7px;font-weight:700">Software Engineer</div>
+            <div class="rb-mock-txt muted xs">222-333-4444 · email@email.com</div>
+            <div style="height:1px;background:#1e293b;margin:4px 0"></div>
+            <div class="rb-mock-txt dark bold xs">Experience</div>
+            <div class="rb-mock-txt dark xs">Job Title · Company · Location</div>
+            <div class="rb-mock-txt muted xs">• Achievement bullet point</div>
+            <div style="height:1px;background:#e2e8f0;margin:3px 0"></div>
+            <div class="rb-mock-txt dark bold xs">Education</div>
+            <div class="rb-mock-txt dark xs">Degree · School</div>
+          </div>
+        </div>
+        <div class="rb-tpl-body">
+          <div class="rb-tpl-name">ATS Friendly <span class="rb-tpl-check">✓</span></div>
+          <div class="rb-tpl-desc">Clean white, single-column, max ATS score</div>
         </div>
       </div>
     </div>
@@ -1036,6 +1055,7 @@ function generateResumeHTML(data) {
   if (tpl === 'modern') return generateModern(data);
   if (tpl === 'executive') return generateExecutive(data);
   if (tpl === 'centered') return generateCentered(data);
+  if (tpl === 'ats') return generateATS(data);
   return generateClassic(data);
 }
 
@@ -1366,7 +1386,89 @@ function generateCentered(d) {
   </div>
   </body></html>`;
 }
-function debounceUpdate() {
+/* ── TEMPLATE 5: ATS FRIENDLY ── */
+function generateATS(d) {
+  const contactParts = [
+    d.phone  ? esc(d.phone)   : '',
+    d.email  ? esc(d.email)   : '',
+    d.linkedin ? esc(d.linkedin) : '',
+    d.website  ? esc(d.website)  : '',
+    d.location ? esc(d.location) : ''
+  ].filter(Boolean).join('&nbsp;&nbsp;|&nbsp;&nbsp;');
+
+  const expHTML = d.exp.map(e => e.role ? `
+    <div style="margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:4px">
+        <div style="font-weight:700;font-size:13.5px;color:#0f172a">${esc(e.role)}</div>
+        <div style="font-size:11.5px;color:#334155">${esc(e.start||'')}${e.end?' – '+esc(e.end):''}</div>
+      </div>
+      <div style="font-size:12px;font-weight:600;color:#2563eb;margin-bottom:4px">${esc(e.co)}${e.loc?' &nbsp;·&nbsp; <span style="color:#64748b;font-weight:400">'+esc(e.loc)+'</span>':''}</div>
+      ${e.bullets ? `<ul style="list-style:disc;padding-left:18px;margin:0">${e.bullets.split('\n').filter(l=>l.trim()).map(l=>`<li style="font-size:12.5px;color:#1e293b;margin-bottom:3px;line-height:1.5">${esc(l.replace(/^[•\-*]\s*/,''))}</li>`).join('')}</ul>` : ''}
+    </div>` : '').join('');
+
+  const eduHTML = d.edu.map(e => e.degree ? `
+    <div style="margin-bottom:12px;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:4px">
+      <div>
+        <div style="font-weight:700;font-size:13px;color:#0f172a">${esc(e.degree)}</div>
+        <div style="font-size:12px;color:#2563eb;font-weight:600">${esc(e.school)}${e.meta?' &nbsp;·&nbsp; <span style="color:#64748b;font-weight:400">'+esc(e.meta)+'</span>':''}</div>
+      </div>
+      <div style="font-size:11.5px;color:#334155;text-align:right">${esc(e.year)}</div>
+    </div>` : '').join('');
+
+  const skillCols = d.skills.length ? (() => {
+    const cols = [[], [], []];
+    d.skills.forEach((s, i) => cols[i % 3].push(s));
+    return `<table style="width:100%;border-collapse:collapse">${cols[0].map((_,ri) => `<tr>${[0,1,2].map(ci => cols[ci][ri] ? `<td style="padding:2px 0;font-size:12px;color:#1e293b;width:33%">· ${esc(cols[ci][ri])}</td>` : '<td></td>').join('')}</tr>`).join('')}</table>`;
+  })() : '';
+
+  const projHTML = d.proj.map(p => p.name ? `
+    <div style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:4px;flex-wrap:wrap">
+        <div style="font-weight:700;font-size:13px;color:#0f172a">${esc(p.name)}${p.tech?` <span style="font-size:11px;color:#64748b;font-weight:400">— ${esc(p.tech)}</span>`:''}</div>
+        ${p.link?`<div style="font-size:11px;color:#2563eb">${esc(p.link)}</div>`:''}
+      </div>
+      ${p.desc?`<div style="font-size:12px;color:#1e293b;margin-top:3px;line-height:1.5">${esc(p.desc)}</div>`:''}
+    </div>` : '').join('');
+
+  const certHTML = d.cert.map(c => c.name ? `<li style="font-size:12px;color:#1e293b;margin-bottom:4px">${esc(c.name)}${c.issuer?' — '+esc(c.issuer):''}${c.year?' ('+esc(c.year)+')':''}</li>` : '').join('');
+
+  const langPlain = d.lang.filter(l=>l.name).map(l=>`${esc(l.name)} (${esc(l.level)})`).join('&nbsp;&nbsp;·&nbsp;&nbsp;');
+
+  const refHTML = d.showRefs === '1'
+    ? d.ref.map(r => r.name ? `<div style="margin-bottom:10px"><div style="font-weight:700;font-size:12.5px;color:#0f172a">${esc(r.name)}</div><div style="font-size:12px;color:#334155">${esc(r.title)}${r.co?', '+esc(r.co):''}</div>${r.contact?`<div style="font-size:12px;color:#334155">${esc(r.contact)}</div>`:''}</div>` : '').join('')
+    : '<div style="font-size:12px;color:#334155;font-style:italic">Available upon request.</div>';
+
+  const sec = (title, content) => content ? `
+    <div style="margin-bottom:18px">
+      <div style="font-size:14px;font-weight:800;color:#0f172a;border-bottom:2px solid #0f172a;padding-bottom:3px;margin-bottom:10px;letter-spacing:.01em">${title}</div>
+      ${content}
+    </div>` : '';
+
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"/><style>
+    @page{size:A4;margin:0}*{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Times New Roman',Times,serif;background:#fff;color:#0f172a;font-size:13px;line-height:1.5;width:210mm;min-height:297mm}
+    .wrap{padding:32px 40px}
+  </style></head><body>
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:16px;border-bottom:2px solid #0f172a;padding-bottom:12px">
+      <div style="font-size:28px;font-weight:800;letter-spacing:.02em;color:#0f172a;font-family:'Segoe UI',Arial,sans-serif">${esc(d.name||'Your Name')}</div>
+      ${d.jobtitle?`<div style="font-size:14px;color:#2563eb;font-weight:700;margin:4px 0;font-family:'Segoe UI',Arial,sans-serif">${esc(d.jobtitle)}</div>`:''}
+      ${contactParts?`<div style="font-size:11.5px;color:#334155;margin-top:6px;font-family:'Segoe UI',Arial,sans-serif">${contactParts}</div>`:''}
+    </div>
+
+    ${d.summary?sec('Professional Summary',`<p style="font-size:12.5px;color:#1e293b;line-height:1.7;text-align:justify">${esc(d.summary)}</p>`):''}
+    ${sec('Experience', expHTML)}
+    ${sec('Education', eduHTML)}
+    ${skillCols?sec('Skills', skillCols):''}
+    ${projHTML?sec('Projects', projHTML):''}
+    ${certHTML?sec('Certifications',`<ul style="padding-left:16px">${certHTML}</ul>`):''}
+    ${langPlain?sec('Languages',`<div style="font-size:12px;color:#1e293b">${langPlain}</div>`):''}
+    ${sec('References', refHTML)}
+  </div>
+  </body></html>`;
+}
+
+
   clearTimeout(updateTimer);
   updateTimer = setTimeout(() => { saveToStorage(); updatePreview(); }, 400);
 }
@@ -1459,10 +1561,10 @@ function confirmDownloadPDF() {
   const holder = document.createElement('div');
   holder.id = 'rbPdfRenderHolder';
   holder.style.position = 'fixed';
-  holder.style.left = '0';
+  holder.style.left = '-9999px';
   holder.style.top = '0';
-  holder.style.zIndex = '-1';
-  holder.style.opacity = '0';
+  holder.style.zIndex = '9999';
+  holder.style.opacity = '1';
   holder.style.pointerEvents = 'none';
   holder.style.width = '210mm';
   holder.style.background = '#fff';
