@@ -1566,17 +1566,19 @@ function confirmDownloadPDF() {
     const fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
 
     Promise.all([waitForImages(target), fontsReady]).then(() => {
-      const pxHeight = target.scrollHeight;
-      const mmToPx = 96 / 25.4;
-      const contentHeightMm = Math.max(pxHeight / mmToPx, 50);
-
+      // Use standard A4 page size with NO custom width/windowWidth math.
+      // Every template's body is already fixed at exactly 210mm/794px wide
+      // to match A4, so letting html2canvas auto-detect dimensions from the
+      // element itself (instead of us passing a computed windowWidth) is
+      // what avoids the cropping/offset bug we kept hitting with custom
+      // array-format page sizes combined with manual windowWidth values.
       html2pdf().set({
         margin: 0,
         filename: fileName,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', windowWidth: target.scrollWidth, scrollX: 0, scrollY: 0 },
-        jsPDF: { unit: 'mm', format: [210, contentHeightMm], orientation: 'portrait' },
-        pagebreak: { mode: ['avoid-all'] }
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['css', 'legacy'] }
       }).from(target).save().then(() => {
         finish();
         showToast('✅ Resume downloaded!');
