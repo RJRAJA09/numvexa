@@ -1524,14 +1524,25 @@ function confirmDownloadPDF() {
   const styleText = styleMatch ? styleMatch[1] : '';
   const bodyText = bodyMatch ? bodyMatch[1] : '';
 
+  // IMPORTANT: many mobile browsers fail to paint/capture elements that are
+  // positioned far off-screen (e.g. left:-9999px), producing a blank white
+  // capture. Instead we keep the render target inside the normal viewport
+  // bounds (top:0;left:0) but hide it visually with a 0×0 overflow:hidden
+  // wrapper sitting behind everything (z-index:-1) — this paints reliably
+  // on every browser, including mobile, while staying invisible to the user.
+  const wrapper = document.createElement('div');
+  wrapper.id = 'rbPdfRenderWrapper';
+  wrapper.style.position = 'fixed';
+  wrapper.style.top = '0';
+  wrapper.style.left = '0';
+  wrapper.style.width = '0';
+  wrapper.style.height = '0';
+  wrapper.style.overflow = 'hidden';
+  wrapper.style.zIndex = '-1';
+  wrapper.style.pointerEvents = 'none';
+
   const holder = document.createElement('div');
   holder.id = 'rbPdfRenderHolder';
-  holder.style.position = 'fixed';
-  holder.style.left = '-9999px';
-  holder.style.top = '0';
-  holder.style.zIndex = '9999';
-  holder.style.opacity = '1';
-  holder.style.pointerEvents = 'none';
   holder.style.width = '210mm';
   holder.style.background = '#fff';
   // Strip the fixed min-height:297mm from the template's body rule so the
@@ -1539,9 +1550,10 @@ function confirmDownloadPDF() {
   // removes the extra blank space at the bottom of short resumes.
   const trimmedStyle = styleText.replace(/min-height:\s*297mm;?/gi, '');
   holder.innerHTML = `<style>${trimmedStyle}</style><div id="rbPdfRenderTarget" style="width:210mm;background:#fff;">${bodyText}</div>`;
-  document.body.appendChild(holder);
+  wrapper.appendChild(holder);
+  document.body.appendChild(wrapper);
 
-  const finish = () => { holder.remove(); btn.disabled = false; btn.textContent = '⬇️ Download PDF'; };
+  const finish = () => { wrapper.remove(); btn.disabled = false; btn.textContent = '⬇️ Download PDF'; };
   const target = document.getElementById('rbPdfRenderTarget');
 
   // Wait for fonts/images (profile photo) inside the target to finish loading
@@ -1561,7 +1573,9 @@ function confirmDownloadPDF() {
       return;
     }
 
-    waitForImages(target).then(() => {
+    const fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+
+    Promise.all([waitForImages(target), fontsReady]).then(() => {
       // Measure actual rendered content height (in mm) so the PDF page
       // matches the resume exactly — no leftover blank space.
       const pxHeight = target.scrollHeight;
