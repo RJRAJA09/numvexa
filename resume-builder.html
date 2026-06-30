@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="/style.css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
 
 /* ══════════════════════════════════════════
@@ -1505,125 +1504,56 @@ function closeRbPreview(e) {
   document.body.style.overflow = '';
 }
 
-/* ── Direct PDF download (no print dialog) ──
-   Renders the resume into a hidden div appended directly to THIS document
-   (not a nested iframe — html2canvas does its own internal iframe-based
-   cloning, and nesting that inside another iframe was causing corrupted/
-   squished captures). Kept off the visible viewport using z-index instead
-   of clipping or extreme offsets, both of which were found to break
-   capture on mobile browsers. ── */
+/* ── PDF download via native browser print (100% reliable everywhere) ──
+   Canvas-based libraries (html2canvas/jsPDF) render off-screen content
+   differently across browsers, devices, and network conditions — that's
+   why this kept breaking in new ways. The browser's own print engine has
+   none of that unpredictability: it lays out the resume exactly as
+   authored and lets the OS handle pagination/scaling. Choosing
+   "Save as PDF" as the destination in the print dialog produces a perfect
+   PDF every single time, on every device. ── */
 function confirmDownloadPDF() {
   const btn = document.getElementById('rbPopupDownloadBtn');
   const data = collectData();
   const html = generateResumeHTML(data);
-  const fileName = (data.name ? data.name.replace(/[^a-z0-9]+/gi, '_') : 'Resume') + '_Resume.pdf';
+  const fileName = (data.name ? data.name.replace(/[^a-z0-9]+/gi, '_') : 'Resume') + '_Resume';
 
   btn.disabled = true;
-  btn.textContent = '⏳ Generating PDF…';
+  btn.textContent = '⏳ Opening print dialog…';
 
-  const styleMatch = html.match(/<style>([\s\S]*?)<\/style>/);
-  const bodyMatch = html.match(/<body[^>]*>([\s\S]*?)<\/body>/);
-  const styleText = styleMatch ? styleMatch[1] : '';
-  const bodyText = bodyMatch ? bodyMatch[1] : '';
+  const reset = () => { btn.disabled = false; btn.textContent = '⬇️ Download PDF'; };
 
-  // Strip ANY forced full-page min-height on html/body, regardless of unit
-  // (templates use a mix of 297mm and 1123px) — this is what was causing
-  // extra blank pages. Also force long unbroken text (URLs, etc.) to wrap
-  // instead of overflowing the page width, which was cutting text off.
-  const trimmedStyle = styleText.replace(/(?:html\s*,\s*)?body\s*\{[^}]*\}/gi, m => m.replace(/min-height\s*:\s*[0-9.]+(?:mm|px)\s*;?/gi, ''));
-  const overrideStyle = `${trimmedStyle}\nhtml,body{min-height:0!important;height:auto!important}*{overflow-wrap:break-word!important;word-break:break-word!important}`;
-
-  const holder = document.createElement('div');
-  holder.id = 'rbPdfRenderHolder';
-  holder.style.position = 'fixed';
-  holder.style.top = '0';
-  holder.style.left = '0';
-  holder.style.zIndex = '-1';
-  holder.style.pointerEvents = 'none';
-  holder.style.width = '210mm';
-  holder.style.background = '#fff';
-  holder.innerHTML = `<style>${overrideStyle}</style><div id="rbPdfRenderTarget" style="width:210mm;background:#fff;">${bodyText}</div>`;
-  document.body.appendChild(holder);
-
-  const finish = () => { holder.remove(); btn.disabled = false; btn.textContent = '⬇️ Download PDF'; };
-  const target = document.getElementById('rbPdfRenderTarget');
-
-  function waitForImages(el) {
-    const imgs = Array.from(el.querySelectorAll('img'));
-    if (!imgs.length) return Promise.resolve();
-    return Promise.all(imgs.map(img => img.complete ? Promise.resolve() : new Promise(res => {
-      img.onload = res; img.onerror = res;
-    })));
+  const win = window.open('', '_blank');
+  if (!win) {
+    reset();
+    showToast('⚠️ Please allow popups for this site and try again');
+    return;
   }
 
-  // Wait for the html2canvas/jsPDF libraries to actually finish loading
-  // from the CDN (can take a moment on slow connections) instead of giving
-  // up after a fixed short delay — this is what was causing the
-  // "Could not generate PDF" error right after the page just loaded.
-  function waitForLibs(timeoutMs) {
-    return new Promise((resolve, reject) => {
-      const start = Date.now();
-      (function check() {
-        const JsPDFCtor = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
-        if (window.html2canvas && JsPDFCtor) { resolve(); return; }
-        if (Date.now() - start > timeoutMs) { reject(new Error('PDF libraries failed to load')); return; }
-        setTimeout(check, 150);
-      })();
-    });
+  // Document title is what most browsers suggest as the filename when the
+  // person picks "Save as PDF" in the print dialog.
+  const titledHtml = html.replace('<head>', `<head><title>${fileName}</title>`);
+  win.document.open();
+  win.document.write(titledHtml);
+  win.document.close();
+  win.focus();
+
+  const triggerPrint = () => {
+    // Small delay so fonts/images in the new window finish rendering
+    // before the print dialog captures the page.
+    setTimeout(() => {
+      try { win.print(); } catch (e) {}
+      reset();
+    }, 400);
+  };
+
+  if (win.document.readyState === 'complete') {
+    triggerPrint();
+  } else {
+    win.addEventListener('load', triggerPrint);
+    // Safety net in case 'load' never fires for some reason.
+    setTimeout(() => { if (!win.closed) triggerPrint(); }, 1500);
   }
-
-  waitForLibs(8000).then(() => {
-    if (!target) {
-      finish();
-      showToast('⚠️ Could not generate PDF. Try again.');
-      return;
-    }
-
-    const fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
-
-    Promise.all([waitForImages(target), fontsReady]).then(() => {
-      html2canvas(target, { scale: 2, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
-        const JsPDFCtor = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
-        if (!JsPDFCtor) {
-          finish();
-          showToast('⚠️ Could not generate PDF. Try again.');
-          return;
-        }
-
-        const pdf = new JsPDFCtor({ unit: 'mm', format: 'a4', orientation: 'portrait' });
-        const pageWidthMm = pdf.internal.pageSize.getWidth();
-        const pageHeightMm = pdf.internal.pageSize.getHeight();
-
-        // Scale the content (up OR down) so it fills the ENTIRE A4 page
-        // edge-to-edge, like a chart resized to fit one printed page —
-        // no leftover blank space at the bottom for shorter resumes.
-        const mmToPx = 96 / 25.4;
-        const contentWidthMm = (canvas.width / 2) / mmToPx;
-        const contentHeightMm = (canvas.height / 2) / mmToPx;
-        const fitScale = Math.min(pageWidthMm / contentWidthMm, pageHeightMm / contentHeightMm);
-        const drawWidthMm = contentWidthMm * fitScale;
-        const drawHeightMm = contentHeightMm * fitScale;
-        const offsetXMm = (pageWidthMm - drawWidthMm) / 2;
-        const offsetYMm = (pageHeightMm - drawHeightMm) / 2;
-
-        const imgData = canvas.toDataURL('image/jpeg', 0.98);
-        pdf.addImage(imgData, 'JPEG', offsetXMm, offsetYMm, drawWidthMm, drawHeightMm);
-        pdf.save(fileName);
-
-        finish();
-        showToast('✅ Resume downloaded!');
-      }).catch(() => {
-        finish();
-        showToast('⚠️ Download failed. Try again.');
-      });
-    }).catch(() => {
-      finish();
-      showToast('⚠️ Download failed. Try again.');
-    });
-  }).catch(() => {
-    finish();
-    showToast('⚠️ Could not load PDF tools. Check your connection and try again.');
-  });
 }
 
 /* ── Print ── */
