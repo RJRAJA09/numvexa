@@ -1584,14 +1584,13 @@ function confirmDownloadPDF() {
         const pageWidthMm = pdf.internal.pageSize.getWidth();
         const pageHeightMm = pdf.internal.pageSize.getHeight();
 
-        // Convert the captured canvas (which was rendered at scale:2) back
-        // to real CSS mm dimensions, then shrink — never enlarge — it so
-        // the WHOLE resume fits on a single A4 page, exactly like a chart
-        // scaled to fit one printed page.
+        // Scale the content (up OR down) so it fills the ENTIRE A4 page
+        // edge-to-edge, like a chart resized to fit one printed page —
+        // no leftover blank space at the bottom for shorter resumes.
         const mmToPx = 96 / 25.4;
         const contentWidthMm = (canvas.width / 2) / mmToPx;
         const contentHeightMm = (canvas.height / 2) / mmToPx;
-        const fitScale = Math.min(pageWidthMm / contentWidthMm, pageHeightMm / contentHeightMm, 1);
+        const fitScale = Math.min(pageWidthMm / contentWidthMm, pageHeightMm / contentHeightMm);
         const drawWidthMm = contentWidthMm * fitScale;
         const drawHeightMm = contentHeightMm * fitScale;
         const offsetXMm = (pageWidthMm - drawWidthMm) / 2;
