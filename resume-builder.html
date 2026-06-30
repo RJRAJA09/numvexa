@@ -1509,92 +1509,93 @@ function closeRbPreview(e) {
 function confirmDownloadPDF() {
   const btn = document.getElementById('rbPopupDownloadBtn');
   const data = collectData();
-  const html = generateResumeHTML(data);
+  let html = generateResumeHTML(data);
   const fileName = (data.name ? data.name.replace(/[^a-z0-9]+/gi, '_') : 'Resume') + '_Resume.pdf';
 
   btn.disabled = true;
   btn.textContent = '⏳ Generating PDF…';
 
-  // Extract just the <body> inner content + <style> from the generated HTML
-  // and inject it into a hidden full-resolution div in THIS document, so
-  // html2canvas (which works against the current document) can capture it
-  // reliably on every browser, including mobile.
-  const styleMatch = html.match(/<style>([\s\S]*?)<\/style>/);
-  const bodyMatch = html.match(/<body[^>]*>([\s\S]*?)<\/body>/);
-  const styleText = styleMatch ? styleMatch[1] : '';
-  const bodyText = bodyMatch ? bodyMatch[1] : '';
+  // Force-remove any fixed full-page min-height (different templates use
+  // different units: 297mm, 1123px, etc.) so the page is exactly as tall as
+  // the actual content — this is what removes blank trailing pages. Also
+  // force long unbroken strings (long words/URLs) to wrap instead of
+  // overflowing the page width, which is what was cutting text off on the
+  // right edge.
+  const override = `<style>
+    html, body { min-height: 0 !important; height: auto !important; }
+    * { overflow-wrap: break-word !important; word-break: break-word !important; }
+  </style>`;
+  html = html.replace('</head>', override + '</head>');
 
-  // IMPORTANT: the render target must NOT be clipped (no overflow:hidden
-  // ancestor, no 0-size wrapper, no -9999px offset) — any of those cause
-  // html2canvas to capture a blank/white page on many mobile browsers,
-  // because the element ends up with zero rendered pixels. Instead, we
-  // keep it fully laid out at the top-left of the actual viewport but push
-  // it BEHIND everything else with a negative z-index, so it stays
-  // invisible to the user while still being fully paintable/capturable.
-  const holder = document.createElement('div');
-  holder.id = 'rbPdfRenderHolder';
-  holder.style.position = 'fixed';
-  holder.style.top = '0';
-  holder.style.left = '0';
-  holder.style.zIndex = '-1';
-  holder.style.pointerEvents = 'none';
-  holder.style.width = '210mm';
-  holder.style.background = '#fff';
-  // Strip the fixed min-height:297mm from the template's body rule so the
-  // rendered element is only as tall as its actual content — this is what
-  // removes the extra blank space at the bottom of short resumes.
-  const trimmedStyle = styleText.replace(/min-height:\s*297mm;?/gi, '');
-  holder.innerHTML = `<style>${trimmedStyle}</style><div id="rbPdfRenderTarget" style="width:210mm;background:#fff;">${bodyText}</div>`;
-  document.body.appendChild(holder);
+  // Render inside a real hidden iframe (its own document) instead of cloning
+  // markup into a div in THIS document — this avoids style-merging issues
+  // and lets each template's own @page/body rules apply exactly as authored.
+  // Positioned within the actual viewport (not off-screen, not clipped) but
+  // pushed behind everything with a negative z-index, so it paints reliably
+  // on every browser, including mobile, while staying invisible to the user.
+  const iframe = document.createElement('iframe');
+  iframe.id = 'rbPdfRenderFrame';
+  iframe.style.position = 'fixed';
+  iframe.style.top = '0';
+  iframe.style.left = '0';
+  iframe.style.width = '900px';
+  iframe.style.height = '50px';
+  iframe.style.border = '0';
+  iframe.style.zIndex = '-1';
+  iframe.style.pointerEvents = 'none';
+  document.body.appendChild(iframe);
 
-  const finish = () => { holder.remove(); btn.disabled = false; btn.textContent = '⬇️ Download PDF'; };
-  const target = document.getElementById('rbPdfRenderTarget');
+  const finish = () => { iframe.remove(); btn.disabled = false; btn.textContent = '⬇️ Download PDF'; };
 
-  // Wait for fonts/images (profile photo) inside the target to finish loading
-  // before capturing — this avoids blank/partial captures that cause errors.
-  function waitForImages(el) {
-    const imgs = Array.from(el.querySelectorAll('img'));
-    if (!imgs.length) return Promise.resolve();
-    return Promise.all(imgs.map(img => img.complete ? Promise.resolve() : new Promise(res => {
-      img.onload = res; img.onerror = res;
-    })));
-  }
+  iframe.onload = () => {
+    const doc = iframe.contentDocument || iframe.contentWindow.document;
+    const target = doc.body;
+    if (!target) { finish(); showToast('⚠️ Could not generate PDF. Try again.'); return; }
 
-  setTimeout(() => {
-    if (!window.html2pdf || !target) {
-      finish();
-      showToast('⚠️ Could not generate PDF. Try again.');
-      return;
-    }
+    const fontsReady = (doc.fonts && doc.fonts.ready) ? doc.fonts.ready : Promise.resolve();
+    const imgs = Array.from(target.querySelectorAll('img'));
+    const imagesReady = imgs.length
+      ? Promise.all(imgs.map(img => img.complete ? Promise.resolve() : new Promise(res => { img.onload = res; img.onerror = res; })))
+      : Promise.resolve();
 
-    const fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+    Promise.all([fontsReady, imagesReady]).then(() => {
+      // small extra delay lets layout settle after fonts swap in
+      setTimeout(() => {
+        if (!window.html2pdf) {
+          finish();
+          showToast('⚠️ Could not generate PDF. Try again.');
+          return;
+        }
 
-    Promise.all([waitForImages(target), fontsReady]).then(() => {
-      // Measure actual rendered content height (in mm) so the PDF page
-      // matches the resume exactly — no leftover blank space.
-      const pxHeight = target.scrollHeight;
-      const mmToPx = 96 / 25.4; // CSS px-per-mm at 96dpi
-      const contentHeightMm = Math.max(pxHeight / mmToPx, 50); // safety floor
+        // Measure actual rendered size (in mm) so the PDF page matches the
+        // resume exactly — no leftover blank space, no width mismatch.
+        const pxWidth = target.scrollWidth;
+        const pxHeight = target.scrollHeight;
+        const mmToPx = 96 / 25.4; // CSS px-per-mm at 96dpi
+        const contentHeightMm = Math.max(pxHeight / mmToPx, 50); // safety floor
 
-      html2pdf().set({
-        margin: 0,
-        filename: fileName,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', windowWidth: target.scrollWidth, scrollX: 0, scrollY: 0 },
-        jsPDF: { unit: 'mm', format: [210, contentHeightMm], orientation: 'portrait' },
-        pagebreak: { mode: ['avoid-all'] }
-      }).from(target).save().then(() => {
-        finish();
-        showToast('✅ Resume downloaded!');
-      }).catch(() => {
-        finish();
-        showToast('⚠️ Download failed. Try again.');
-      });
+        html2pdf().set({
+          margin: 0,
+          filename: fileName,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', windowWidth: pxWidth, scrollX: 0, scrollY: 0 },
+          jsPDF: { unit: 'mm', format: [210, contentHeightMm], orientation: 'portrait' },
+          pagebreak: { mode: ['avoid-all'] }
+        }).from(target).save().then(() => {
+          finish();
+          showToast('✅ Resume downloaded!');
+        }).catch(() => {
+          finish();
+          showToast('⚠️ Download failed. Try again.');
+        });
+      }, 150);
     }).catch(() => {
       finish();
       showToast('⚠️ Download failed. Try again.');
     });
-  }, 350);
+  };
+
+  iframe.srcdoc = html;
 }
 
 /* ── Print ── */
