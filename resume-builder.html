@@ -1524,25 +1524,20 @@ function confirmDownloadPDF() {
   const styleText = styleMatch ? styleMatch[1] : '';
   const bodyText = bodyMatch ? bodyMatch[1] : '';
 
-  // IMPORTANT: many mobile browsers fail to paint/capture elements that are
-  // positioned far off-screen (e.g. left:-9999px), producing a blank white
-  // capture. Instead we keep the render target inside the normal viewport
-  // bounds (top:0;left:0) but hide it visually with a 0×0 overflow:hidden
-  // wrapper sitting behind everything (z-index:-1) — this paints reliably
-  // on every browser, including mobile, while staying invisible to the user.
-  const wrapper = document.createElement('div');
-  wrapper.id = 'rbPdfRenderWrapper';
-  wrapper.style.position = 'fixed';
-  wrapper.style.top = '0';
-  wrapper.style.left = '0';
-  wrapper.style.width = '0';
-  wrapper.style.height = '0';
-  wrapper.style.overflow = 'hidden';
-  wrapper.style.zIndex = '-1';
-  wrapper.style.pointerEvents = 'none';
-
+  // IMPORTANT: the render target must NOT be clipped (no overflow:hidden
+  // ancestor, no 0-size wrapper, no -9999px offset) — any of those cause
+  // html2canvas to capture a blank/white page on many mobile browsers,
+  // because the element ends up with zero rendered pixels. Instead, we
+  // keep it fully laid out at the top-left of the actual viewport but push
+  // it BEHIND everything else with a negative z-index, so it stays
+  // invisible to the user while still being fully paintable/capturable.
   const holder = document.createElement('div');
   holder.id = 'rbPdfRenderHolder';
+  holder.style.position = 'fixed';
+  holder.style.top = '0';
+  holder.style.left = '0';
+  holder.style.zIndex = '-1';
+  holder.style.pointerEvents = 'none';
   holder.style.width = '210mm';
   holder.style.background = '#fff';
   // Strip the fixed min-height:297mm from the template's body rule so the
@@ -1550,10 +1545,9 @@ function confirmDownloadPDF() {
   // removes the extra blank space at the bottom of short resumes.
   const trimmedStyle = styleText.replace(/min-height:\s*297mm;?/gi, '');
   holder.innerHTML = `<style>${trimmedStyle}</style><div id="rbPdfRenderTarget" style="width:210mm;background:#fff;">${bodyText}</div>`;
-  wrapper.appendChild(holder);
-  document.body.appendChild(wrapper);
+  document.body.appendChild(holder);
 
-  const finish = () => { wrapper.remove(); btn.disabled = false; btn.textContent = '⬇️ Download PDF'; };
+  const finish = () => { holder.remove(); btn.disabled = false; btn.textContent = '⬇️ Download PDF'; };
   const target = document.getElementById('rbPdfRenderTarget');
 
   // Wait for fonts/images (profile photo) inside the target to finish loading
@@ -1586,7 +1580,7 @@ function confirmDownloadPDF() {
         margin: 0,
         filename: fileName,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', windowWidth: target.scrollWidth },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', windowWidth: target.scrollWidth, scrollX: 0, scrollY: 0 },
         jsPDF: { unit: 'mm', format: [210, contentHeightMm], orientation: 'portrait' },
         pagebreak: { mode: ['avoid-all'] }
       }).from(target).save().then(() => {
