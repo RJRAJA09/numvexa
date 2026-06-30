@@ -1556,8 +1556,24 @@ function confirmDownloadPDF() {
     })));
   }
 
-  setTimeout(() => {
-    if (!window.html2canvas || !target) {
+  // Wait for the html2canvas/jsPDF libraries to actually finish loading
+  // from the CDN (can take a moment on slow connections) instead of giving
+  // up after a fixed short delay — this is what was causing the
+  // "Could not generate PDF" error right after the page just loaded.
+  function waitForLibs(timeoutMs) {
+    return new Promise((resolve, reject) => {
+      const start = Date.now();
+      (function check() {
+        const JsPDFCtor = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+        if (window.html2canvas && JsPDFCtor) { resolve(); return; }
+        if (Date.now() - start > timeoutMs) { reject(new Error('PDF libraries failed to load')); return; }
+        setTimeout(check, 150);
+      })();
+    });
+  }
+
+  waitForLibs(8000).then(() => {
+    if (!target) {
       finish();
       showToast('⚠️ Could not generate PDF. Try again.');
       return;
@@ -1566,12 +1582,6 @@ function confirmDownloadPDF() {
     const fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
 
     Promise.all([waitForImages(target), fontsReady]).then(() => {
-      if (!window.html2canvas) {
-        finish();
-        showToast('⚠️ Could not generate PDF. Try again.');
-        return;
-      }
-
       html2canvas(target, { scale: 2, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
         const JsPDFCtor = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
         if (!JsPDFCtor) {
@@ -1610,7 +1620,10 @@ function confirmDownloadPDF() {
       finish();
       showToast('⚠️ Download failed. Try again.');
     });
-  }, 400);
+  }).catch(() => {
+    finish();
+    showToast('⚠️ Could not load PDF tools. Check your connection and try again.');
+  });
 }
 
 /* ── Print ── */
