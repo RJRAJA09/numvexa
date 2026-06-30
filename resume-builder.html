@@ -1022,11 +1022,19 @@ function collectData() {
 /* ── Generate HTML for chosen template ── */
 function generateResumeHTML(data) {
   const tpl = data.template || 'classic';
-  if (tpl === 'modern') return generateModern(data);
-  if (tpl === 'executive') return generateExecutive(data);
-  if (tpl === 'centered') return generateCentered(data);
-  if (tpl === 'ats') return generateATS(data);
-  return generateClassic(data);
+  let html;
+  if (tpl === 'modern') html = generateModern(data);
+  else if (tpl === 'executive') html = generateExecutive(data);
+  else if (tpl === 'centered') html = generateCentered(data);
+  else if (tpl === 'ats') html = generateATS(data);
+  else html = generateClassic(data);
+
+  // Force any long unbroken text (a string of repeated characters, a long
+  // URL/email with no spaces, etc.) to wrap onto the next line instead of
+  // overflowing past the page edge — applied once here so every template
+  // gets it consistently, in the live preview, the print window, and PDFs.
+  const wrapFix = '<style>*{overflow-wrap:break-word!important;word-break:break-word!important}</style>';
+  return html.replace('</head>', wrapFix + '</head>');
 }
 
 /* ── TEMPLATE 1: CLASSIC ── */
