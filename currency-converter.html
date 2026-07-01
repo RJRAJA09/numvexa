@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Free Currency Converter – Live Exchange Rates | Numvexa</title>
+<meta name="description" content="Convert between 30+ world currencies with live exchange rates. Free, instant, no sign-up — INR, USD, EUR, GBP and more."/>
+<meta name="keywords" content="currency converter, exchange rate, USD to INR, INR to USD, live currency rates, forex converter"/>
+<meta name="author" content="Raja Mahakul"/>
+<meta name="robots" content="index, follow"/>
+<meta property="og:title" content="Free Currency Converter – Live Exchange Rates | Numvexa"/>
+<meta property="og:description" content="Convert between 30+ world currencies with live exchange rates. Free and instant."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://numvexa.in/currency-converter.html"/>
+<meta property="og:image" content="https://numvexa.in/og-image.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Free Currency Converter – Numvexa"/>
+<meta name="twitter:description" content="Live exchange rates for 30+ currencies. Free, instant, no sign-up."/>
+<meta name="twitter:image" content="https://numvexa.in/og-image.png"/>
+<link href="https://numvexa.in/currency-converter.html" rel="canonical"/>
+<link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Numvexa Currency Converter",
+  "url": "https://numvexa.in/currency-converter.html",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free online currency converter with live exchange rates for 30+ world currencies."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://numvexa.in/" },
+    { "@type": "ListItem", "position": 2, "name": "Currency Converter", "item": "https://numvexa.in/currency-converter.html" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How often are the exchange rates updated?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Rates are refreshed roughly once every hour from a live foreign-exchange data source and cached in your browser between refreshes." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this currency converter free to use?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes, the Numvexa Currency Converter is completely free with no sign-up required." }
+    },
+    {
+      "@type": "Question",
+      "name": "Which currencies are supported?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Over 30 major world currencies are supported, including INR, USD, EUR, GBP, JPY, AED and more." }
+    }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/style.css"/>
+<style>
+
+/* ══════════════════════════════════════════
+   CURRENCY CONVERTER – Page Styles
+   Scoped under .cc-* prefix to avoid conflicts
+══════════════════════════════════════════ */
+
+.cc-page { max-width: 900px; margin: 0 auto; padding: 0 1.25rem 3rem; }
+
+.cc-hero {
+  text-align: center; padding: 2.5rem 1rem 2rem;
+  background: linear-gradient(135deg, rgba(99,102,241,.07) 0%, rgba(139,92,246,.04) 100%);
+  border-radius: 20px; margin-bottom: 1.8rem;
+}
+.cc-hero h1 { font-size: clamp(1.6rem,4vw,2.4rem); font-weight: 800; color: var(--text); margin-bottom: .5rem; }
+.cc-hero p { color: var(--text2); font-size: 1rem; max-width: 540px; margin: 0 auto; }
+.cc-badges { display: flex; justify-content: center; gap: .6rem; flex-wrap: wrap; margin-top: 1rem; }
+.cc-badge {
+  background: var(--surface); border: 1.5px solid var(--border); border-radius: 20px;
+  padding: .3rem .8rem; font-size: .78rem; font-weight: 600; color: var(--text2);
+}
+
+/* ── Converter Card ── */
+.cc-card {
+  background: var(--surface); border: 1.5px solid var(--border); border-radius: 18px;
+  padding: 1.75rem; box-shadow: 0 4px 24px rgba(15,23,42,.05);
+}
+
+.cc-amount-field { margin-bottom: 1.25rem; }
+.cc-label { font-size: .78rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--text3); display: block; margin-bottom: .5rem; }
+.cc-amount-input {
+  width: 100%; border: 1.5px solid var(--border); border-radius: 12px;
+  padding: .9rem 1rem; font-size: 1.6rem; font-weight: 700; font-family: 'Sora', sans-serif;
+  background: var(--bg); color: var(--text); transition: border-color .2s, box-shadow .2s;
+}
+.cc-amount-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(99,102,241,.14); }
+
+.cc-swap-row {
+  display: grid; grid-template-columns: 1fr auto 1fr; gap: .75rem; align-items: end;
+  margin-bottom: 1.25rem;
+}
+.cc-currency-field { display: flex; flex-direction: column; }
+.cc-select-wrap { position: relative; }
+.cc-select {
+  width: 100%; border: 1.5px solid var(--border); border-radius: 12px;
+  padding: .75rem 2.2rem .75rem .9rem; font-size: .95rem; font-weight: 700;
+  font-family: 'Sora', sans-serif; background: var(--bg); color: var(--text);
+  appearance: none; -webkit-appearance: none; cursor: pointer;
+  transition: border-color .2s, box-shadow .2s;
+}
+.cc-select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(99,102,241,.14); }
+.cc-select-arrow { position: absolute; right: .85rem; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--text3); font-size: .75rem; }
+
+.cc-swap-btn {
+  width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--border);
+  background: var(--surface); color: var(--accent); font-size: 1.1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: all .2s;
+  margin-bottom: 2px;
+}
+.cc-swap-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); transform: rotate(180deg); }
+.cc-swap-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ── Quick pairs ── */
+.cc-quick-pairs { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.5rem; }
+.cc-quick-pair {
+  background: var(--bg); border: 1.5px solid var(--border); border-radius: 20px;
+  padding: .4rem .9rem; font-size: .8rem; font-weight: 600; color: var(--text2);
+  cursor: pointer; transition: all .18s; font-family: 'Sora', sans-serif;
+}
+.cc-quick-pair:hover, .cc-quick-pair.active { border-color: var(--accent); color: var(--accent); background: rgba(99,102,241,.06); }
+
+/* ── Result ── */
+.cc-result {
+  background: linear-gradient(135deg, rgba(99,102,241,.08), rgba(139,92,246,.05));
+  border: 1.5px solid rgba(99,102,241,.2); border-radius: 14px;
+  padding: 1.5rem; text-align: center; margin-bottom: 1rem;
+}
+.cc-result-value { font-size: 2.1rem; font-weight: 800; color: var(--text); word-break: break-word; }
+.cc-result-sub { font-size: .85rem; color: var(--text2); margin-top: .4rem; }
+.cc-result-rate { font-size: .78rem; color: var(--text3); margin-top: .6rem; }
+
+.cc-meta-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .5rem; font-size: .78rem; color: var(--text3); }
+.cc-refresh-btn {
+  background: none; border: 1.5px solid var(--border); border-radius: 8px;
+  padding: .4rem .8rem; font-size: .76rem; font-weight: 700; color: var(--accent);
+  cursor: pointer; display: inline-flex; align-items: center; gap: .35rem;
+  font-family: 'Sora', sans-serif; transition: all .18s;
+}
+.cc-refresh-btn:hover { background: rgba(99,102,241,.06); }
+.cc-refresh-btn:disabled { opacity: .5; cursor: not-allowed; }
+.cc-refresh-icon.spin { animation: cc-spin 0.8s linear infinite; display: inline-block; }
+@keyframes cc-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.cc-error-banner {
+  display: none; background: rgba(239,68,68,.08); border: 1.5px solid rgba(239,68,68,.3);
+  color: var(--red,#ef4444); border-radius: 10px; padding: .8rem 1rem; font-size: .84rem;
+  margin-bottom: 1rem; font-weight: 600;
+}
+.cc-error-banner.show { display: block; }
+
+.cc-loading-overlay {
+  display: none; align-items: center; justify-content: center; gap: .6rem;
+  padding: 2rem; color: var(--text2); font-size: .9rem;
+}
+.cc-loading-overlay.show { display: flex; }
+.cc-spinner {
+  width: 18px; height: 18px; border: 2.5px solid var(--border); border-top-color: var(--accent);
+  border-radius: 50%; animation: cc-spin 0.7s linear infinite;
+}
+
+/* ── Table of common rates ── */
+.cc-table-wrap { margin-top: 1.75rem; }
+.cc-table {
+  width: 100%; border-collapse: collapse; background: var(--surface);
+  border: 1.5px solid var(--border); border-radius: 12px; overflow: hidden;
+}
+.cc-table th, .cc-table td { padding: .65rem .9rem; text-align: left; font-size: .85rem; border-bottom: 1px solid var(--border); }
+.cc-table th { color: var(--text3); font-weight: 700; text-transform: uppercase; font-size: .72rem; letter-spacing: .05em; background: var(--bg); }
+.cc-table td { color: var(--text); }
+.cc-table tr:last-child td { border-bottom: none; }
+.cc-table tr:hover td { background: rgba(99,102,241,.03); }
+
+/* ── SEO Info block ── */
+.cc-info { background: var(--surface); border: 1.5px solid var(--border); border-radius: 14px; padding: 1.5rem 1.75rem; margin-top: 2.5rem; }
+.cc-info h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text); }
+.cc-info-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.2rem; }
+.cc-info-card { border-left: 3px solid var(--accent); padding-left: .85rem; }
+.cc-info-card h3 { font-size: .88rem; font-weight: 700; color: var(--text); margin-bottom: .3rem; }
+.cc-info-card p { font-size: .8rem; color: var(--text2); line-height: 1.55; }
+
+.cc-faq { margin-top: 2rem; }
+.cc-faq h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text); }
+.cc-faq-item { border-bottom: 1px solid var(--border); padding: .9rem 0; }
+.cc-faq-item h3 { font-size: .92rem; font-weight: 700; color: var(--text); margin-bottom: .35rem; }
+.cc-faq-item p { font-size: .84rem; color: var(--text2); line-height: 1.6; }
+
+/* ── Toast ── */
+.cc-toast {
+  position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999;
+  background: #10b981; color: #fff; padding: .7rem 1.3rem;
+  border-radius: 10px; font-size: .88rem; font-weight: 600;
+  box-shadow: 0 4px 20px rgba(0,0,0,.2);
+  transform: translateY(80px); opacity: 0;
+  transition: all .3s ease;
+}
+.cc-toast.show { transform: translateY(0); opacity: 1; }
+
+@media (max-width: 640px) {
+  .cc-swap-row { grid-template-columns: 1fr; }
+  .cc-swap-btn { justify-self: center; transform: rotate(90deg); margin: -.25rem 0; }
+  .cc-swap-btn:hover { transform: rotate(270deg); }
+  .cc-result-value { font-size: 1.6rem; }
+  .cc-info-grid { grid-template-columns: 1fr; }
+  .cc-card { padding: 1.25rem; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ── HEADER (inherit from site) ── -->
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a class="logo" href="/">
+      <span class="logo-icon">⚡</span>
+      <span class="logo-text">Num<strong>vexa</strong></span>
+    </a>
+    <nav class="main-nav" id="main-nav">
+      <a href="/">Home</a>
+      <a href="/calculators.html">All Calculators</a>
+      <a href="/pdf-tools.html">PDF Tools</a>
+      <a href="/document-tools.html">Document Tools</a>
+      <a href="/resume-builder.html">Resume Builder</a>
+      <a href="/currency-converter.html" style="color:var(--accent);font-weight:700;">Currency Converter</a>
+      <a href="/blog.html">Blog</a>
+    </nav>
+    <div class="header-actions">
+      <button aria-label="Toggle dark mode" class="dark-toggle" id="darkToggle" onclick="toggleCcDark()">
+        <span class="toggle-icon" id="toggleIcon">🌙</span>
+      </button>
+      <button aria-label="Open menu" class="hamburger" id="hamburger" onclick="toggleCcMobileMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="cc-page">
+
+  <!-- Hero -->
+  <div class="cc-hero">
+    <h1>💱 Free Currency Converter</h1>
+    <p>Live exchange rates for 30+ world currencies. Convert instantly — free, accurate, no sign-up required.</p>
+    <div class="cc-badges">
+      <span class="cc-badge">🔄 Live Rates</span>
+      <span class="cc-badge">🌍 30+ Currencies</span>
+      <span class="cc-badge">🆓 Always Free</span>
+      <span class="cc-badge">⚡ Instant</span>
+    </div>
+  </div>
+
+  <!-- Converter Card -->
+  <div class="cc-card">
+    <div class="cc-error-banner" id="ccErrorBanner"></div>
+
+    <div class="cc-amount-field">
+      <label class="cc-label" for="cc-amount">Amount</label>
+      <input class="cc-amount-input" id="cc-amount" type="number" inputmode="decimal" min="0" step="any" value="1" oninput="ccDebounceConvert()"/>
+    </div>
+
+    <div class="cc-swap-row">
+      <div class="cc-currency-field">
+        <label class="cc-label" for="cc-from">From</label>
+        <div class="cc-select-wrap">
+          <select class="cc-select" id="cc-from" onchange="ccOnCurrencyChange()"></select>
+          <span class="cc-select-arrow">▼</span>
+        </div>
+      </div>
+      <button class="cc-swap-btn" onclick="ccSwapCurrencies()" aria-label="Swap currencies" title="Swap currencies">⇄</button>
+      <div class="cc-currency-field">
+        <label class="cc-label" for="cc-to">To</label>
+        <div class="cc-select-wrap">
+          <select class="cc-select" id="cc-to" onchange="ccOnCurrencyChange()"></select>
+          <span class="cc-select-arrow">▼</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cc-quick-pairs" id="ccQuickPairs"></div>
+
+    <div class="cc-loading-overlay" id="ccLoading">
+      <span class="cc-spinner"></span> Fetching live rates…
+    </div>
+
+    <div class="cc-result" id="ccResult" style="display:none">
+      <div class="cc-result-value" id="ccResultValue">—</div>
+      <div class="cc-result-sub" id="ccResultSub"></div>
+      <div class="cc-result-rate" id="ccResultRate"></div>
+    </div>
+
+    <div class="cc-meta-row">
+      <span id="ccLastUpdated">—</span>
+      <button class="cc-refresh-btn" id="ccRefreshBtn" onclick="ccFetchRates(true)">
+        <span class="cc-refresh-icon" id="ccRefreshIcon">🔄</span> Refresh rates
+      </button>
+    </div>
+
+    <div class="cc-table-wrap" id="ccTableWrap" style="display:none">
+      <table class="cc-table">
+        <thead><tr><th>Currency</th><th>Rate (per 1 <span id="ccTableBaseLabel">unit</span>)</th></tr></thead>
+        <tbody id="ccTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SEO Info -->
+  <div class="cc-info">
+    <h2>Why Use Numvexa Currency Converter?</h2>
+    <div class="cc-info-grid">
+      <div class="cc-info-card">
+        <h3>🔄 Live Exchange Rates</h3>
+        <p>Rates are pulled from a live foreign-exchange data source and refreshed roughly every hour, so your conversions stay current.</p>
+      </div>
+      <div class="cc-info-card">
+        <h3>🌍 30+ Currencies</h3>
+        <p>Convert between major world currencies including INR, USD, EUR, GBP, AED, JPY and many more, in any direction.</p>
+      </div>
+      <div class="cc-info-card">
+        <h3>🆓 100% Free</h3>
+        <p>No sign-up, no watermark, no limits — use it as many times as you need, completely free.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="cc-faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="cc-faq-item">
+      <h3>How often are the exchange rates updated?</h3>
+      <p>Rates are refreshed roughly once every hour from a live foreign-exchange data source and cached in your browser between refreshes. Use the "Refresh rates" button to force an immediate update.</p>
+    </div>
+    <div class="cc-faq-item">
+      <h3>Is this currency converter free to use?</h3>
+      <p>Yes, the Numvexa Currency Converter is completely free with no sign-up required.</p>
+    </div>
+    <div class="cc-faq-item">
+      <h3>Which currencies are supported?</h3>
+      <p>Over 30 major world currencies are supported, including INR, USD, EUR, GBP, JPY, AED and more.</p>
+    </div>
+    <div class="cc-faq-item">
+      <h3>Are these rates suitable for large financial transactions?</h3>
+      <p>These rates are indicative mid-market rates meant for quick reference. For actual money transfers or large transactions, always confirm the final rate with your bank or payment provider, as they typically add a margin.</p>
+    </div>
+  </div>
+
+</div><!-- /cc-page -->
+</main>
+
+<!-- Toast -->
+<div class="cc-toast" id="ccToast" role="status" aria-live="polite"></div>
+
+<!-- ── FOOTER (inheriting site footer via script) ── -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>© 2026 <strong>Numvexa</strong> · Free Financial &amp; Career Tools for India</p>
+    <nav class="footer-links">
+      <a href="/">Home</a>
+      <a href="/calculators.html">Calculators</a>
+      <a href="/pdf-tools.html">PDF Tools</a>
+      <a href="/resume-builder.html">Resume Builder</a>
+      <a href="/currency-converter.html">Currency Converter</a>
+      <a href="/blog.html">Blog</a>
+      <a href="/privacy-policy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </nav>
+  </div>
+</footer>
+
+<!-- ════════════════════════════════════════
+     CURRENCY CONVERTER JAVASCRIPT
+════════════════════════════════════════ -->
+<script>
+
+/* ── Currency list (code, name, flag) ── */
+const CC_CURRENCIES = [
+  ['USD','US Dollar','🇺🇸'], ['INR','Indian Rupee','🇮🇳'], ['EUR','Euro','🇪🇺'], ['GBP','British Pound','🇬🇧'],
+  ['JPY','Japanese Yen','🇯🇵'], ['AUD','Australian Dollar','🇦🇺'], ['CAD','Canadian Dollar','🇨🇦'],
+  ['CHF','Swiss Franc','🇨🇭'], ['CNY','Chinese Yuan','🇨🇳'], ['SGD','Singapore Dollar','🇸🇬'],
+  ['AED','UAE Dirham','🇦🇪'], ['SAR','Saudi Riyal','🇸🇦'], ['HKD','Hong Kong Dollar','🇭🇰'],
+  ['NZD','New Zealand Dollar','🇳🇿'], ['ZAR','South African Rand','🇿🇦'], ['THB','Thai Baht','🇹🇭'],
+  ['MYR','Malaysian Ringgit','🇲🇾'], ['KRW','South Korean Won','🇰🇷'], ['RUB','Russian Ruble','🇷🇺'],
+  ['BRL','Brazilian Real','🇧🇷'], ['MXN','Mexican Peso','🇲🇽'], ['IDR','Indonesian Rupiah','🇮🇩'],
+  ['PHP','Philippine Peso','🇵🇭'], ['VND','Vietnamese Dong','🇻🇳'], ['EGP','Egyptian Pound','🇪🇬'],
+  ['QAR','Qatari Riyal','🇶🇦'], ['KWD','Kuwaiti Dinar','🇰🇼'], ['OMR','Omani Rial','🇴🇲'],
+  ['BHD','Bahraini Dinar','🇧🇭'], ['TRY','Turkish Lira','🇹🇷'], ['SEK','Swedish Krona','🇸🇪'],
+  ['NOK','Norwegian Krone','🇳🇴'], ['DKK','Danish Krone','🇩🇰']
+];
+const CC_QUICK_PAIRS = [
+  ['USD','INR'], ['EUR','INR'], ['GBP','INR'], ['AED','INR'], ['USD','EUR'], ['INR','USD']
+];
+const CC_BASE = 'USD';       // anchor currency the API rates are relative to
+const CC_CACHE_KEY = 'numvexa_currency_rates_v1';
+const CC_CACHE_MAX_AGE = 60 * 60 * 1000; // 1 hour
+const CC_API_URL = 'https://open.er-api.com/v6/latest/' + CC_BASE; // free, no API key required
+
+let ccRates = null;          // { USD:1, INR:83.1, EUR:0.92, ... } relative to CC_BASE
+let ccLastUpdatedAt = null;
+let ccConvertTimer = null;
+let ccFetchInFlight = false;
+
+/* ── Init ── */
+document.addEventListener('DOMContentLoaded', function() {
+  applyCcTheme();
+  ccPopulateSelects();
+  ccPopulateQuickPairs();
+  ccRestoreLastPair();
+  ccLoadCachedRates();
+  if (!ccRates || ccIsStale()) {
+    ccFetchRates(false);
+  } else {
+    ccRenderLastUpdated();
+    ccConvert();
+    ccRenderTable();
+  }
+});
+
+/* ── Dark mode (header) ── */
+function applyCcTheme() {
+  const t = localStorage.getItem('theme');
+  if (t) document.documentElement.setAttribute('data-theme', t);
+  const icon = document.getElementById('toggleIcon');
+  if (icon) icon.textContent = t === 'dark' ? '☀️' : '🌙';
+}
+function toggleCcDark() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const next = isDark ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  const icon = document.getElementById('toggleIcon');
+  if (icon) icon.textContent = next === 'dark' ? '☀️' : '🌙';
+}
+function toggleCcMobileMenu() {
+  document.getElementById('main-nav').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  const nav = document.getElementById('main-nav');
+  const burger = document.getElementById('hamburger');
+  if (!nav || !burger) return;
+  if (nav.classList.contains('open') && !nav.contains(e.target) && !burger.contains(e.target)) {
+    nav.classList.remove('open');
+  }
+});
+
+/* ── Populate dropdowns ── */
+function ccPopulateSelects() {
+  const opts = CC_CURRENCIES.map(([code, name, flag]) => `<option value="${code}">${flag} ${code} — ${name}</option>`).join('');
+  document.getElementById('cc-from').innerHTML = opts;
+  document.getElementById('cc-to').innerHTML = opts;
+  document.getElementById('cc-from').value = 'USD';
+  document.getElementById('cc-to').value = 'INR';
+}
+function ccPopulateQuickPairs() {
+  const wrap = document.getElementById('ccQuickPairs');
+  wrap.innerHTML = CC_QUICK_PAIRS.map(([f, t]) =>
+    `<button type="button" class="cc-quick-pair" onclick="ccSetPair('${f}','${t}')">${f} → ${t}</button>`
+  ).join('');
+}
+function ccSetPair(from, to) {
+  document.getElementById('cc-from').value = from;
+  document.getElementById('cc-to').value = to;
+  ccOnCurrencyChange();
+}
+function ccRestoreLastPair() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('numvexa_currency_pair_v1') || 'null');
+    if (saved && saved.from && saved.to) {
+      document.getElementById('cc-from').value = saved.from;
+      document.getElementById('cc-to').value = saved.to;
+    }
+    if (saved && saved.amount) document.getElementById('cc-amount').value = saved.amount;
+  } catch (e) {}
+}
+function ccSaveLastPair() {
+  try {
+    localStorage.setItem('numvexa_currency_pair_v1', JSON.stringify({
+      from: document.getElementById('cc-from').value,
+      to: document.getElementById('cc-to').value,
+      amount: document.getElementById('cc-amount').value
+    }));
+  } catch (e) {}
+}
+
+function ccSwapCurrencies() {
+  const from = document.getElementById('cc-from');
+  const to = document.getElementById('cc-to');
+  const tmp = from.value;
+  from.value = to.value;
+  to.value = tmp;
+  ccOnCurrencyChange();
+}
+function ccOnCurrencyChange() {
+  ccSaveLastPair();
+  ccConvert();
+  ccRenderTable();
+}
+function ccDebounceConvert() {
+  clearTimeout(ccConvertTimer);
+  ccConvertTimer = setTimeout(() => { ccSaveLastPair(); ccConvert(); }, 200);
+}
+
+/* ── Fetch rates (free, no API key: open.er-api.com) ── */
+function ccLoadCachedRates() {
+  try {
+    const raw = localStorage.getItem(CC_CACHE_KEY);
+    if (!raw) return;
+    const cached = JSON.parse(raw);
+    if (cached && cached.rates && cached.timestamp) {
+      ccRates = cached.rates;
+      ccLastUpdatedAt = cached.timestamp;
+    }
+  } catch (e) {}
+}
+function ccIsStale() {
+  return !ccLastUpdatedAt || (Date.now() - ccLastUpdatedAt) > CC_CACHE_MAX_AGE;
+}
+
+async function ccFetchRates(isManualRefresh) {
+  if (ccFetchInFlight) return;
+  ccFetchInFlight = true;
+  ccShowLoading(true);
+  ccHideError();
+  const refreshIcon = document.getElementById('ccRefreshIcon');
+  const refreshBtn = document.getElementById('ccRefreshBtn');
+  if (refreshIcon) refreshIcon.classList.add('spin');
+  if (refreshBtn) refreshBtn.disabled = true;
+
+  try {
+    const res = await fetch(CC_API_URL);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if (!data || !data.rates || data.result === 'error') throw new Error('Malformed response');
+
+    ccRates = data.rates;
+    ccLastUpdatedAt = Date.now();
+    localStorage.setItem(CC_CACHE_KEY, JSON.stringify({ rates: ccRates, timestamp: ccLastUpdatedAt }));
+
+    ccRenderLastUpdated();
+    ccConvert();
+    ccRenderTable();
+    if (isManualRefresh) ccShowToast('✅ Rates updated');
+  } catch (err) {
+    if (ccRates) {
+      // We still have a (possibly stale) cached rate set — keep using it.
+      ccRenderLastUpdated();
+      ccConvert();
+      ccRenderTable();
+      ccShowError('⚠️ Could not fetch the latest rates. Showing the last saved rates from ' + ccFormatTime(ccLastUpdatedAt) + '.');
+    } else {
+      ccShowError('⚠️ Could not load exchange rates. Please check your internet connection and try again.');
+    }
+  } finally {
+    ccFetchInFlight = false;
+    ccShowLoading(false);
+    if (refreshIcon) refreshIcon.classList.remove('spin');
+    if (refreshBtn) refreshBtn.disabled = false;
+  }
+}
+
+function ccShowLoading(show) {
+  const el = document.getElementById('ccLoading');
+  const result = document.getElementById('ccResult');
+  if (!el) return;
+  el.classList.toggle('show', show && !ccRates);
+  if (result) result.style.display = (show && !ccRates) ? 'none' : (ccRates ? 'block' : 'none');
+}
+function ccShowError(msg) {
+  const el = document.getElementById('ccErrorBanner');
+  if (el) { el.textContent = msg; el.classList.add('show'); }
+}
+function ccHideError() {
+  const el = document.getElementById('ccErrorBanner');
+  if (el) { el.textContent = ''; el.classList.remove('show'); }
+}
+function ccShowToast(msg) {
+  const t = document.getElementById('ccToast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+function ccFormatTime(ts) {
+  if (!ts) return '—';
+  const d = new Date(ts);
+  return d.toLocaleString('en-IN', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+}
+function ccRenderLastUpdated() {
+  const el = document.getElementById('ccLastUpdated');
+  if (el) el.textContent = '🕒 Rates as of ' + ccFormatTime(ccLastUpdatedAt) + ' (base: ' + CC_BASE + ')';
+}
+
+/* ── Conversion math ──
+   Rates in ccRates are all relative to CC_BASE (e.g. 1 USD = ccRates[X] of currency X).
+   To convert FROM -> TO: amount * (rates[TO] / rates[FROM]) ── */
+function ccConvert() {
+  if (!ccRates) return;
+  const amountRaw = document.getElementById('cc-amount').value;
+  const amount = parseFloat(amountRaw);
+  const from = document.getElementById('cc-from').value;
+  const to = document.getElementById('cc-to').value;
+  const resultBox = document.getElementById('ccResult');
+
+  if (isNaN(amount) || amount < 0) {
+    resultBox.style.display = 'none';
+    return;
+  }
+  const rFrom = ccRates[from];
+  const rTo = ccRates[to];
+  if (!rFrom || !rTo) {
+    ccShowError('⚠️ Rate not available for the selected currency.');
+    resultBox.style.display = 'none';
+    return;
+  }
+  ccHideError();
+  const converted = amount * (rTo / rFrom);
+  const rate = rTo / rFrom;
+
+  document.getElementById('ccResultValue').textContent = ccFormatNumber(converted) + ' ' + to;
+  document.getElementById('ccResultSub').textContent = ccFormatNumber(amount) + ' ' + from + ' equals';
+  document.getElementById('ccResultRate').textContent = '1 ' + from + ' = ' + ccFormatNumber(rate) + ' ' + to + '   ·   1 ' + to + ' = ' + ccFormatNumber(1 / rate) + ' ' + from;
+  resultBox.style.display = 'block';
+}
+function ccFormatNumber(n) {
+  if (!isFinite(n)) return '—';
+  const abs = Math.abs(n);
+  const decimals = abs >= 100 ? 2 : abs >= 1 ? 4 : 6;
+  return n.toLocaleString('en-IN', { maximumFractionDigits: decimals, minimumFractionDigits: 2 });
+}
+
+/* ── Rates table for the "From" currency against a handful of common currencies ── */
+function ccRenderTable() {
+  if (!ccRates) return;
+  const from = document.getElementById('cc-from').value;
+  const rFrom = ccRates[from];
+  const tbody = document.getElementById('ccTableBody');
+  const wrap = document.getElementById('ccTableWrap');
+  const label = document.getElementById('ccTableBaseLabel');
+  if (!rFrom) { wrap.style.display = 'none'; return; }
+  label.textContent = from;
+
+  const popular = ['INR','USD','EUR','GBP','AED','JPY','AUD','SGD'].filter(c => c !== from);
+  tbody.innerHTML = popular.map(code => {
+    const meta = CC_CURRENCIES.find(c => c[0] === code);
+    const rate = ccRates[code] / rFrom;
+    if (!isFinite(rate)) return '';
+    return `<tr><td>${meta ? meta[2]+' '+meta[0]+' — '+meta[1] : code}</td><td>${ccFormatNumber(rate)}</td></tr>`;
+  }).join('');
+  wrap.style.display = 'block';
+}
+
+</script>
+</body>
+</html>
