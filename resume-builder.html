@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Free Resume Builder – Numvexa</title>
-<meta name="description" content="Build a professional resume online for free. 5 ATS-friendly templates, live preview, PDF download."/>
+<meta name="description" content="Build a professional resume online for free. 7 ATS-friendly templates, live preview, auto-save, undo/redo, drag-and-drop sections, and PDF download."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
@@ -34,7 +34,7 @@
 /* ── Template Selector ── */
 .rb-templates-wrap { margin-bottom: 2rem; }
 .rb-section-label { font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text3); margin-bottom: .85rem; }
-.rb-templates { display: grid; grid-template-columns: repeat(5,1fr); gap: 1rem; }
+.rb-templates { display: grid; grid-template-columns: repeat(auto-fill,minmax(150px,1fr)); gap: 1rem; }
 .rb-tpl-card {
   border: 2.5px solid var(--border); border-radius: 14px; overflow: hidden;
   cursor: pointer; transition: all .22s; background: var(--surface);
@@ -253,17 +253,20 @@
   .rb-builder { grid-template-columns: 1fr; }
   .rb-preview-panel { position: static; }
 }
-@media (max-width: 900px) {
-  .rb-templates { grid-template-columns: repeat(3,1fr); }
-}
 @media (max-width: 760px) {
-  .rb-templates { grid-template-columns: repeat(2,1fr); }
+  .rb-templates { grid-template-columns: repeat(auto-fill,minmax(120px,1fr)); gap: .7rem; }
   .rb-row { grid-template-columns: 1fr; gap: .5rem; }
   .rb-row3 { grid-template-columns: 1fr 1fr; }
   .rb-preview-wrap { padding: .5rem; }
+  .rb-form-header { padding: .85rem 1rem; }
+  .rb-acc-head { padding: .8rem 1rem; }
+  .rb-acc-body { padding: .9rem 1rem 1.1rem; }
+  .rb-hero { padding: 1.8rem .85rem 1.5rem; }
 }
 @media (max-width: 480px) {
-  .rb-templates { grid-template-columns: 1fr; }
+  .rb-templates { grid-template-columns: repeat(2,1fr); }
+  .rb-btn { padding: .55rem .9rem; font-size: .8rem; }
+  .rb-tpl-thumb { height: 100px; }
 }
 
 /* ── Skills input chip area ── */
@@ -286,6 +289,50 @@
 
 /* ── Loading state ── */
 .rb-loading { display: flex; align-items: center; justify-content: center; height: 200px; color: var(--text2); font-size: .9rem; }
+
+/* ── Validation ── */
+.rb-input.invalid, .rb-textarea.invalid { border-color: var(--red,#ef4444) !important; box-shadow: 0 0 0 3px rgba(239,68,68,.12) !important; }
+.rb-error { font-size: .74rem; color: var(--red,#ef4444); margin-top: .3rem; min-height: 1em; display: block; }
+
+/* ── Toolbar extra buttons ── */
+.rb-btn:disabled { opacity: .4; cursor: not-allowed; box-shadow: none !important; }
+.rb-btn-sm { padding: .55rem .8rem; font-size: .8rem; }
+.rb-toolbar-group { display: flex; gap: .4rem; }
+
+/* ── Autosave status ── */
+.rb-autosave-badge.saving { background: rgba(255,255,255,.35); }
+
+/* ── Customize accordion ── */
+.rb-theme-swatches { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .4rem; }
+.rb-theme-swatch {
+  width: 30px; height: 30px; border-radius: 50%; cursor: pointer; border: 2.5px solid var(--border);
+  position: relative; transition: transform .15s, border-color .15s; padding: 0;
+}
+.rb-theme-swatch:hover { transform: scale(1.1); }
+.rb-theme-swatch.active { border-color: var(--text); box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--accent); }
+.rb-theme-swatch.active::after { content: '✓'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #fff; font-size: .8rem; text-shadow: 0 1px 2px rgba(0,0,0,.4); }
+
+/* ── Drag & drop section order ── */
+.rb-order-list { list-style: none; padding: 0; margin: .4rem 0 0; display: flex; flex-direction: column; gap: .4rem; }
+.rb-order-item {
+  display: flex; align-items: center; gap: .6rem;
+  background: var(--surface); border: 1.5px solid var(--border); border-radius: 9px;
+  padding: .55rem .75rem; font-size: .84rem; font-weight: 600; color: var(--text);
+  cursor: grab; user-select: none; transition: border-color .15s, opacity .15s;
+}
+.rb-order-item:active { cursor: grabbing; }
+.rb-order-item.dragging { opacity: .4; border-style: dashed; }
+.rb-order-handle { color: var(--text3); font-size: 1rem; line-height: 1; }
+.rb-order-hint { font-size: .74rem; color: var(--text3); margin-top: .5rem; line-height: 1.5; }
+
+/* ── Accordion keyboard focus ── */
+.rb-acc-head:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.rb-btn:focus-visible, .rb-tpl-card:focus-visible, .rb-theme-swatch:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+@media (max-width: 760px) {
+  .rb-preview-toolbar { gap: .4rem; }
+  .rb-toolbar-group { flex-wrap: wrap; }
+}
 
 </style>
 </head>
@@ -459,6 +506,39 @@
           <div class="rb-tpl-desc">Clean white, single-column, max ATS score</div>
         </div>
       </div>
+
+      <div class="rb-tpl-card" data-tpl="minimal" onclick="selectTemplate('minimal', this)">
+        <div class="rb-tpl-thumb" style="background:#fff;position:relative;border-top:5px solid #334155;">
+          <div style="position:absolute;inset:0;padding:10px 12px;display:flex;flex-direction:column;gap:4px;">
+            <div class="rb-mock-txt dark bold lg" style="letter-spacing:.04em;">MEERA IYER</div>
+            <div class="rb-mock-txt muted xs">Product Manager</div>
+            <div class="rb-mock-rule" style="background:#334155;height:1px;margin:5px 0;"></div>
+            <div class="rb-mock-txt dark bold xs" style="letter-spacing:.08em;">EXPERIENCE</div>
+            <div class="rb-mock-txt dark xs">Sr. PM · Kestrel Labs</div>
+          </div>
+        </div>
+        <div class="rb-tpl-body">
+          <div class="rb-tpl-name">Minimalist <span class="rb-tpl-check">✓</span></div>
+          <div class="rb-tpl-desc">No photo, maximum whitespace, ultra-clean</div>
+        </div>
+      </div>
+
+      <div class="rb-tpl-card" data-tpl="compact" onclick="selectTemplate('compact', this)">
+        <div class="rb-tpl-thumb" style="background:linear-gradient(to bottom,#3b2d5c 44px,#fff 44px);position:relative;">
+          <div style="position:absolute;top:0;left:0;right:0;height:44px;padding:6px 10px;display:flex;align-items:center;gap:6px;">
+            <div class="rb-mock-avatar" style="background:#a78bfa;width:16px;height:16px;"></div>
+            <div class="rb-mock-txt light bold">Arjun Verma</div>
+          </div>
+          <div style="position:absolute;top:44px;left:0;right:0;bottom:0;padding:6px 10px;display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+            <div class="rb-mock-col"><div class="rb-mock-txt dark bold xs">EXPERIENCE</div><div class="rb-mock-txt dark xs">Analyst · Voss</div></div>
+            <div class="rb-mock-col"><div class="rb-mock-txt dark bold xs">SKILLS</div><div class="rb-mock-txt dark xs">SQL · Excel</div></div>
+          </div>
+        </div>
+        <div class="rb-tpl-body">
+          <div class="rb-tpl-name">Compact Two-Tone <span class="rb-tpl-check">✓</span></div>
+          <div class="rb-tpl-desc">Dense layout, purple accent, fits more content</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -490,34 +570,37 @@
             <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="handlePhoto(this)"/>
           </div>
           <div class="rb-field">
-            <label class="rb-label">Full Name *</label>
-            <input class="rb-input" id="f-name" placeholder="e.g. Rahul Sharma" oninput="debounceUpdate()" value=""/>
+            <label class="rb-label" for="f-name">Full Name *</label>
+            <input class="rb-input" id="f-name" placeholder="e.g. Rahul Sharma" oninput="debounceUpdate()" onblur="validateField('f-name','name')" aria-required="true" value=""/>
+            <span class="rb-error" id="err-f-name"></span>
           </div>
           <div class="rb-field">
-            <label class="rb-label">Job Title / Desired Position *</label>
+            <label class="rb-label" for="f-jobtitle">Job Title / Desired Position *</label>
             <input class="rb-input" id="f-jobtitle" placeholder="e.g. Senior Software Engineer" oninput="debounceUpdate()"/>
           </div>
           <div class="rb-row">
             <div class="rb-field">
-              <label class="rb-label">Email *</label>
-              <input class="rb-input" id="f-email" type="email" placeholder="you@email.com" oninput="debounceUpdate()"/>
+              <label class="rb-label" for="f-email">Email *</label>
+              <input class="rb-input" id="f-email" type="email" placeholder="you@email.com" oninput="debounceUpdate()" onblur="validateField('f-email','email')" aria-required="true"/>
+              <span class="rb-error" id="err-f-email"></span>
             </div>
             <div class="rb-field">
-              <label class="rb-label">Phone *</label>
-              <input class="rb-input" id="f-phone" placeholder="+91 98765 43210" oninput="debounceUpdate()"/>
+              <label class="rb-label" for="f-phone">Phone *</label>
+              <input class="rb-input" id="f-phone" placeholder="+91 98765 43210" oninput="debounceUpdate()" onblur="validateField('f-phone','phone')" aria-required="true"/>
+              <span class="rb-error" id="err-f-phone"></span>
             </div>
           </div>
           <div class="rb-field">
-            <label class="rb-label">Location (City, State)</label>
+            <label class="rb-label" for="f-location">Location (City, State)</label>
             <input class="rb-input" id="f-location" placeholder="Mumbai, Maharashtra" oninput="debounceUpdate()"/>
           </div>
           <div class="rb-row">
             <div class="rb-field">
-              <label class="rb-label">LinkedIn URL</label>
+              <label class="rb-label" for="f-linkedin">LinkedIn URL</label>
               <input class="rb-input" id="f-linkedin" placeholder="linkedin.com/in/yourname" oninput="debounceUpdate()"/>
             </div>
             <div class="rb-field">
-              <label class="rb-label">Website / Portfolio</label>
+              <label class="rb-label" for="f-website">Website / Portfolio</label>
               <input class="rb-input" id="f-website" placeholder="yourwebsite.com" oninput="debounceUpdate()"/>
             </div>
           </div>
@@ -531,7 +614,7 @@
         </div>
         <div class="rb-acc-body">
           <div class="rb-field">
-            <label class="rb-label">Summary / Objective (2–4 sentences)</label>
+            <label class="rb-label" for="f-summary">Summary / Objective (2–4 sentences)</label>
             <textarea class="rb-textarea" id="f-summary" rows="4" placeholder="Experienced professional with X years of expertise in... Passionate about... Seeking to contribute..." oninput="debounceUpdate()"></textarea>
           </div>
         </div>
@@ -566,7 +649,7 @@
         </div>
         <div class="rb-acc-body">
           <div class="rb-field">
-            <label class="rb-label">Add Skills (press Enter or click Add)</label>
+            <label class="rb-label" for="skill-input">Add Skills (press Enter or click Add)</label>
             <div class="rb-skill-input-row">
               <input class="rb-input" id="skill-input" placeholder="e.g. Python, React, Project Management" onkeydown="if(event.key==='Enter'){event.preventDefault();addSkill();}"/>
               <button class="rb-skill-add-btn" onclick="addSkill()">Add</button>
@@ -627,6 +710,43 @@
         </div>
       </div>
 
+      <!-- Customize & Reorder -->
+      <div class="rb-acc">
+        <div class="rb-acc-head" onclick="toggleAcc(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAcc(this);}" tabindex="0" role="button" aria-expanded="false">
+          <span>🎨 Customize &amp; Reorder Sections</span><span class="rb-acc-icon">▼</span>
+        </div>
+        <div class="rb-acc-body">
+          <div class="rb-field">
+            <label class="rb-label" for="f-font">Font Style</label>
+            <select class="rb-select" id="f-font" onchange="setFont(this.value)">
+              <option value="default">Template Default</option>
+              <option value="inter">Modern Sans (Inter-style)</option>
+              <option value="serif">Elegant Serif (Georgia)</option>
+              <option value="classicserif">Classic Serif (Times)</option>
+              <option value="corporate">Corporate (Calibri-style)</option>
+            </select>
+          </div>
+          <div class="rb-field">
+            <label class="rb-label">Color Theme</label>
+            <div class="rb-theme-swatches" id="theme-swatches">
+              <button type="button" class="rb-theme-swatch active" data-theme="default" style="background:#94a3b8" title="Template Default" onclick="setColorTheme('default')" aria-label="Template default color"></button>
+              <button type="button" class="rb-theme-swatch" data-theme="indigo" style="background:#6366f1" title="Indigo" onclick="setColorTheme('indigo')" aria-label="Indigo theme"></button>
+              <button type="button" class="rb-theme-swatch" data-theme="blue" style="background:#2563eb" title="Blue" onclick="setColorTheme('blue')" aria-label="Blue theme"></button>
+              <button type="button" class="rb-theme-swatch" data-theme="green" style="background:#059669" title="Green" onclick="setColorTheme('green')" aria-label="Green theme"></button>
+              <button type="button" class="rb-theme-swatch" data-theme="gold" style="background:#b45309" title="Gold" onclick="setColorTheme('gold')" aria-label="Gold theme"></button>
+              <button type="button" class="rb-theme-swatch" data-theme="rose" style="background:#e11d48" title="Rose" onclick="setColorTheme('rose')" aria-label="Rose theme"></button>
+              <button type="button" class="rb-theme-swatch" data-theme="teal" style="background:#0d9488" title="Teal" onclick="setColorTheme('teal')" aria-label="Teal theme"></button>
+              <button type="button" class="rb-theme-swatch" data-theme="slate" style="background:#475569" title="Slate" onclick="setColorTheme('slate')" aria-label="Slate theme"></button>
+            </div>
+          </div>
+          <div class="rb-field">
+            <label class="rb-label" id="section-order-label">Section Order (drag to reorder)</label>
+            <ul class="rb-order-list" id="section-order-list" aria-labelledby="section-order-label"></ul>
+            <div class="rb-order-hint">Order applies within each template's layout — sidebar sections reorder among themselves, and main-column sections reorder among themselves.</div>
+          </div>
+        </div>
+      </div>
+
       <!-- Bottom padding -->
       <div style="height:1rem"></div>
     </div><!-- /form-panel -->
@@ -636,6 +756,15 @@
       <div class="rb-preview-toolbar">
         <button class="rb-btn rb-btn-primary" onclick="openRbPreview()">⬇️ Download PDF</button>
         <button class="rb-btn rb-btn-green" onclick="printResume()">🖨️ Print</button>
+        <div class="rb-toolbar-group">
+          <button class="rb-btn rb-btn-outline rb-btn-sm" id="rbUndoBtn" onclick="undo()" title="Undo (Ctrl+Z)" aria-label="Undo" disabled>↶ Undo</button>
+          <button class="rb-btn rb-btn-outline rb-btn-sm" id="rbRedoBtn" onclick="redo()" title="Redo (Ctrl+Shift+Z)" aria-label="Redo" disabled>↷ Redo</button>
+        </div>
+        <div class="rb-toolbar-group">
+          <button class="rb-btn rb-btn-outline rb-btn-sm" onclick="exportJSON()" title="Export resume data as JSON">⤓ Export JSON</button>
+          <button class="rb-btn rb-btn-outline rb-btn-sm" onclick="triggerImportJSON()" title="Import resume data from JSON">⤒ Import JSON</button>
+          <input type="file" id="rbImportInput" accept="application/json,.json" style="display:none" onchange="importJSONFile(this)"/>
+        </div>
         <button class="rb-btn rb-btn-outline" onclick="clearAll()" title="Clear all data">🗑️ Clear</button>
       </div>
       <div class="rb-preview-wrap" id="previewWrap">
@@ -672,7 +801,7 @@
 </main>
 
 <!-- Toast -->
-<div class="rb-toast" id="rbToast"></div>
+<div class="rb-toast" id="rbToast" role="status" aria-live="polite"></div>
 
 <!-- Resume Preview & Download Popup -->
 <div class="modal-overlay" id="rbPreviewOverlay" onclick="closeRbPreview(event)">
@@ -727,17 +856,63 @@ let langEntries = [];
 let refEntries = [];
 let updateTimer = null;
 let expCounter = 0, eduCounter = 0, projCounter = 0, certCounter = 0, langCounter = 0, refCounter = 0;
+let fontChoice = 'default';
+let colorTheme = 'default';
+let sectionOrder = ['summary','experience','education','skills','projects','certifications','languages','references'];
+let history = [];
+let historyIndex = -1;
+let isRestoringHistory = false;
+
+const SECTION_LABELS = {
+  summary: 'Professional Summary', experience: 'Work Experience', education: 'Education',
+  skills: 'Skills', projects: 'Projects', certifications: 'Certifications',
+  languages: 'Languages', references: 'References'
+};
+const TPL_ACCENTS = { classic:'#4a90d9', modern:'#10b981', executive:'#e8a020', centered:'#0f766e', ats:'#2563eb', minimal:'#334155', compact:'#7c3aed' };
+const COLOR_THEMES = { default:null, indigo:'#6366f1', blue:'#2563eb', green:'#059669', gold:'#b45309', rose:'#e11d48', teal:'#0d9488', slate:'#475569' };
+const FONT_STACKS = {
+  default: null,
+  inter: "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif",
+  serif: "Georgia,'Times New Roman',serif",
+  classicserif: "'Times New Roman',Times,serif",
+  corporate: "Calibri,'Trebuchet MS',Arial,sans-serif"
+};
 
 /* ── Init ── */
 document.addEventListener('DOMContentLoaded', function() {
   applyTheme();
   loadFromStorage();
+  renderSectionOrderList();
   scalePreview();
   window.addEventListener('resize', scalePreview);
   window.addEventListener('resize', () => {
     if (document.getElementById('rbPreviewOverlay').classList.contains('active')) openRbPreview();
   });
   updatePreview();
+  // Baseline snapshot for undo/redo
+  history = [JSON.stringify(collectData())];
+  historyIndex = 0;
+  updateUndoRedoButtons();
+  // Keyboard-accessible accordions
+  document.querySelectorAll('.rb-acc-head').forEach(h => {
+    if (!h.hasAttribute('tabindex')) h.setAttribute('tabindex', '0');
+    if (!h.hasAttribute('role')) h.setAttribute('role', 'button');
+    h.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleAcc(h); }
+    });
+  });
+  // Save before leaving the page
+  window.addEventListener('beforeunload', saveToStorage);
+});
+
+/* ── Undo/Redo keyboard shortcuts (skip while typing in a field) ── */
+document.addEventListener('keydown', function(e) {
+  const tag = (document.activeElement && document.activeElement.tagName) || '';
+  const isEditable = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
+  if ((e.ctrlKey || e.metaKey) && !isEditable) {
+    if (e.key === 'z' && !e.shiftKey) { e.preventDefault(); undo(); }
+    else if ((e.key === 'z' && e.shiftKey) || e.key === 'y') { e.preventDefault(); redo(); }
+  }
 });
 
 function applyTheme() {
@@ -983,6 +1158,9 @@ function collectData() {
   return {
     template: currentTemplate,
     photo: photoDataURL,
+    font: fontChoice,
+    colorTheme: colorTheme,
+    sectionOrder: [...sectionOrder],
     name: g('f-name'),
     jobtitle: g('f-jobtitle'),
     email: g('f-email'),
@@ -1027,7 +1205,27 @@ function generateResumeHTML(data) {
   else if (tpl === 'executive') html = generateExecutive(data);
   else if (tpl === 'centered') html = generateCentered(data);
   else if (tpl === 'ats') html = generateATS(data);
+  else if (tpl === 'minimal') html = generateMinimal(data);
+  else if (tpl === 'compact') html = generateCompact(data);
   else html = generateClassic(data);
+
+  // Color theme override: swap the template's signature accent color for
+  // the chosen theme color, everywhere it appears, without touching the
+  // rest of the template's carefully hand-tuned layout/markup.
+  if (data.colorTheme && data.colorTheme !== 'default' && COLOR_THEMES[data.colorTheme]) {
+    const baseHex = TPL_ACCENTS[tpl];
+    if (baseHex) {
+      html = html.split(baseHex).join(COLOR_THEMES[data.colorTheme]);
+      html = html.split(baseHex.toUpperCase()).join(COLOR_THEMES[data.colorTheme]);
+    }
+  }
+
+  // Font override: swap the template's default font stack for the chosen one.
+  if (data.font && data.font !== 'default' && FONT_STACKS[data.font]) {
+    const stack = FONT_STACKS[data.font];
+    html = html.replace(/font-family:'Segoe UI',Arial,sans-serif/g, `font-family:${stack}`);
+    html = html.replace(/font-family:'Times New Roman',Times,serif/g, `font-family:${stack}`);
+  }
 
   // Force any long unbroken text (a string of repeated characters, a long
   // URL/email with no spaces, etc.) to wrap onto the next line instead of
@@ -1098,20 +1296,24 @@ function generateClassic(d) {
         ${d.linkedin?`<div style="display:flex;gap:8px;font-size:12px;color:#c8d4e8;margin-bottom:7px"><span>💼</span><span>${esc(d.linkedin)}</span></div>`:''}
         ${d.website?`<div style="display:flex;gap:8px;font-size:12px;color:#c8d4e8;margin-bottom:7px"><span>🌐</span><span>${esc(d.website)}</span></div>`:''}
       </div>
-      ${d.skills.length?`<div><h4>Skills</h4><div>${skillTags}</div></div>`:''}
-      ${d.lang.length?`<div><h4>Languages</h4>${langHTML}</div>`:''}
-      ${d.cert.length?`<div><h4>Certifications</h4>${certHTML}</div>`:''}
+      ${orderedJoin({
+        skills: d.skills.length?`<div><h4>Skills</h4><div>${skillTags}</div></div>`:'',
+        languages: d.lang.length?`<div><h4>Languages</h4>${langHTML}</div>`:'',
+        certifications: d.cert.length?`<div><h4>Certifications</h4>${certHTML}</div>`:''
+      }, ['skills','languages','certifications'], d.sectionOrder)}
     </div>
     <div class="rp">
       <div style="border-bottom:3px solid #4a90d9;padding-bottom:14px">
         <div style="font-size:28px;font-weight:800;color:#1a2332;line-height:1.1">${esc(d.name||'Your Name')}</div>
         ${d.jobtitle?`<div style="font-size:14px;color:#4a90d9;font-weight:600;margin-top:4px">${esc(d.jobtitle)}</div>`:''}
       </div>
-      ${d.summary?`<div><div class="stitle">Professional Summary</div><p style="font-size:13px;color:#3a4a5e;line-height:1.65">${esc(d.summary)}</p></div>`:''}
-      ${expHTML?`<div><div class="stitle">Work Experience</div>${expHTML}</div>`:''}
-      ${eduHTML?`<div><div class="stitle">Education</div>${eduHTML}</div>`:''}
-      ${projHTML?`<div><div class="stitle">Projects</div>${projHTML}</div>`:''}
-      <div><div class="stitle">References</div>${refHTML}</div>
+      ${orderedJoin({
+        summary: d.summary?`<div><div class="stitle">Professional Summary</div><p style="font-size:13px;color:#3a4a5e;line-height:1.65">${esc(d.summary)}</p></div>`:'',
+        experience: expHTML?`<div><div class="stitle">Work Experience</div>${expHTML}</div>`:'',
+        education: eduHTML?`<div><div class="stitle">Education</div>${eduHTML}</div>`:'',
+        projects: projHTML?`<div><div class="stitle">Projects</div>${projHTML}</div>`:'',
+        references: `<div><div class="stitle">References</div>${refHTML}</div>`
+      }, ['summary','experience','education','projects','references'], d.sectionOrder)}
     </div>
   </div>
   </body></html>`;
@@ -1180,16 +1382,20 @@ function generateModern(d) {
   </div>
   <div style="display:grid;grid-template-columns:1fr 260px">
     <div style="padding:28px 28px 28px 32px;display:flex;flex-direction:column;gap:20px">
-      ${d.summary?`<div><div class="st">Objective / Summary</div><p style="font-size:13px;color:#374151;line-height:1.65">${esc(d.summary)}</p></div>`:''}
-      ${expHTML?`<div><div class="st">Work Experience</div>${expHTML}</div>`:''}
-      ${eduHTML?`<div><div class="st">Education</div>${eduHTML}</div>`:''}
-      <div><div class="st">References</div>${refHTML}</div>
+      ${orderedJoin({
+        summary: d.summary?`<div><div class="st">Objective / Summary</div><p style="font-size:13px;color:#374151;line-height:1.65">${esc(d.summary)}</p></div>`:'',
+        experience: expHTML?`<div><div class="st">Work Experience</div>${expHTML}</div>`:'',
+        education: eduHTML?`<div><div class="st">Education</div>${eduHTML}</div>`:'',
+        references: `<div><div class="st">References</div>${refHTML}</div>`
+      }, ['summary','experience','education','references'], d.sectionOrder)}
     </div>
     <div style="background:#f8fffe;border-left:1px solid #e5e7eb;padding:28px 20px;display:flex;flex-direction:column;gap:20px">
-      ${skillHTML?`<div><div class="sbs">Key Skills</div>${skillHTML}</div>`:''}
-      ${projHTML?`<div><div class="sbs">Projects</div>${projHTML}</div>`:''}
-      ${certHTML?`<div><div class="sbs">Certifications</div>${certHTML}</div>`:''}
-      ${langHTML?`<div><div class="sbs">Languages</div>${langHTML}</div>`:''}
+      ${orderedJoin({
+        skills: skillHTML?`<div><div class="sbs">Key Skills</div>${skillHTML}</div>`:'',
+        projects: projHTML?`<div><div class="sbs">Projects</div>${projHTML}</div>`:'',
+        certifications: certHTML?`<div><div class="sbs">Certifications</div>${certHTML}</div>`:'',
+        languages: langHTML?`<div><div class="sbs">Languages</div>${langHTML}</div>`:''
+      }, ['skills','projects','certifications','languages'], d.sectionOrder)}
     </div>
   </div>
   </body></html>`;
@@ -1258,15 +1464,19 @@ function generateExecutive(d) {
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr">
     <div style="padding:24px 28px;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;gap:20px">
-      ${expHTML?`<div><div class="st">Work Experience</div>${expHTML}</div>`:''}
-      ${eduHTML?`<div><div class="st">Education</div>${eduHTML}</div>`:''}
-      <div><div class="st">References</div>${refHTML}</div>
+      ${orderedJoin({
+        experience: expHTML?`<div><div class="st">Work Experience</div>${expHTML}</div>`:'',
+        education: eduHTML?`<div><div class="st">Education</div>${eduHTML}</div>`:'',
+        references: `<div><div class="st">References</div>${refHTML}</div>`
+      }, ['experience','education','references'], d.sectionOrder)}
     </div>
     <div style="padding:24px 28px;display:flex;flex-direction:column;gap:20px">
-      ${skillTags?`<div><div class="st">Hard Skills</div><div>${skillTags}</div></div>`:''}
-      ${projHTML?`<div><div class="st">Projects</div>${projHTML}</div>`:''}
-      ${certHTML?`<div><div class="st">Certificates</div>${certHTML}</div>`:''}
-      ${langHTML?`<div><div class="st">Languages</div>${langHTML}</div>`:''}
+      ${orderedJoin({
+        skills: skillTags?`<div><div class="st">Hard Skills</div><div>${skillTags}</div></div>`:'',
+        projects: projHTML?`<div><div class="st">Projects</div>${projHTML}</div>`:'',
+        certifications: certHTML?`<div><div class="st">Certificates</div>${certHTML}</div>`:'',
+        languages: langHTML?`<div><div class="st">Languages</div>${langHTML}</div>`:''
+      }, ['skills','projects','certifications','languages'], d.sectionOrder)}
     </div>
   </div>
   </body></html>`;
@@ -1338,27 +1548,22 @@ function generateCentered(d) {
       ${contactBits?`<div style="font-size:11.5px;color:#475569;margin-top:8px">${contactBits}</div>`:''}
     </div>
 
-    ${d.summary?`<div class="sec"><div class="sec-title">Career Objective</div><p style="font-size:12px;color:#334155;line-height:1.65">${esc(d.summary)}</p></div>`:''}
-
-    ${expHTML?`<div class="sec"><div class="sec-title">Work Experience</div>${expHTML}</div>`:''}
-
-    ${eduHTML?`<div class="sec"><div class="sec-title">Education</div>${eduHTML}</div>`:''}
-
-    ${skillTags?`<div class="sec"><div class="sec-title">Skills</div><div>${skillTags}</div></div>`:''}
-
-    ${projHTML?`<div class="sec"><div class="sec-title">Projects</div>${projHTML}</div>`:''}
-
-    ${certHTML?`<div class="sec"><div class="sec-title">Certifications</div><ul style="padding-left:16px">${certHTML}</ul></div>`:''}
-
-    <div class="sec">
+    ${orderedJoin({
+      summary: d.summary?`<div class="sec"><div class="sec-title">Career Objective</div><p style="font-size:12px;color:#334155;line-height:1.65">${esc(d.summary)}</p></div>`:'',
+      experience: expHTML?`<div class="sec"><div class="sec-title">Work Experience</div>${expHTML}</div>`:'',
+      education: eduHTML?`<div class="sec"><div class="sec-title">Education</div>${eduHTML}</div>`:'',
+      skills: skillTags?`<div class="sec"><div class="sec-title">Skills</div><div>${skillTags}</div></div>`:'',
+      projects: projHTML?`<div class="sec"><div class="sec-title">Projects</div>${projHTML}</div>`:'',
+      certifications: certHTML?`<div class="sec"><div class="sec-title">Certifications</div><ul style="padding-left:16px">${certHTML}</ul></div>`:'',
+      languages: `<div class="sec">
       <div class="sec-title">Personal Details</div>
       <div style="font-size:11.5px;color:#334155;line-height:1.7">
         ${langPlain?`<div><strong style="color:#0f172a">Languages Known:</strong> ${langPlain}</div>`:''}
         ${d.location?`<div><strong style="color:#0f172a">Location:</strong> ${esc(d.location)}</div>`:''}
       </div>
-    </div>
-
-    <div class="sec"><div class="sec-title">References</div>${refHTML}</div>
+    </div>`,
+      references: `<div class="sec"><div class="sec-title">References</div>${refHTML}</div>`
+    }, ['summary','experience','education','skills','projects','certifications','languages','references'], d.sectionOrder)}
 
     <div style="text-align:center;border-top:1.5px solid #cbd5e1;padding-top:10px;margin-top:6px;font-size:11.5px;font-weight:700;color:#0f172a;letter-spacing:.04em">${esc((d.name||'YOUR NAME').toUpperCase())}</div>
   </div>
@@ -1429,21 +1634,386 @@ function generateATS(d) {
       ${d.jobtitle?`<div style="font-size:14px;color:#2563eb;font-weight:700;margin:4px 0;font-family:'Segoe UI',Arial,sans-serif">${esc(d.jobtitle)}</div>`:''}
       ${contactParts?`<div style="font-size:11.5px;color:#334155;margin-top:6px;font-family:'Segoe UI',Arial,sans-serif">${contactParts}</div>`:''}
     </div>
-    ${d.summary?sec('Professional Summary',`<p style="font-size:12.5px;color:#1e293b;line-height:1.7;text-align:justify">${esc(d.summary)}</p>`):''}
-    ${sec('Experience',expHTML)}
-    ${sec('Education',eduHTML)}
-    ${skillCols?sec('Skills',skillCols):''}
-    ${projHTML?sec('Projects',projHTML):''}
-    ${certHTML?sec('Certifications',`<ul style="padding-left:16px">${certHTML}</ul>`):''}
-    ${langPlain?sec('Languages',`<div style="font-size:12px;color:#1e293b">${langPlain}</div>`):''}
-    ${sec('References',refHTML)}
+    ${orderedJoin({
+      summary: d.summary?sec('Professional Summary',`<p style="font-size:12.5px;color:#1e293b;line-height:1.7;text-align:justify">${esc(d.summary)}</p>`):'',
+      experience: sec('Experience',expHTML),
+      education: sec('Education',eduHTML),
+      skills: skillCols?sec('Skills',skillCols):'',
+      projects: projHTML?sec('Projects',projHTML):'',
+      certifications: certHTML?sec('Certifications',`<ul style="padding-left:16px">${certHTML}</ul>`):'',
+      languages: langPlain?sec('Languages',`<div style="font-size:12px;color:#1e293b">${langPlain}</div>`):'',
+      references: sec('References',refHTML)
+    }, ['summary','experience','education','skills','projects','certifications','languages','references'], d.sectionOrder)}
+  </div>
+  </body></html>`;
+}
+
+/* ── TEMPLATE 6: MINIMALIST ── */
+function generateMinimal(d) {
+  const contactBits = [d.email, d.phone, d.location, d.linkedin, d.website].filter(Boolean).map(esc).join('  ·  ');
+
+  const expHTML = d.exp.map(e => e.role ? `
+    <div style="margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap">
+        <div style="font-weight:700;font-size:13.5px;color:#0f172a">${esc(e.role)} <span style="font-weight:400;color:#475569">— ${esc(e.co)}</span></div>
+        <div style="font-size:11px;color:#94a3b8;white-space:nowrap">${esc(e.start||'')}${e.end?' – '+esc(e.end):''}</div>
+      </div>
+      ${e.loc?`<div style="font-size:11px;color:#94a3b8;margin-top:1px">${esc(e.loc)}</div>`:''}
+      ${e.bullets ? `<ul style="list-style:disc;padding-left:16px;margin-top:5px">${e.bullets.split('\n').filter(l=>l.trim()).map(l=>`<li style="font-size:12px;color:#334155;margin-bottom:3px">${esc(l.replace(/^[•\-*]\s*/,''))}</li>`).join('')}</ul>` : ''}
+    </div>` : '').join('');
+
+  const eduHTML = d.edu.map(e => e.degree ? `
+    <div style="margin-bottom:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px">
+      <div><div style="font-weight:700;font-size:13px;color:#0f172a">${esc(e.degree)}</div><div style="font-size:12px;color:#475569">${esc(e.school)}${e.meta?' · '+esc(e.meta):''}</div></div>
+      <div style="font-size:11px;color:#94a3b8">${esc(e.year||'')}</div>
+    </div>` : '').join('');
+
+  const skillPlain = d.skills.map(esc).join('  ·  ');
+
+  const projHTML = d.proj.map(p => p.name ? `
+    <div style="margin-bottom:10px">
+      <div style="font-weight:700;font-size:12.5px;color:#0f172a">${esc(p.name)}${p.tech?` <span style="font-weight:400;color:#94a3b8;font-size:11px">— ${esc(p.tech)}</span>`:''}</div>
+      ${p.desc?`<div style="font-size:11.5px;color:#334155;margin-top:2px;line-height:1.5">${esc(p.desc)}</div>`:''}
+    </div>` : '').join('');
+
+  const certHTML = d.cert.map(c => c.name ? `<li style="font-size:12px;color:#334155;margin-bottom:4px">${esc(c.name)}${c.issuer?' — '+esc(c.issuer):''}${c.year?' ('+esc(c.year)+')':''}</li>` : '').join('');
+  const langPlain = d.lang.filter(l=>l.name).map(l=>`${esc(l.name)} (${esc(l.level)})`).join('  ·  ');
+  const refHTML = d.showRefs === '1'
+    ? d.ref.map(r => r.name ? `<div style="margin-bottom:8px;font-size:12px;color:#334155"><strong style="color:#0f172a">${esc(r.name)}</strong>${r.title?', '+esc(r.title):''}${r.co?', '+esc(r.co):''}${r.contact?` — ${esc(r.contact)}`:''}</div>` : '').join('')
+    : '<div style="font-size:12px;color:#334155;font-style:italic">Available upon request.</div>';
+
+  const sec = (title, content) => content ? `<div style="margin-bottom:18px"><div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#334155;margin-bottom:9px">${title}</div>${content}</div>` : '';
+
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"/><style>
+    @page{size:A4;margin:0}*{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',Arial,sans-serif;background:#fff;color:#0f172a;font-size:13px;line-height:1.5;width:210mm;min-height:297mm}
+    .wrap{padding:40px 46px}
+  </style></head><body>
+  <div class="wrap">
+    <div style="border-top:5px solid #334155;padding-top:16px;margin-bottom:22px">
+      <div style="font-size:27px;font-weight:800;letter-spacing:.03em;color:#0f172a">${esc(d.name||'Your Name')}</div>
+      ${d.jobtitle?`<div style="font-size:13px;color:#475569;font-weight:600;margin-top:3px">${esc(d.jobtitle)}</div>`:''}
+      ${contactBits?`<div style="font-size:11px;color:#94a3b8;margin-top:8px">${contactBits}</div>`:''}
+    </div>
+    ${orderedJoin({
+      summary: d.summary?sec('Summary',`<p style="font-size:12.5px;color:#334155;line-height:1.7">${esc(d.summary)}</p>`):'',
+      experience: sec('Experience',expHTML),
+      education: sec('Education',eduHTML),
+      skills: skillPlain?sec('Skills',`<div style="font-size:12px;color:#334155">${skillPlain}</div>`):'',
+      projects: projHTML?sec('Projects',projHTML):'',
+      certifications: certHTML?sec('Certifications',`<ul style="padding-left:16px">${certHTML}</ul>`):'',
+      languages: langPlain?sec('Languages',`<div style="font-size:12px;color:#334155">${langPlain}</div>`):'',
+      references: sec('References',refHTML)
+    }, ['summary','experience','education','skills','projects','certifications','languages','references'], d.sectionOrder)}
+  </div>
+  </body></html>`;
+}
+
+/* ── TEMPLATE 7: COMPACT TWO-TONE ── */
+function generateCompact(d) {
+  const photoHTML = d.photo
+    ? `<img src="${d.photo}" style="width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid #a78bfa"/>`
+    : `<div style="width:52px;height:52px;border-radius:50%;background:#4c3a7a;border:2px solid #a78bfa;display:flex;align-items:center;justify-content:center;font-size:20px">👤</div>`;
+
+  const expHTML = d.exp.map(e => e.role ? `
+    <div style="margin-bottom:9px">
+      <div style="font-weight:700;font-size:11.5px;color:#1e1b2e">${esc(e.role)}</div>
+      <div style="font-size:10.5px;color:#7c3aed;font-weight:600">${esc(e.co)}${e.loc?' · '+esc(e.loc):''}</div>
+      <div style="font-size:9.5px;color:#94a3b8;margin:1px 0 3px">${esc(e.start||'')}${e.end?' – '+esc(e.end):''}</div>
+      ${e.bullets ? `<ul style="list-style:disc;padding-left:13px">${e.bullets.split('\n').filter(l=>l.trim()).map(l=>`<li style="font-size:10.5px;color:#334155;margin-bottom:2px">${esc(l.replace(/^[•\-*]\s*/,''))}</li>`).join('')}</ul>` : ''}
+    </div>` : '').join('');
+
+  const eduHTML = d.edu.map(e => e.degree ? `
+    <div style="margin-bottom:8px">
+      <div style="font-weight:700;font-size:11px;color:#1e1b2e">${esc(e.degree)}</div>
+      <div style="font-size:10.5px;color:#7c3aed">${esc(e.school)}</div>
+      <div style="font-size:9.5px;color:#94a3b8">${esc(e.year)}${e.meta?' · '+esc(e.meta):''}</div>
+    </div>` : '').join('');
+
+  const skillTags = d.skills.map(s => `<span style="display:inline-block;background:#f3e8ff;color:#6d28d9;padding:2px 7px;border-radius:4px;font-size:9.5px;margin:2px 2px 2px 0;font-weight:600">${esc(s)}</span>`).join('');
+
+  const projHTML = d.proj.map(p => p.name ? `
+    <div style="margin-bottom:8px">
+      <div style="font-weight:700;font-size:10.5px;color:#1e1b2e">${esc(p.name)}${p.tech?` <span style="font-weight:400;color:#94a3b8;font-size:9.5px">— ${esc(p.tech)}</span>`:''}</div>
+      ${p.desc?`<div style="font-size:10px;color:#334155;margin-top:2px;line-height:1.4">${esc(p.desc)}</div>`:''}
+    </div>` : '').join('');
+
+  const certHTML = d.cert.map(c => c.name ? `<div style="font-size:10px;color:#334155;margin-bottom:4px">${esc(c.name)}${c.issuer?' — '+esc(c.issuer):''}${c.year?' ('+esc(c.year)+')':''}</div>` : '').join('');
+  const langHTML = d.lang.map(l => l.name ? `<div style="display:flex;justify-content:space-between;font-size:10.5px;color:#334155;margin-bottom:3px"><span>${esc(l.name)}</span><span style="color:#7c3aed">${esc(l.level)}</span></div>` : '').join('');
+  const refHTML = d.showRefs === '1'
+    ? d.ref.map(r => r.name ? `<div style="font-size:10px;color:#334155;margin-bottom:6px"><strong style="color:#1e1b2e">${esc(r.name)}</strong>${r.title?', '+esc(r.title):''}${r.contact?` — ${esc(r.contact)}`:''}</div>` : '').join('')
+    : '<div style="font-size:10px;color:#334155;font-style:italic">Available upon request.</div>';
+
+  const contactBits = [d.email, d.phone, d.location].filter(Boolean).map(esc).join(' · ');
+
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"/><style>
+    @page{size:A4;margin:0}*{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',Arial,sans-serif;background:#fff;font-size:12px;line-height:1.45;width:210mm;min-height:297mm}
+    .st{font-size:9.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#7c3aed;border-bottom:1.5px solid #7c3aed;padding-bottom:4px;margin-bottom:8px}
+  </style></head><body>
+  <div style="background:#3b2d5c;color:#fff;padding:16px 24px;display:flex;align-items:center;gap:12px">
+    ${photoHTML}
+    <div style="flex:1">
+      <div style="font-size:20px;font-weight:800;line-height:1.1">${esc(d.name||'Your Name')}</div>
+      ${d.jobtitle?`<div style="font-size:11px;color:#c4b5fd;font-weight:600;margin-top:2px">${esc(d.jobtitle)}</div>`:''}
+    </div>
+    <div style="text-align:right;font-size:9.5px;color:#ddd6fe">${contactBits}${d.linkedin?`<div>${esc(d.linkedin)}</div>`:''}</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;padding:16px 24px;gap:20px">
+    <div>
+      ${orderedJoin({
+        summary: d.summary?`<div style="margin-bottom:14px"><div class="st">Summary</div><p style="font-size:10.5px;color:#334155;line-height:1.55">${esc(d.summary)}</p></div>`:'',
+        experience: expHTML?`<div style="margin-bottom:14px"><div class="st">Experience</div>${expHTML}</div>`:'',
+        education: eduHTML?`<div style="margin-bottom:14px"><div class="st">Education</div>${eduHTML}</div>`:''
+      }, ['summary','experience','education'], d.sectionOrder)}
+    </div>
+    <div>
+      ${orderedJoin({
+        skills: skillTags?`<div style="margin-bottom:14px"><div class="st">Skills</div><div>${skillTags}</div></div>`:'',
+        projects: projHTML?`<div style="margin-bottom:14px"><div class="st">Projects</div>${projHTML}</div>`:'',
+        certifications: certHTML?`<div style="margin-bottom:14px"><div class="st">Certifications</div>${certHTML}</div>`:'',
+        languages: langHTML?`<div style="margin-bottom:14px"><div class="st">Languages</div>${langHTML}</div>`:'',
+        references: `<div style="margin-bottom:14px"><div class="st">References</div>${refHTML}</div>`
+      }, ['skills','projects','certifications','languages','references'], d.sectionOrder)}
+    </div>
   </div>
   </body></html>`;
 }
 
 function debounceUpdate() {
   clearTimeout(updateTimer);
-  updateTimer = setTimeout(() => { saveToStorage(); updatePreview(); }, 400);
+  showSavingBadge();
+  updateTimer = setTimeout(() => {
+    saveToStorage();
+    updatePreview();
+    pushHistory();
+    showSavedBadge();
+  }, 250);
+}
+
+/* ── Autosave status badge ── */
+function showSavingBadge() {
+  const b = document.querySelector('.rb-autosave-badge');
+  if (b) { b.textContent = '💾 Saving…'; b.classList.add('saving'); }
+}
+function showSavedBadge() {
+  const b = document.querySelector('.rb-autosave-badge');
+  if (b) { b.textContent = '💾 Auto-saved'; b.classList.remove('saving'); }
+}
+
+/* ── Undo / Redo ── */
+function pushHistory() {
+  if (isRestoringHistory) return;
+  const snap = JSON.stringify(collectData());
+  if (history[historyIndex] === snap) return;
+  history = history.slice(0, historyIndex + 1);
+  history.push(snap);
+  if (history.length > 60) history.shift();
+  historyIndex = history.length - 1;
+  updateUndoRedoButtons();
+}
+function undo() {
+  if (historyIndex <= 0) return;
+  historyIndex--;
+  isRestoringHistory = true;
+  applyDataToForm(JSON.parse(history[historyIndex]));
+  isRestoringHistory = false;
+  saveToStorage(); updatePreview(); updateUndoRedoButtons();
+  showToast('↶ Undone');
+}
+function redo() {
+  if (historyIndex >= history.length - 1) return;
+  historyIndex++;
+  isRestoringHistory = true;
+  applyDataToForm(JSON.parse(history[historyIndex]));
+  isRestoringHistory = false;
+  saveToStorage(); updatePreview(); updateUndoRedoButtons();
+  showToast('↷ Redone');
+}
+function updateUndoRedoButtons() {
+  const u = document.getElementById('rbUndoBtn'), r = document.getElementById('rbRedoBtn');
+  if (u) u.disabled = historyIndex <= 0;
+  if (r) r.disabled = historyIndex >= history.length - 1;
+}
+
+/* ── Font & Color Theme ── */
+function setFont(val) {
+  fontChoice = val;
+  saveToStorage(); updatePreview(); pushHistory();
+}
+function setColorTheme(val) {
+  colorTheme = val;
+  document.querySelectorAll('.rb-theme-swatch').forEach(sw => sw.classList.toggle('active', sw.dataset.theme === val));
+  saveToStorage(); updatePreview(); pushHistory();
+}
+
+/* ── Section order: drag & drop ── */
+function renderSectionOrderList() {
+  const wrap = document.getElementById('section-order-list');
+  if (!wrap) return;
+  wrap.innerHTML = sectionOrder.map(key => `
+    <li class="rb-order-item" draggable="true" data-key="${key}" tabindex="0"
+        ondragstart="soDragStart(event)" ondragover="soDragOver(event)" ondrop="soDrop(event)" ondragend="soDragEnd(event)"
+        onkeydown="soKeyMove(event,'${key}')">
+      <span class="rb-order-handle" aria-hidden="true">⠿</span><span>${SECTION_LABELS[key] || key}</span>
+    </li>`).join('');
+}
+let soDragged = null;
+function soDragStart(e) { soDragged = e.currentTarget; e.currentTarget.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; }
+function soDragOver(e) {
+  e.preventDefault();
+  const t = e.currentTarget;
+  if (!soDragged || t === soDragged) return;
+  const list = t.parentNode;
+  const items = [...list.children];
+  const from = items.indexOf(soDragged), to = items.indexOf(t);
+  if (from < to) list.insertBefore(soDragged, t.nextSibling);
+  else list.insertBefore(soDragged, t);
+}
+function soDrop(e) { e.preventDefault(); }
+function soDragEnd() {
+  if (soDragged) soDragged.classList.remove('dragging');
+  const items = [...document.getElementById('section-order-list').children];
+  sectionOrder = items.map(li => li.dataset.key);
+  soDragged = null;
+  saveToStorage(); updatePreview(); pushHistory();
+}
+/* Keyboard reordering: Alt+Up / Alt+Down moves the focused section */
+function soKeyMove(e, key) {
+  if (!e.altKey || (e.key !== 'ArrowUp' && e.key !== 'ArrowDown')) return;
+  e.preventDefault();
+  const idx = sectionOrder.indexOf(key);
+  const swapWith = e.key === 'ArrowUp' ? idx - 1 : idx + 1;
+  if (swapWith < 0 || swapWith >= sectionOrder.length) return;
+  [sectionOrder[idx], sectionOrder[swapWith]] = [sectionOrder[swapWith], sectionOrder[idx]];
+  renderSectionOrderList();
+  const list = document.getElementById('section-order-list');
+  const target = list.querySelector(`[data-key="${key}"]`);
+  if (target) target.focus();
+  saveToStorage(); updatePreview(); pushHistory();
+}
+
+/* ── Combine section HTML blocks according to the current section order,
+   restricted to the keys that actually belong in this region of the
+   template (e.g. sidebar vs main column). ── */
+function orderedJoin(sections, keys, order) {
+  const seq = (order && order.length ? order.filter(k => keys.includes(k)) : keys.slice());
+  keys.forEach(k => { if (!seq.includes(k)) seq.push(k); });
+  return seq.map(k => sections[k] || '').join('');
+}
+
+/* ── Validation ── */
+function validateField(id, type) {
+  const el = document.getElementById(id);
+  if (!el) return true;
+  const val = el.value.trim();
+  let ok = true, msg = '';
+  if (type === 'name') {
+    if (!val) { ok = false; msg = 'Name is required'; }
+  } else if (type === 'email') {
+    if (!val) { ok = false; msg = 'Email is required'; }
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) { ok = false; msg = 'Enter a valid email address'; }
+  } else if (type === 'phone') {
+    const digits = val.replace(/\D/g, '');
+    if (!val) { ok = false; msg = 'Phone is required'; }
+    else if (digits.length < 7) { ok = false; msg = 'Enter a valid phone number'; }
+  }
+  el.classList.toggle('invalid', !ok);
+  el.setAttribute('aria-invalid', String(!ok));
+  const errEl = document.getElementById('err-' + id);
+  if (errEl) errEl.textContent = msg;
+  return ok;
+}
+function validateAll() {
+  const a = validateField('f-name', 'name');
+  const b = validateField('f-email', 'email');
+  const c = validateField('f-phone', 'phone');
+  return a && b && c;
+}
+
+/* ── Import / Export JSON ── */
+function exportJSON() {
+  const data = collectData();
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = (data.name ? data.name.replace(/[^a-z0-9]+/gi, '_') : 'resume') + '_numvexa.json';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('⬇️ JSON exported');
+}
+function triggerImportJSON() {
+  const input = document.getElementById('rbImportInput');
+  if (input) input.click();
+}
+function importJSONFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const d = JSON.parse(e.target.result);
+      applyDataToForm(d);
+      saveToStorage(); updatePreview(); pushHistory();
+      showToast('✅ Resume imported');
+    } catch (err) {
+      showToast('⚠️ Invalid JSON file');
+    }
+  };
+  reader.onerror = () => showToast('⚠️ Could not read file');
+  reader.readAsText(file);
+  input.value = '';
+}
+
+/* ── Clear all dynamic entry lists (used before restoring a snapshot) ── */
+function clearDynamicEntries() {
+  ['exp', 'edu', 'proj', 'cert', 'lang', 'ref'].forEach(type => {
+    const listEl = document.getElementById(`${type}-list`);
+    if (listEl) listEl.innerHTML = '';
+  });
+  expEntries = []; eduEntries = []; projEntries = []; certEntries = []; langEntries = []; refEntries = [];
+}
+
+/* ── Apply a full data snapshot to the form (shared by load / undo / redo / import) ── */
+function applyDataToForm(d) {
+  currentTemplate = d.template || 'classic';
+  document.querySelectorAll('.rb-tpl-card').forEach(c => c.classList.remove('active'));
+  const activeCard = document.querySelector(`.rb-tpl-card[data-tpl="${currentTemplate}"]`);
+  if (activeCard) activeCard.classList.add('active');
+
+  photoDataURL = d.photo || '';
+  const pp = document.getElementById('photoPreview'), pi = document.getElementById('photoIcon');
+  if (pp && pi) {
+    if (photoDataURL) { pp.src = photoDataURL; pp.style.display = 'block'; pi.style.display = 'none'; }
+    else { pp.src = ''; pp.style.display = 'none'; pi.style.display = 'flex'; }
+  }
+
+  const s = (id, v) => { const el = document.getElementById(id); if (el) el.value = v || ''; };
+  s('f-name', d.name); s('f-jobtitle', d.jobtitle); s('f-email', d.email);
+  s('f-phone', d.phone); s('f-location', d.location); s('f-linkedin', d.linkedin);
+  s('f-website', d.website); s('f-summary', d.summary); s('f-show-refs', d.showRefs || '0');
+
+  skills = d.skills ? [...d.skills] : [];
+  renderSkillChips();
+
+  clearDynamicEntries();
+  (d.exp || []).forEach(e => addExp(e));
+  (d.edu || []).forEach(e => addEdu(e));
+  (d.proj || []).forEach(p => addProj(p));
+  (d.cert || []).forEach(c => addCert(c));
+  (d.lang || []).forEach(l => addLang(l));
+  (d.ref || []).forEach(r => addRef(r));
+
+  fontChoice = d.font || 'default';
+  colorTheme = d.colorTheme || 'default';
+  sectionOrder = (d.sectionOrder && d.sectionOrder.length) ? [...d.sectionOrder] : sectionOrder;
+
+  const fontSel = document.getElementById('f-font');
+  if (fontSel) fontSel.value = fontChoice;
+  document.querySelectorAll('.rb-theme-swatch').forEach(sw => sw.classList.toggle('active', sw.dataset.theme === colorTheme));
+  renderSectionOrderList();
+  validateAll();
 }
 
 function updatePreview() {
@@ -1477,11 +2047,13 @@ function scalePreview() {
 
 /* ── Open Preview & Download Popup ── */
 function openRbPreview() {
-  const data = collectData();
-  if (!data.name || !data.email || !data.phone) {
-    showToast('⚠️ Please fill Name, Email & Phone first');
+  if (!validateAll()) {
+    showToast('⚠️ Please fix the highlighted fields first');
+    const firstInvalid = document.querySelector('.rb-input.invalid');
+    if (firstInvalid) { firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' }); firstInvalid.focus(); }
     return;
   }
+  const data = collectData();
   const html = generateResumeHTML(data);
   const frame = document.getElementById('rbPopupFrame');
   const doc = frame.contentDocument || frame.contentWindow.document;
@@ -1596,33 +2168,7 @@ function loadFromStorage() {
     const raw = localStorage.getItem('numvexa_resume_v2');
     if (!raw) return;
     const d = JSON.parse(raw);
-    currentTemplate = d.template || 'classic';
-    // Select template card
-    document.querySelectorAll('.rb-tpl-card').forEach(c => c.classList.remove('active'));
-    const activeCard = document.querySelector(`.rb-tpl-card[data-tpl="${currentTemplate}"]`);
-    if (activeCard) activeCard.classList.add('active');
-    // Restore photo
-    if (d.photo) {
-      photoDataURL = d.photo;
-      document.getElementById('photoPreview').src = d.photo;
-      document.getElementById('photoPreview').style.display = 'block';
-      document.getElementById('photoIcon').style.display = 'none';
-    }
-    // Restore fields
-    const s = (id, v) => { const el = document.getElementById(id); if (el) el.value = v || ''; };
-    s('f-name', d.name); s('f-jobtitle', d.jobtitle); s('f-email', d.email);
-    s('f-phone', d.phone); s('f-location', d.location); s('f-linkedin', d.linkedin);
-    s('f-website', d.website); s('f-summary', d.summary); s('f-show-refs', d.showRefs);
-    // Skills
-    skills = d.skills || [];
-    renderSkillChips();
-    // Dynamic entries
-    (d.exp || []).forEach(e => addExp(e));
-    (d.edu || []).forEach(e => addEdu(e));
-    (d.proj || []).forEach(p => addProj(p));
-    (d.cert || []).forEach(c => addCert(c));
-    (d.lang || []).forEach(l => addLang(l));
-    (d.ref || []).forEach(r => addRef(r));
+    applyDataToForm(d);
   } catch(e) {}
 }
 
