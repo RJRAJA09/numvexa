@@ -110,13 +110,16 @@ a:hover { text-decoration: underline; }
 .logo-icon { font-size: 1.5rem; }
 .logo-text strong { color: var(--accent); }
 
-.main-nav { display: flex; gap: 0.25rem; }
+.main-nav { display: flex; align-items: center; gap: 0.1rem; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+.main-nav::-webkit-scrollbar { display: none; }
 .main-nav a {
-  padding: 0.45rem 0.9rem;
+  padding: 0.45rem 0.65rem;
   border-radius: var(--radius-sm);
-  font-size: 0.92rem;
+  font-size: 0.86rem;
   font-weight: 500;
   color: var(--text2);
+  white-space: nowrap;
+  flex-shrink: 0;
   transition: background var(--transition), color var(--transition);
 }
 .main-nav a:hover { background: var(--bg2); color: var(--text); text-decoration: none; }
