@@ -5,6 +5,15 @@
 
 'use strict';
 
+/* ─── Header shadow on scroll ─── */
+(function() {
+  const header = document.getElementById('site-header') || document.querySelector('.site-header');
+  if (!header) return;
+  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+})();
+
 /* ─── Dark Mode ─── */
 const savedTheme = localStorage.getItem('calcmitra-theme');
 if (savedTheme === 'dark') {
