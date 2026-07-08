@@ -602,6 +602,12 @@
         </div>
       </div>
 
+      <div class="sot-field">
+        <label for="sotActualDays">Days You Actually Worked <span class="sot-hint">(optional — for pro-rata pay; leave blank to use full salary)</span></label>
+        <input type="number" id="sotActualDays" min="0" max="31" step="1" placeholder="e.g. 16" oninput="sotCalculate()"/>
+        <span class="sot-error" id="err-sotActualDays"></span>
+      </div>
+
       <hr class="sot-divider"/>
 
       <div class="sot-row2">
@@ -858,19 +864,21 @@
   }
 
   function readInputs(){
-    var salaryEl   = getEl('sotSalary');
-    var workDaysEl = getEl('sotWorkDays');
-    var workHoursEl= getEl('sotWorkHours');
-    var otHoursEl  = getEl('sotOtHours');
-    var otDaysEl   = getEl('sotOtDays');
-    var otMultEl   = getEl('sotOtMultiplier');
+    var salaryEl     = getEl('sotSalary');
+    var workDaysEl   = getEl('sotWorkDays');
+    var workHoursEl  = getEl('sotWorkHours');
+    var actualDaysEl = getEl('sotActualDays');
+    var otHoursEl    = getEl('sotOtHours');
+    var otDaysEl     = getEl('sotOtDays');
+    var otMultEl     = getEl('sotOtMultiplier');
 
-    var salary    = parseFloat(salaryEl.value);
-    var workDays  = parseFloat(workDaysEl.value);
-    var workHours = parseFloat(workHoursEl.value);
-    var otHours   = parseFloat(otHoursEl.value);
-    var otDaysRaw = otDaysEl.value.trim();
-    var otMult    = parseFloat(otMultEl.value);
+    var salary       = parseFloat(salaryEl.value);
+    var workDays     = parseFloat(workDaysEl.value);
+    var workHours    = parseFloat(workHoursEl.value);
+    var actualDaysRaw= actualDaysEl.value.trim();
+    var otHours      = parseFloat(otHoursEl.value);
+    var otDaysRaw    = otDaysEl.value.trim();
+    var otMult       = parseFloat(otMultEl.value);
 
     var valid = true;
 
@@ -882,6 +890,16 @@
 
     if (isNaN(workHours) || workHours <= 0 || workHours > 24) { setError('sotWorkHours', 'Enter 1–24 hours'); valid = false; }
     else setError('sotWorkHours', '');
+
+    var actualDays;
+    if (actualDaysRaw === '') {
+      actualDays = workDays; // blank = assume full month worked (pay = full salary)
+      setError('sotActualDays', '');
+    } else {
+      actualDays = parseFloat(actualDaysRaw);
+      if (isNaN(actualDays) || actualDays < 0 || actualDays > 31) { setError('sotActualDays', 'Enter 0–31 days'); valid = false; }
+      else setError('sotActualDays', '');
+    }
 
     if (isNaN(otHours) || otHours < 0 || otHours > 24) { setError('sotOtHours', 'Enter 0–24 hours'); valid = false; }
     else setError('sotOtHours', '');
@@ -900,6 +918,7 @@
       salary: clampNonNegative(salary),
       workDays: workDays > 0 ? workDays : 1,
       workHours: workHours > 0 ? workHours : 1,
+      actualDays: clampNonNegative(actualDays),
       otHours: clampNonNegative(otHours),
       otDays: clampNonNegative(otDays),
       otMult: isNaN(otMult) ? 1 : otMult,
@@ -925,7 +944,7 @@
     var perMinute     = hourlySalary / 60;
     var perSecond     = perMinute / 60;
 
-    var basePayForDays = dailySalary * d.workDays;
+    var basePayForDays = dailySalary * d.actualDays;
 
     var normalForOt   = hourlySalary * d.otHours * d.otDays;
     var otRate        = hourlySalary * d.otMult;
@@ -937,6 +956,7 @@
 
     var results = {
       salary: d.salary, workDays: d.workDays, workHours: d.workHours,
+      actualDays: d.actualDays,
       otHours: d.otHours, otDays: d.otDays, otMult: d.otMult,
       dailySalary: dailySalary, hourlySalary: hourlySalary, perMinute: perMinute, perSecond: perSecond,
       basePayForDays: basePayForDays,
@@ -965,7 +985,7 @@
       },
 
       cards: [
-        { label: 'Pay for ' + r.workDays + ' Working Days', value: fmt(r.basePayForDays), color: 'accent', full: true },
+        { label: 'Pay for ' + r.actualDays + ' Days Worked', value: fmt(r.basePayForDays), color: 'accent', full: true },
         { label: 'Daily Salary', value: fmt(r.dailySalary) },
         { label: 'Hourly Salary', value: fmt(r.hourlySalary) },
         { label: 'Per Minute Salary', value: fmt(r.perMinute) },
@@ -976,7 +996,7 @@
         { label: 'Effective Hourly Earnings', value: fmt(r.effectiveRate) }
       ],
 
-      note: '<strong>Pay for ' + r.workDays + ' Days</strong> = Daily Salary (' + fmt(r.dailySalary) + ') × ' + r.workDays + ' days = <strong>' + fmt(r.basePayForDays) + '</strong>'
+      note: '<strong>Pay for ' + r.actualDays + ' Days Worked</strong> = Daily Salary (' + fmt(r.dailySalary) + ') × ' + r.actualDays + ' days = <strong>' + fmt(r.basePayForDays) + '</strong>'
     });
   };
 
@@ -984,10 +1004,11 @@
     getEl('sotSalary').value = DEFAULTS.salary;
     getEl('sotWorkDays').value = DEFAULTS.workDays;
     getEl('sotWorkHours').value = DEFAULTS.workHours;
+    getEl('sotActualDays').value = '';
     getEl('sotOtHours').value = DEFAULTS.otHours;
     getEl('sotOtDays').value = DEFAULTS.otDays;
     getEl('sotOtMultiplier').value = String(DEFAULTS.otMultiplier);
-    ['sotSalary','sotWorkDays','sotWorkHours','sotOtHours','sotOtDays'].forEach(function(id){ setError(id, ''); });
+    ['sotSalary','sotWorkDays','sotWorkHours','sotActualDays','sotOtHours','sotOtDays'].forEach(function(id){ setError(id, ''); });
   };
 })();
 </script>
