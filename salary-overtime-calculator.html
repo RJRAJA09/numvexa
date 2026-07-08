@@ -146,10 +146,66 @@
     line-height: 1.6;
   }
 
+  /* Premium hero illustration */
+  .sot-illus-wrap{
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 1.6rem auto 0;
+  }
+  .sot-illus-glow{
+    position: absolute;
+    inset: -10%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 40%, rgba(99,102,241,.28), rgba(139,92,246,.14) 55%, transparent 75%);
+    filter: blur(6px);
+  }
+  .sot-illus-ring{
+    position: absolute;
+    inset: 6%;
+    border-radius: 50%;
+    background: var(--sot-card-bg);
+    border: 1.5px solid var(--sot-border);
+    box-shadow: 0 12px 30px -10px rgba(99,102,241,.35), inset 0 0 0 6px rgba(255,255,255,.03);
+  }
+  .sot-illus-svg{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: block;
+    animation: sot-float 3.6s ease-in-out infinite;
+  }
+  .sot-illus-figure{ transform-origin: 110px 190px; }
+  .sot-illus-bag{ transform-origin: 151px 148px; animation: sot-bag-swing 3.6s ease-in-out infinite; }
+  .sot-illus-shadow{ animation: sot-shadow-pulse 3.6s ease-in-out infinite; transform-origin: 110px 200px; }
+
+  @keyframes sot-float{
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-8px); }
+  }
+  @keyframes sot-bag-swing{
+    0%, 100% { transform: rotate(0deg); }
+    50%      { transform: rotate(4deg); }
+  }
+  @keyframes sot-shadow-pulse{
+    0%, 100% { transform: scale(1);   opacity: .13; }
+    50%      { transform: scale(.88); opacity: .08; }
+  }
+  @media (max-width: 480px){
+    .sot-illus-wrap{ width: 150px; height: 150px; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .sot-illus-svg, .sot-illus-bag, .sot-illus-shadow{ animation: none; }
+  }
+
   .sot-wrap{
     max-width: 1100px;
     margin: 1.75rem auto 0;
     padding: 0 1.25rem 2.5rem;
+  }
+  .sot-single{
+    max-width: 640px;
+    margin: 0 auto;
   }
   .sot-grid{
     display: grid;
@@ -458,14 +514,70 @@
   </nav>
   <h1>Salary & <span>Overtime Calculator</span></h1>
   <p>Find your daily, hourly, per-minute and per-second salary in seconds — plus exactly how much your overtime hours are worth at 1.5x, 2x, 2.5x or 3x rate.</p>
+
+  <!-- ═══════════════ HERO ILLUSTRATION (premium spotlight) ═══════════════ -->
+  <div class="sot-illus-wrap" aria-hidden="true">
+    <div class="sot-illus-glow"></div>
+    <div class="sot-illus-ring"></div>
+    <svg class="sot-illus-svg" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sotSuit" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#4338ca"/>
+          <stop offset="1" stop-color="#312e81"/>
+        </linearGradient>
+        <linearGradient id="sotBag" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f59e0b"/>
+          <stop offset="1" stop-color="#d97706"/>
+        </linearGradient>
+      </defs>
+
+      <!-- ground shadow -->
+      <ellipse class="sot-illus-shadow" cx="110" cy="200" rx="52" ry="9" fill="#000" opacity=".13"/>
+
+      <g class="sot-illus-figure">
+        <!-- legs -->
+        <rect x="92" y="150" width="14" height="42" rx="6" fill="#1e1b4b"/>
+        <rect x="114" y="150" width="14" height="42" rx="6" fill="#1e1b4b"/>
+        <!-- shoes -->
+        <rect x="88" y="188" width="22" height="8" rx="4" fill="#111827"/>
+        <rect x="110" y="188" width="22" height="8" rx="4" fill="#111827"/>
+        <!-- torso / suit -->
+        <path d="M84 108 Q110 96 136 108 L140 156 Q110 168 80 156 Z" fill="url(#sotSuit)"/>
+        <!-- shirt + tie -->
+        <path d="M103 108 L110 120 L117 108 L110 116 Z" fill="#e0e7ff"/>
+        <path d="M108 118 L112 118 L114 148 L110 154 L106 148 Z" fill="#f59e0b"/>
+        <!-- right arm holding bag -->
+        <path d="M136 112 Q152 122 150 146" stroke="url(#sotSuit)" stroke-width="13" fill="none" stroke-linecap="round" class="sot-illus-arm"/>
+        <!-- left arm at side -->
+        <path d="M84 112 Q72 128 76 150" stroke="url(#sotSuit)" stroke-width="13" fill="none" stroke-linecap="round"/>
+        <!-- hand -->
+        <circle cx="151" cy="148" r="7" fill="#fcd9b8"/>
+        <!-- briefcase bag -->
+        <g class="sot-illus-bag">
+          <rect x="140" y="150" width="34" height="26" rx="4" fill="url(#sotBag)"/>
+          <rect x="151" y="143" width="12" height="9" rx="3" fill="none" stroke="#92400e" stroke-width="3"/>
+          <rect x="140" y="160" width="34" height="4" fill="#92400e" opacity=".5"/>
+          <circle cx="157" cy="163" r="1.6" fill="#fde68a"/>
+        </g>
+        <!-- head -->
+        <circle cx="110" cy="90" r="20" fill="#fcd9b8"/>
+        <!-- hair -->
+        <path d="M90 84 Q92 66 110 66 Q128 66 130 84 Q124 74 110 74 Q96 74 90 84Z" fill="#1f2937"/>
+        <!-- simple face -->
+        <circle cx="103" cy="91" r="1.8" fill="#1f2937"/>
+        <circle cx="117" cy="91" r="1.8" fill="#1f2937"/>
+        <path d="M103 98 Q110 103 117 98" stroke="#1f2937" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      </g>
+    </svg>
+  </div>
 </section>
 
 <!-- ═══════════════ CALCULATOR ═══════════════ -->
 <section class="sot-wrap">
-  <div class="sot-grid">
+  <div class="sot-single">
 
     <!-- Inputs -->
-    <div class="sot-card">
+    <div class="sot-card calc-input-card">
       <h2>💰 Enter Your Details</h2>
 
       <div class="sot-field">
@@ -518,27 +630,7 @@
 
       <div class="sot-actions">
         <button class="sot-btn sot-btn-secondary" onclick="sotReset()">↺ Reset</button>
-        <button class="sot-btn sot-btn-primary" onclick="sotCopyResults()">📋 Copy Results</button>
-      </div>
-      <div class="sot-copy-msg" id="sotCopyMsg">Results copied to clipboard!</div>
-    </div>
-
-    <!-- Results -->
-    <div class="sot-card">
-      <h2>📊 Your Results</h2>
-      <div class="sot-results-list">
-        <div class="sot-result-row"><span class="sot-result-label">Daily Salary</span><span class="sot-result-value" id="res-daily">₹0</span></div>
-        <div class="sot-result-row"><span class="sot-result-label">Hourly Salary</span><span class="sot-result-value" id="res-hourly">₹0</span></div>
-        <div class="sot-result-row"><span class="sot-result-label">Per Minute Salary</span><span class="sot-result-value" id="res-perMinute">₹0</span></div>
-        <div class="sot-result-row"><span class="sot-result-label">Per Second Salary</span><span class="sot-result-value" id="res-perSecond">₹0</span></div>
-        <hr class="sot-divider"/>
-        <div class="sot-result-row"><span class="sot-result-label">Normal Pay for OT Hours <span class="sot-hint">(at 1x rate)</span></span><span class="sot-result-value" id="res-normalForOt">₹0</span></div>
-        <div class="sot-result-row"><span class="sot-result-label">Overtime Hourly Rate</span><span class="sot-result-value" id="res-otRate">₹0</span></div>
-        <div class="sot-result-row sot-highlight"><span class="sot-result-label">Total Overtime Pay</span><span class="sot-result-value" id="res-otTotal">₹0</span></div>
-        <hr class="sot-divider"/>
-        <div class="sot-result-row sot-highlight"><span class="sot-result-label">Gross Salary <span class="sot-hint">(Salary + OT)</span></span><span class="sot-result-value" id="res-gross">₹0</span></div>
-        <div class="sot-result-row"><span class="sot-result-label">Total Working Hours / Month</span><span class="sot-result-value" id="res-totalHours">0 hrs</span></div>
-        <div class="sot-result-row"><span class="sot-result-label">Effective Hourly Earnings <span class="sot-hint">(incl. OT)</span></span><span class="sot-result-value" id="res-effectiveRate">₹0</span></div>
+        <button class="sot-btn sot-btn-primary" onclick="sotShowResults()">📊 Calculate</button>
       </div>
     </div>
 
@@ -833,6 +925,8 @@
     var perMinute     = hourlySalary / 60;
     var perSecond     = perMinute / 60;
 
+    var basePayForDays = dailySalary * d.workDays;
+
     var normalForOt   = hourlySalary * d.otHours * d.otDays;
     var otRate        = hourlySalary * d.otMult;
     var otTotal       = otRate * d.otHours * d.otDays;
@@ -841,24 +935,49 @@
     var totalHours    = (d.workDays * d.workHours) + (d.otHours * d.otDays);
     var effectiveRate = totalHours > 0 ? gross / totalHours : 0;
 
-    getEl('res-daily').textContent         = fmt(dailySalary);
-    getEl('res-hourly').textContent        = fmt(hourlySalary);
-    getEl('res-perMinute').textContent     = fmt(perMinute);
-    getEl('res-perSecond').textContent     = fmt(perSecond);
-    getEl('res-normalForOt').textContent   = fmt(normalForOt);
-    getEl('res-otRate').textContent        = fmt(otRate);
-    getEl('res-otTotal').textContent       = fmt(otTotal);
-    getEl('res-gross').textContent         = fmt(gross);
-    getEl('res-totalHours').textContent    = fmtHours(totalHours);
-    getEl('res-effectiveRate').textContent = fmt(effectiveRate);
-
-    window._sotLastResults = {
+    var results = {
       salary: d.salary, workDays: d.workDays, workHours: d.workHours,
       otHours: d.otHours, otDays: d.otDays, otMult: d.otMult,
       dailySalary: dailySalary, hourlySalary: hourlySalary, perMinute: perMinute, perSecond: perSecond,
+      basePayForDays: basePayForDays,
       normalForOt: normalForOt, otRate: otRate, otTotal: otTotal,
-      gross: gross, totalHours: totalHours, effectiveRate: effectiveRate
+      gross: gross, totalHours: totalHours, effectiveRate: effectiveRate,
+      valid: d.valid
     };
+
+    window._sotLastResults = results;
+    return results;
+  };
+
+  window.sotShowResults = function(){
+    var r = sotCalculate();
+    if (!r.valid) return; // error messages are already shown inline on the fields
+
+    NvModal.open({
+      title: 'Salary & Overtime Calculator',
+      emoji: '💰',
+      subtitle: r.workDays + ' days × ' + r.workHours + ' hrs/day · OT ' + r.otMult + 'x',
+
+      hero: {
+        label: 'Gross Salary (Salary + Overtime)',
+        value: fmt(r.gross),
+        note: 'Total working hours this month: ' + fmtHours(r.totalHours)
+      },
+
+      cards: [
+        { label: 'Pay for ' + r.workDays + ' Working Days', value: fmt(r.basePayForDays), color: 'accent', full: true },
+        { label: 'Daily Salary', value: fmt(r.dailySalary) },
+        { label: 'Hourly Salary', value: fmt(r.hourlySalary) },
+        { label: 'Per Minute Salary', value: fmt(r.perMinute) },
+        { label: 'Per Second Salary', value: fmt(r.perSecond) },
+        { label: 'Normal Pay for OT Hours (1x)', value: fmt(r.normalForOt) },
+        { label: 'Overtime Hourly Rate', value: fmt(r.otRate) },
+        { label: 'Total Overtime Pay', value: fmt(r.otTotal), color: 'green' },
+        { label: 'Effective Hourly Earnings', value: fmt(r.effectiveRate) }
+      ],
+
+      note: '<strong>Pay for ' + r.workDays + ' Days</strong> = Daily Salary (' + fmt(r.dailySalary) + ') × ' + r.workDays + ' days = <strong>' + fmt(r.basePayForDays) + '</strong>'
+    });
   };
 
   window.sotReset = function(){
@@ -869,72 +988,7 @@
     getEl('sotOtDays').value = DEFAULTS.otDays;
     getEl('sotOtMultiplier').value = String(DEFAULTS.otMultiplier);
     ['sotSalary','sotWorkDays','sotWorkHours','sotOtHours','sotOtDays'].forEach(function(id){ setError(id, ''); });
-    var msg = getEl('sotCopyMsg');
-    if (msg) msg.classList.remove('show');
-    sotCalculate();
   };
-
-  window.sotCopyResults = function(){
-    var r = window._sotLastResults;
-    if (!r) { sotCalculate(); r = window._sotLastResults; }
-
-    var text =
-      'Salary & Overtime Summary — Numvexa.in\n' +
-      '----------------------------------------\n' +
-      'Monthly Salary: ' + fmt(r.salary) + '\n' +
-      'Working Days/Month: ' + r.workDays + '\n' +
-      'Working Hours/Day: ' + r.workHours + '\n' +
-      'Overtime Hours/Day: ' + r.otHours + '\n' +
-      'Overtime Days: ' + r.otDays + '\n' +
-      'Overtime Multiplier: ' + r.otMult + 'x\n' +
-      '----------------------------------------\n' +
-      'Daily Salary: ' + fmt(r.dailySalary) + '\n' +
-      'Hourly Salary: ' + fmt(r.hourlySalary) + '\n' +
-      'Per Minute Salary: ' + fmt(r.perMinute) + '\n' +
-      'Per Second Salary: ' + fmt(r.perSecond) + '\n' +
-      'Normal Pay for OT Hours (1x): ' + fmt(r.normalForOt) + '\n' +
-      'Overtime Hourly Rate: ' + fmt(r.otRate) + '\n' +
-      'Total Overtime Pay: ' + fmt(r.otTotal) + '\n' +
-      'Gross Salary: ' + fmt(r.gross) + '\n' +
-      'Total Working Hours/Month: ' + r.totalHours.toFixed(2) + ' hrs\n' +
-      'Effective Hourly Earnings: ' + fmt(r.effectiveRate) + '\n';
-
-    function showCopiedMsg(){
-      var msg = getEl('sotCopyMsg');
-      if (!msg) return;
-      msg.classList.add('show');
-      setTimeout(function(){ msg.classList.remove('show'); }, 2200);
-    }
-
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(showCopiedMsg).catch(function(){
-        fallbackCopy(text, showCopiedMsg);
-      });
-    } else {
-      fallbackCopy(text, showCopiedMsg);
-    }
-  };
-
-  function fallbackCopy(text, cb){
-    var ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    try { document.execCommand('copy'); } catch (e) { /* no-op */ }
-    document.body.removeChild(ta);
-    if (cb) cb();
-  }
-
-  // Initial calculation on load
-  document.addEventListener('DOMContentLoaded', function(){
-    sotCalculate();
-  });
-  // In case DOMContentLoaded already fired (script placed at end of body)
-  if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    sotCalculate();
-  }
 })();
 </script>
 
